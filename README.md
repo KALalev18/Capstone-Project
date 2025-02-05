@@ -1,9 +1,6 @@
 # Capstone-Project
 
-## For now I created the main and commit pages, I implemented the functionality of searching, fetching and displaying the commits and the progress (chart)
+## demo of what i have done
 
+https://github.com/user-attachments/assets/5ae7957c-1cef-40b9-8672-6a5cd7542fa3
 
-<video width="320" height="240" autoplay muted loop>
-  <source src="./vid red/1.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
