@@ -202,6 +202,29 @@ function getContributors() {
       console.error('Invalid GitHub URL');
     } 
 }
+
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main');
+    const chartContent = document.getElementById('chart');
+
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.add('closing');
+        mainContent.classList.remove('blur-background');
+        chartContent.classList.remove('blur-background');
+
+        sidebar.addEventListener('animationend', () => {
+            sidebar.classList.remove('open', 'closing');
+        }, { once: true });
+    } else {
+        sidebar.classList.add('open');
+        mainContent.classList.add('blur-background');
+        chartContent.classList.add('blur-background');
+    }
+}
+
+
 // const url = new URL('https://github.com/cristian20021/LeetCode');
 
 // const username = url.pathname.split('/')[1];

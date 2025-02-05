@@ -1,29 +1,32 @@
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-  
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-  
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  body {
-    margin: 0 auto;
-    justify-content: center;
-    min-width: 320px;
-    min-height: 100vh;
-    
-  }
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-  }
-  /*
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0 auto;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/*
   a {
     font-weight: 500;
     color: #646cff;
@@ -72,120 +75,254 @@
   }
   
    */
- 
-  /* h1{
+
+/* h1{
     text-align: center;
     vertical-align: auto;
   } */
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #505050b6;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    margin-left: 20px;
-    transition: background-color 0.5s;
-  }
-  button:hover {
-    
-    background-color:  #7b7b7bb6;
-    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #505050b6;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-left: 20px;
+  transition: background-color 0.5s;
+}
+
+button:hover {
+
+  background-color: #7b7b7bb6;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.input-field {
+  border: none;
+  border-radius: 10px;
+  background-color: gray;
+  width: 370px;
+  height: 30px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 60px;
+
+}
+
+.upload-code-container {
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fileUploadForm {
+  margin-top: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  /* Adjust width based on content */
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 10px;
+  /* Add padding for better spacing */
+}
+
+.sidebar * {
+  margin: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: gray;
+  white-space: nowrap;
+  /* Prevent text from wrapping */
+}
+
+.close-btn {
+  display: none;
+  /* Hide by default */
+}
+
+.main {
+  margin-left: calc(10% + 10px);
+  /* Ensure space for the sidebar */
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.fetch-btn {
+  margin-top: 70px;
+  margin-left: 0;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  .input-field{
-    border: none;
-    border-radius: 10px;
-    background-color: gray;
-    width: 370px;
-    height: 30px;
-    padding-left: 20px;
-    display: flex;
-    position: relative;
-    top: 60px;
+  to {
+    opacity: 1;
+  }
+}
 
+@keyframes slide-in {
+  from {
+    left: -200px;
+    /* Start position offscreen */
   }
-  .upload-code-container{
-    margin: 0;
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .fileUploadForm{
-    margin-top: 100px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    
-    transform: translate(-50%,-50%);
-  
-    transform: translate3d(-50%,-50%,0);
-  }
-  .sidebar{
-    display: flex;
-    flex-direction: column;
-    width: 10%;
-    height: 100%;
-    position: fixed;
-    overflow: hidden;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    top:0;
+
+  to {
     left: 0;
-    z-index: 1;
+    /* End position at the edge of the screen */
   }
-  .sidebar *{
-    margin: 10px 10px 10px 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: gray;
+}
+
+@keyframes slide-out {
+  from {
+    left: 0;
   }
-  .main{
-    margin-left: 7%;
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+  to {
+    left: -200px;
+    /* Match the sidebar width */
   }
-  .fetch-btn{
-    margin-top:70px;
-    margin-left: 0;
-  }
- 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  .chart {
-    border: 10px;
-    background-color: rgb(23, 22, 22);
-    width: 700px;
-    height: auto;
-    border-radius: 10px;
-    margin-top: 15px;
-    padding: 15px;
-    margin-left: 5%;
-    margin-right: 5%;
-    animation: fadeIn 0.5s;
-    overflow: hidden; 
+}
+
+
+.chart {
+  border: 10px;
+  background-color: rgb(23, 22, 22);
+  width: 100%;
+  /* Full width */
+  max-width: 500px;
+  /* Maximum width */
+  height: auto;
+  border-radius: 10px;
+  margin-top: 15px;
+  padding: 15px;
+  animation: fadeIn 0.5s;
+  overflow: hidden;
+
 }
 
 .chart p {
-    white-space: normal; 
-    word-wrap: break-word; 
-    overflow-wrap: break-word; 
-    word-break: break-word;
-    font-size: 14px; 
-    margin: 5px 0; 
-    line-height: 1.5; 
+  white-space: normal;
+  display: block;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  font-size: 14px;
+  margin: 5px 0;
+  line-height: 1.5;
 }
-.commit-btn{
+
+.commit-btn {
   background-color: rgba(94, 158, 94, 0.389);
+}
+
+.sidebar-toggle {
+  display: none;
+  /* Hide by default */
+  position: absolute;
+  top: 5%;
+  /* Center vertically */
+  left: -5%;
+  /* Align it to the left edge */
+  padding: 5px 10px;
+  font-size: 24px;
+  border-radius: 0px 100px 100px 0px;
+  color: white;
+  cursor: pointer;
+  z-index: 2;
+  transform: translateY(-50%);
+  /* Vertically center the button */
+}
+
+
+
+@media (max-width: 800px) {
+  .input-field {
+    width: 80%;
+  }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .sidebar {
+    display: none;
+    /* Hide the sidebar on smaller screens */
+    animation: slide-in 0.5s forwards
+  }
+
+  .close-btn {
+    display: flex;
+    align-self: flex-end;
+    border-radius: 100px 0px 0px 100px;
+    padding: 5px 10px;
+    background-color: transparent;
+    font-size: 24px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    animation: slide-in 0.5s backwards
+  }
+
+  .blur-background {
+    filter: blur(5px);
+    /* Apply blur effect */
+    transition: filter 0.3s ease;
+    /* Smooth transition for blur effect */
+  }
+
+  .sidebar.open {
+    background-color: #242424;
+    ;
+    display: flex;
+    /* Show the sidebar when open class is added */
+    position: fixed;
+    /* Overlay the sidebar */
+    z-index: 3;
+  }
+
+  .sidebar.closing {
+    animation: slide-out 0.5s forwards;
+  }
+
+
+  .main {
+    margin-left: 0;
+    /* Remove the left margin for the main content */
+  }
+
+  .chart {
+    width: 95%;
+    max-width: 100%;
+    /* Ensure the chart takes full width */
+  }
 }
