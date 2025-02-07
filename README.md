@@ -11,3 +11,8 @@
 ### Added a branch button that displays the branches and sets the color depending on the protection status of the branch.
 ![image](https://github.com/user-attachments/assets/0c745df6-7f6f-4154-ad1d-80fc08eaee50)
 ![image](https://github.com/user-attachments/assets/3a9a5060-98e5-42dc-aa60-472533ba041a)
+
+
+Dependencies:
+npm install openai
+npm install chart.js
