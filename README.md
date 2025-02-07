@@ -12,7 +12,9 @@
 ![image](https://github.com/user-attachments/assets/0c745df6-7f6f-4154-ad1d-80fc08eaee50)
 ![image](https://github.com/user-attachments/assets/3a9a5060-98e5-42dc-aa60-472533ba041a)
 
+### Wrote the code for the AI insights generator, however, to be functional, I need an API key that is not free
 
-Dependencies:
-npm install openai
-npm install chart.js
+
+### Dependencies:
+#### npm install openai
+#### npm install chart.js
