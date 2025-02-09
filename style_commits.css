@@ -26,60 +26,6 @@ h1 {
   line-height: 1.1;
 }
 
-/*
-  a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-  }
-  a:hover {
-    color: #535bf2;
-  }
-  
- 
-  
- 
-  
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #505050b6;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    margin-left: 20px;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
-      color: #213547;
-      background-color: #ffffff;
-    }
-    a:hover {
-      color: #747bff;
-    }
-    button {
-      background-color: #f9f9f9;
-    }
-  
-  }
-  
-   */
-
-/* h1{
-    text-align: center;
-    vertical-align: auto;
-  } */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -177,6 +123,7 @@ button:hover {
 .fetch-btn {
   margin-top: 70px;
   margin-left: 0;
+  margin-bottom: 20px;
 }
 
 
@@ -270,6 +217,8 @@ button:hover {
     width: 80%;
   }
 
+  
+
   .sidebar-toggle {
     display: block;
   }
@@ -326,3 +275,78 @@ button:hover {
     /* Ensure the chart takes full width */
   }
 }
+
+
+
+
+
+
+
+
+/* for the dropdown */
+.sec-center {
+  position: relative;
+  margin-bottom: 15px;
+  max-width: 100%;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+}
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked){
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+.dropdown:checked + label,
+.dropdown:not(:checked) + label{
+  position: relative;
+  height: 50px;
+  border-radius: 4px;
+  width: 560px;
+  display: inline-flex;
+  -webkit-align-items: left;
+  -moz-align-items: left;
+  -ms-align-items: left;
+  align-items: center;
+  -webkit-justify-content: left;
+  -moz-justify-content: left;
+  -ms-justify-content: left;
+  justify-content: left;
+  -ms-flex-pack: left;
+  text-align: left;
+  border: none;
+  background-color: #505050b6;
+  cursor: pointer;
+  color: white;
+}
+.dropdown:checked + label:before{
+  pointer-events: auto;
+}
+.dropdown-content {
+  display: none;
+  transition: max-height 0.5s ease-out;
+}
+
+.dropdown-content.show {
+  display: block;
+  transition: max-height 0.5s ease-in;
+}
+
+.dropdown:not(:checked) + label .uil {
+  font-size: 24px;
+  margin-left: 10px;
+  transform: rotate(-180deg);
+  transition: transform 200ms linear;
+}
+
+.dropdown:checked + label .uil {
+  font-size: 24px;
+  margin-left: 10px;
+  transform: rotate(180deg);
+  transition: transform 200ms linear;
+}
+
