@@ -13,7 +13,12 @@
 ![image](https://github.com/user-attachments/assets/3a9a5060-98e5-42dc-aa60-472533ba041a)
 
 ### Wrote the code for the AI insights generator, however, to be functional, I need an API key that is not free
+### Added an Issue and a Peak Hours section
 
+![image](https://github.com/user-attachments/assets/31826f98-d543-42b9-8278-45b2750b3d6a)
+
+![image](https://github.com/user-attachments/assets/fa0b5549-b8c4-4caf-9426-d28892d41f1d)
+![image](https://github.com/user-attachments/assets/c891e9e6-9c9f-4b6d-a953-2207065d97e2)
 
 ### Dependencies:
 #### npm install openai
