@@ -27,7 +27,7 @@ function fetchData() {
   
     
       // Fetch the repository data from the GitHub API
-      const apiUrl = `https://api.github.com/repos/${username}/${repository}/commits`;
+      const apiUrl = `https://api.github.com/repos/${username}/${repository}/commits?per_page=100`;
       fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
