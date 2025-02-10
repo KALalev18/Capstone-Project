@@ -50,7 +50,7 @@ def analyze_commit_description(text):
         return f"Error: {str(e)}"
 
 # Fetch commit messages for the branch you want
-branch_name = "Cristian"
+branch_name = "Vatsal"
 commit_messages = get_commits_by_branch(branch_name)
 
 if commit_messages:
