@@ -195,11 +195,9 @@ button:hover {
 .sidebar-toggle {
   display: none;
   /* Hide by default */
-  position: absolute;
-  top: 5%;
-  /* Center vertically */
-  left: -5%;
-  /* Align it to the left edge */
+  position: fixed;
+  top: 50px;
+  left: -20px;
   padding: 5px 10px;
   font-size: 24px;
   border-radius: 0px 100px 100px 0px;
