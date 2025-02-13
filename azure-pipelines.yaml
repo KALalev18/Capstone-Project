@@ -1,19 +1,17 @@
 trigger:
   branches:
     include:
-      - refs/heads/Vatsal  # Explicitly include the branch with full reference
-
+      - refs/heads/Vatsal  # Trigger on the Vatsal branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # using the latest Ubuntu image for the pipeline
+  vmImage: 'ubuntu-latest'  # Use the latest Ubuntu image for the pipeline
 
 steps:
 # Checkout the code from the repository
 - task: Checkout@1
   inputs:
-    repository: $(Build.Repository.Name)  # Ensure it’s the correct repository
+    repository: self  # Checkout the repository where the pipeline is defined
     clean: true  # Clean the working directory before checkout
-    ref: refs/heads/Vatsal  # Explicitly checkout the Vatsal branch
 
 # Debugging step to print environment variables and working directory
 - script: |
@@ -28,19 +26,18 @@ steps:
 # Set up Python environment
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.x'  # specify Python version, e.g., 3.x
+    versionSpec: '3.x'  # Specify Python version
     addToPath: true
 
-# install dependencies using pip
+# Install dependencies using pip
 - script: |
     python -m venv venv  # Create virtual environment
     source venv/bin/activate  # Activate virtual environment
     pip install -r ./requirements.txt  # Install dependencies from the current folder
   displayName: 'Install dependencies'
 
-
 # Run Python tests
 - script: |
-    source venv/bin/activate  # activate virtual environment
-    python -m unittest discover  # run tests
+    source venv/bin/activate  # Activate virtual environment
+    python -m unittest discover  # Run tests
   displayName: 'Run tests'
