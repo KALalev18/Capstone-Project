@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - refs/heads/Vatsal  # Trigger on the Vatsal branch
+      - refs/heads/Vatsal  # Trigger pipeline when changes are pushed to Vatsal branch
 
 pool:
   vmImage: 'ubuntu-latest'  # Use the latest Ubuntu image for the pipeline
