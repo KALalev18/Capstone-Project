@@ -20,7 +20,7 @@ steps:
 - script: |
     python -m venv venv  # create virtual environment
     source venv/bin/activate  # activate virtual environment
-    pip install -r Capstone-Project/requirements.txt  # install dependencies from requirements.txt
+    pip install -r requirements.txt  # install dependencies from requirements.txt
   displayName: 'Install dependencies'
 
 # run Python tests
