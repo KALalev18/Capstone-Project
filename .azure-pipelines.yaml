@@ -1,25 +1,26 @@
 trigger:
   branches:
     include:
-      - Vatsal  # trigger pipeline 
+      - Vatsal  # trigger pipeline when changes are pushed to Vatsal branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # ubuntu image for the pipeline
+  vmImage: 'ubuntu-latest'  # using the latest Ubuntu image for the pipeline
 
 steps:
-#  checkout the code from the repository
+# checkout the code from the repository
 - task: Checkout@1
 
 # set up Python environment 
 - task: UsePythonVersion@0
   inputs:
-    addToPath: true  
+    versionSpec: '3.x'  # specify Python version, e.g., 3.x
+    addToPath: true
 
 # install dependencies using pip
 - script: |
     python -m venv venv  # create virtual environment
     source venv/bin/activate  # activate virtual environment
-    pip install -r requirements.txt  # install dependencies
+    pip install -r Vatsal/requirements.txt  # install dependencies from the Vatsal folder
   displayName: 'Install dependencies'
 
 # run Python tests
