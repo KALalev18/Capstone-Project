@@ -1,0 +1,22 @@
+trigger:
+  branches:
+    include:
+      - Vatsal
+
+pool:
+  vmImage: 'ubuntu-latest'  
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'  # .NET version.
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: Checkout@1  # like pulling the latest version of your code
+  
+- task: Restore@1  # installing necessary tools or libraries
+
+- task: Build@1  # compiling
+
+- task: Test@1  # runs tests on your project
