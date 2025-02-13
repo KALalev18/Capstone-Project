@@ -1,43 +1,30 @@
 trigger:
   branches:
     include:
-      - refs/heads/Vatsal  # Trigger on the Vatsal branch
+      - Vatsal  # trigger pipeline when changes are pushed to Vatsal branch
 
 pool:
-  vmImage: 'ubuntu-latest'  # Use the latest Ubuntu image for the pipeline
+  vmImage: 'ubuntu-latest'  # using the latest Ubuntu image for the pipeline
 
 steps:
-# Checkout the code from the repository
+# checkout the code from the repository
 - task: Checkout@1
-  inputs:
-    repository: self  # Checkout the repository where the pipeline is defined
-    clean: true  # Clean the working directory before checkout
 
-# Debugging step to print environment variables and working directory
-- script: |
-    echo "## Listing all pipeline variables"
-    printenv  # List environment variables
-    echo "## List Azure DevOps variables"
-    echo $(Build.SourceBranch)  # Print branch name
-    echo $(Build.Repository.Name)  # Print repository name
-    echo $(System.DefaultWorkingDirectory)  # Print default working directory
-  displayName: 'Debug Variables'
-
-# Set up Python environment
+# set up Python environment 
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.x'  # Specify Python version
+    versionSpec: '3.x'  # specify Python version, e.g., 3.x
     addToPath: true
 
-# Install dependencies using pip
+# install dependencies using pip
 - script: |
-    python -m venv venv  # Create virtual environment
-    source venv/bin/activate  # Activate virtual environment
-    pip install -r ./requirements.txt  # Install dependencies from the current folder
+    python -m venv venv  # create virtual environment
+    source venv/bin/activate  # activate virtual environment
+    pip install -r ./requirements.txt  # install dependencies
   displayName: 'Install dependencies'
 
-# Run Python tests
+# run Python tests
 - script: |
-    source venv/bin/activate  # Activate virtual environment
-    python -m unittest discover  # Run tests
+    source venv/bin/activate  # activate virtual environment
+    python -m unittest discover  # run tests
   displayName: 'Run tests'
