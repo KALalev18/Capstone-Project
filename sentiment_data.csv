@@ -1,0 +1,41 @@
+ID,Text,Sentiment
+1,"I love this product! It's amazing.",Positive
+2,"This is the worst experience I've ever had.",Negative
+3,"It's okay, not great but not terrible.",Neutral
+4,"Absolutely fantastic! Highly recommend.",Positive
+5,"I hate it. Complete waste of money.",Negative
+6,"Meh, it’s just fine.",Neutral
+7,"The service was excellent and staff was friendly.",Positive
+8,"I am disappointed with the quality.",Negative
+9,"Not bad, could be better.",Neutral
+10,"Superb performance! I'm really happy.",Positive
+11,"Terrible! I want a refund.",Negative
+12,"It's neither good nor bad.",Neutral
+13,"This is the best thing I've bought all year!",Positive
+14,"Horrible experience, will never buy again.",Negative
+15,"It's decent, nothing special though.",Neutral
+16,"I’m beyond satisfied! Amazing quality.",Positive
+17,"Extremely disappointed. I expected better.",Negative
+18,"The product is fine, but shipping took too long.",Neutral
+19,"This made my day! So happy with it.",Positive
+20,"Total waste of money. Do not buy!",Negative
+21,"It works as expected, no complaints.",Neutral
+22,"One of the best purchases I've made.",Positive
+23,"Not what I expected, very disappointed.",Negative
+24,"It's average, nothing too good or bad.",Neutral
+25,"Brilliant product, highly recommend!",Positive
+26,"Completely useless. A total ripoff.",Negative
+27,"I'm not sure how I feel about this.",Neutral
+28,"Perfect in every way! Love it!",Positive
+29,"I regret buying this. Awful experience.",Negative
+30,"It's just okay, nothing stands out.",Neutral
+31,"Best product in this category. Amazing!",Positive
+32,"Doesn’t work at all. Terrible quality.",Negative
+33,"Mixed feelings, has some good and bad aspects.",Neutral
+34,"Very satisfied, exceeded my expectations.",Positive
+35,"So frustrating to use! Would not recommend.",Negative
+36,"Neither great nor terrible, just average.",Neutral
+37,"Works like a charm! So happy with it.",Positive
+38,"Biggest mistake I’ve made buying this.",Negative
+39,"Not bad, but could have been better.",Neutral
+40,"Fantastic customer service and great product!",Positive

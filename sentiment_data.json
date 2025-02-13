@@ -1,0 +1,202 @@
+[
+    {
+        "ID": 1,
+        "Text": "I love this product! It's amazing.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 2,
+        "Text": "This is the worst experience I've ever had.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 3,
+        "Text": "It's okay, not great but not terrible.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 4,
+        "Text": "Absolutely fantastic! Highly recommend.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 5,
+        "Text": "I hate it. Complete waste of money.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 6,
+        "Text": "Meh, it\u2019s just fine.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 7,
+        "Text": "The service was excellent and staff was friendly.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 8,
+        "Text": "I am disappointed with the quality.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 9,
+        "Text": "Not bad, could be better.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 10,
+        "Text": "Superb performance! I'm really happy.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 11,
+        "Text": "Terrible! I want a refund.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 12,
+        "Text": "It's neither good nor bad.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 13,
+        "Text": "This is the best thing I've bought all year!",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 14,
+        "Text": "Horrible experience, will never buy again.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 15,
+        "Text": "It's decent, nothing special though.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 16,
+        "Text": "I\u2019m beyond satisfied! Amazing quality.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 17,
+        "Text": "Extremely disappointed. I expected better.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 18,
+        "Text": "The product is fine, but shipping took too long.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 19,
+        "Text": "This made my day! So happy with it.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 20,
+        "Text": "Total waste of money. Do not buy!",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 21,
+        "Text": "It works as expected, no complaints.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 22,
+        "Text": "One of the best purchases I've made.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 23,
+        "Text": "Not what I expected, very disappointed.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 24,
+        "Text": "It's average, nothing too good or bad.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 25,
+        "Text": "Brilliant product, highly recommend!",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 26,
+        "Text": "Completely useless. A total ripoff.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 27,
+        "Text": "I'm not sure how I feel about this.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 28,
+        "Text": "Perfect in every way! Love it!",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 29,
+        "Text": "I regret buying this. Awful experience.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 30,
+        "Text": "It's just okay, nothing stands out.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 31,
+        "Text": "Best product in this category. Amazing!",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 32,
+        "Text": "Doesn\u2019t work at all. Terrible quality.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 33,
+        "Text": "Mixed feelings, has some good and bad aspects.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 34,
+        "Text": "Very satisfied, exceeded my expectations.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 35,
+        "Text": "So frustrating to use! Would not recommend.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 36,
+        "Text": "Neither great nor terrible, just average.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 37,
+        "Text": "Works like a charm! So happy with it.",
+        "Sentiment": "Positive"
+    },
+    {
+        "ID": 38,
+        "Text": "Biggest mistake I\u2019ve made buying this.",
+        "Sentiment": "Negative"
+    },
+    {
+        "ID": 39,
+        "Text": "Not bad, but could have been better.",
+        "Sentiment": "Neutral"
+    },
+    {
+        "ID": 40,
+        "Text": "Fantastic customer service and great product!",
+        "Sentiment": "Positive"
+    }
+]
