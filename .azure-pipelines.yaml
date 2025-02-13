@@ -1,22 +1,29 @@
 trigger:
   branches:
     include:
-      - Vatsal
+      - Vatsal  # trigger pipeline 
 
 pool:
-  vmImage: 'ubuntu-latest'  
+  vmImage: 'ubuntu-latest'  # ubuntu image for the pipeline
 
 steps:
-- task: UseDotNet@2
+#  checkout the code from the repository
+- task: Checkout@1
+
+# set up Python environment 
+- task: UsePythonVersion@0
   inputs:
-    packageType: 'sdk'
-    version: '6.x'  # .NET version.
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+    addToPath: true  
 
-- task: Checkout@1  # like pulling the latest version of your code
-  
-- task: Restore@1  # installing necessary tools or libraries
+# install dependencies using pip
+- script: |
+    python -m venv venv  # create virtual environment
+    source venv/bin/activate  # activate virtual environment
+    pip install -r requirements.txt  # install dependencies
+  displayName: 'Install dependencies'
 
-- task: Build@1  # compiling
-
-- task: Test@1  # runs tests on your project
+# run Python tests
+- script: |
+    source venv/bin/activate  # activate virtual environment
+    python -m unittest discover  # run tests
+  displayName: 'Run tests'
