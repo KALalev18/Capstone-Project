@@ -20,6 +20,12 @@ async function fetchClosedPullRequests(username, repository) {
     return pullRequests;
 }
 
+async function fetchPullRequestDetails(url) {
+    const response = await fetch(url);
+    const details = await response.json();
+    return details;
+}
+
 function displayOpenPullRequests() {
     const inputField = document.querySelector('.input-field');
     const url = inputField.value.trim();
@@ -39,7 +45,7 @@ function displayOpenPullRequests() {
     const repository = match[2];
 
     fetchOpenPullRequests(username, repository)
-        .then(data => {
+        .then(async data => {
             const pullRequestContainer = document.querySelector('.pullrequest-container');
             pullRequestContainer.innerHTML = ''; // Clear previous content
 
@@ -50,7 +56,9 @@ function displayOpenPullRequests() {
                 return;
             }
 
-            data.forEach(pr => {
+            for (const pr of data) {
+                const prDetails = await fetchPullRequestDetails(pr.url);
+
                 const prDiv = document.createElement('div');
                 prDiv.className = 'chart open-pr';
 
@@ -64,12 +72,16 @@ function displayOpenPullRequests() {
                 const createdAtDate = new Date(pr.created_at);
                 createdAtP.textContent = `Opened On: ${createdAtDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
+                const mergeConflictP = document.createElement('p');
+                mergeConflictP.textContent = `Merge Conflict: ${prDetails.mergeable === false ? 'This branch has conflicts that must be resolved' : 'No conflicts with base branch'}`;
+
                 prDiv.appendChild(titleP);
                 prDiv.appendChild(authorP);
                 prDiv.appendChild(createdAtP);
+                prDiv.appendChild(mergeConflictP);
 
                 pullRequestContainer.appendChild(prDiv);
-            });
+            }
 
             // Hide closed pull requests
             document.querySelectorAll('.closed-pr').forEach(el => el.style.display = 'none');
