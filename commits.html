@@ -29,15 +29,24 @@
         </div>
         <div class="main-commits-container">
             <canvas id="chart-line"></canvas>
-            <div class="chart">
+            <div class="chart" style="display: none;">
                 <p>Commit SHA: <span class="commit-sha">${commit.sha}</span></p>
                 <p>Author: <span class="commit-author">${commit.commit.author.name}</span></p>
                 <p>Message: <span class="commit-message">${commit.commit.message}</span></p>
             </div>
         </div>
+        <div class="main-commits-container">
+            <button class="pullrequest-btn" onclick="displayOpenPullRequests()" >Open</button>
+            <button class="pullrequest-btn" onclick="displayClosedPullRequests()">Closed</button>
+            <div class="pullrequest-container">
+                <!-- Pull request information will be appended here -->
+            </div>
+        </div>
+        
     </div>
     <button class="sidebar-toggle" onclick="toggleSidebar()">&#x276F;</button>
     <script src="script.js"></script>
+    <script src="pullreqscript.js"></script>
 </body>
 
 </html>

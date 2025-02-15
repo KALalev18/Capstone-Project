@@ -46,7 +46,7 @@ function fetchData() {
                 const todayCommits = data.filter(commit => new Date(commit.commit.author.date).toDateString() === today.toDateString());
                 if (todayCommits.length > 0) {
                     const todayDropdown = document.createElement('div');
-                    todayDropdown.className = 'sec-center';
+                    todayDropdown.className = 'monthdrop';
                     todayDropdown.innerHTML = `
                         <input class="dropdown" type="checkbox" id="dropdown-today" name="dropdown-today"/>
                         <label class="for-dropdown" for="dropdown-today" onclick="toggleDropdown('today-commits')"><i class="uil uil-arrow-down"></i>Today</label>
@@ -80,7 +80,7 @@ function fetchData() {
                 const currentMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
                 uniqueMonths.forEach(month => {
                     const dropdownDiv = document.createElement('div');
-                    dropdownDiv.className = 'sec-center';
+                    dropdownDiv.className = 'monthdrop';
                     const label = month === currentMonth ? 'This Month' : month;
                     dropdownDiv.innerHTML = `
                         <input class="dropdown" type="checkbox" id="dropdown-${month}" name="dropdown-${month}"/>

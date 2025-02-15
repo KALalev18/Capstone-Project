@@ -126,6 +126,11 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.pullrequest-btn {
+  margin-top: 50px;
+  margin-left: 30px;
+  margin-bottom: 20px;
+}
 
 @keyframes fadeIn {
   from {
@@ -272,6 +277,8 @@ button:hover {
     max-width: 100%;
     /* Ensure the chart takes full width */
   }
+
+  
 }
 
 
@@ -287,10 +294,13 @@ button:hover {
   margin-bottom: 15px;
   max-width: 100%;
   z-index: 200;
+}
+.monthdrop{
+  margin-bottom: 15px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
 }
 [type="checkbox"]:checked,
 [type="checkbox"]:not(:checked){
@@ -299,6 +309,7 @@ button:hover {
   opacity: 0;
   pointer-events: none;
 }
+
 .dropdown:checked + label,
 .dropdown:not(:checked) + label{
   position: relative;
