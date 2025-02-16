@@ -15,3 +15,8 @@ https://github.com/user-attachments/assets/cf9fed23-10c6-416b-b3fd-c986b9396d1e
 ## picture of merge conflict added to the pull request details section
 
 ![Screenshot 2025-02-16 011519](https://github.com/user-attachments/assets/1581121d-3d68-4fc9-b721-7c3c9ded92af)
+
+## demo of the Jira API which is synced to show team development performance from Jira
+
+https://github.com/user-attachments/assets/bcbf4d1f-cbbd-40f2-a7da-48983e6f564f
+
