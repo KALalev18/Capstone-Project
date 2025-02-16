@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <title>Jira Issues</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="jira-data-container">
+      <h2>JIRA ISSUES</h2>
+      <div>
+        <input type="text" id="jira-url" class="input-field" placeholder="Paste the Jira URL" /><br>
+        <input type="text" id="api-token" class="input-field" placeholder="Paste your API token" /><br>
+        <input type="text" id="user-email" class="input-field" placeholder="Provide the email authorized to the URL" /><br>
+        <button onclick="getJiraIssues()">Get Jira Issues</button>
+      </div>
+      <div id="error-container"></div>
+      <table id="issues-table">
+        <thead id="issues-table-header"></thead>
+        <tbody id="issues-list"></tbody>
+      </table>
+    </div>
+    <script src="jira.js"></script>
+  </body>
+</html>
