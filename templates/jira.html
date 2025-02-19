@@ -6,7 +6,7 @@
     <title>Jira Issues</title>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="jira.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='jira.css') }}">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
             <input type="text" id="api-token" class="input-field" placeholder="Paste your API token"><br>
             <input type="text" id="user-email" class="input-field" placeholder="Provide the authorized email"><br>
             <button onclick="getJiraIssues()">Get Jira Issues</button>
-            <a href="/index.html">Back</a>
+            <a href="/">Back</a>
         </div>
 
         <!-- Error Message Container -->
@@ -34,7 +34,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>

@@ -1,0 +1,349 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  margin: 0 auto;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  
+}
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+.submit-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.submit-form {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.submit-form input[type="text"],
+.submit-form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #505050;
+  color: white;
+}
+
+.submit-form input[type="submit"] {
+  background-color: #646cff;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.submit-form input[type="submit"]:hover {
+  background-color: #535bf2;
+}
+
+.fileUploadForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+/*
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+
+
+
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #505050b6;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-left: 20px;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+
+}
+
+ */
+
+/* h1{
+  text-align: center;
+  vertical-align: auto;
+} */
+button,a {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #505050b6;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin-left: 20px;
+  transition: background-color 0.5s;
+  
+}
+button:hover {
+  
+  background-color:  #7b7b7bb6;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+a{
+  padding-left: 50px;
+}
+a:hover {
+  
+  background-color:  #7b7b7bb6;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.input-field{
+  border: none;
+  border-radius: 10px;
+  background-color: gray;
+  width: 370px;
+  height: 30px;
+  padding-left: 20px;
+  display: flex;
+  position: relative;
+  top: 60px;
+
+}
+.upload-code-container{
+  margin: 0;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.fileUploadForm{
+  margin-top: 100px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  
+  transform: translate(-50%,-50%);
+
+  transform: translate3d(-50%,-50%,0);
+}
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  min-width: 13%;
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  top:0;
+  left: 0;
+  z-index: 1;
+  /* min-width: 10%; */
+  resize: none;
+}
+.sidebar *{
+  margin: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: gray;
+  min-width: 10%;
+  resize: none;
+  
+}
+.main{
+  margin-left: 7%;
+  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main-commits-container{
+  margin-top: 100px;
+}
+.fetch-btn{
+  margin-top:70px;
+  margin-left: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.chart {
+  border: 10px;
+  background-color: #171616;
+  width: 700px;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 15px;
+  padding: 15px;
+  margin-left: 5%;
+  margin-right: 5%;
+  animation: fadeIn 0.5s;
+  overflow: hidden; 
+}
+
+.chart p {
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  word-break: break-word;
+  font-size: 14px; 
+  margin: 5px 0; 
+  line-height: 1.5; 
+}
+/* .commit-btn{
+background-color: rgba(94, 158, 94, 0.389);
+} */
+.sidebar button.active {
+background-color: rgba(94, 158, 94, 0.389);
+
+}
+
+
+canvas{
+width: 600px;
+height: 900px;
+}
+
+
+
+
+
+
+
+
+/* for the dropdown */
+.sec-center {
+position: relative;
+margin-bottom: 15px;
+max-width: 100%;
+z-index: 200;
+}
+.monthdrop{
+margin-bottom: 15px;
+max-width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked){
+position: absolute;
+left: -9999px;
+opacity: 0;
+pointer-events: none;
+}
+
+.dropdown:checked + label,
+.dropdown:not(:checked) + label{
+position: relative;
+height: 50px;
+border-radius: 4px;
+width: 560px;
+display: inline-flex;
+-webkit-align-items: left;
+-moz-align-items: left;
+-ms-align-items: left;
+align-items: center;
+-webkit-justify-content: left;
+-moz-justify-content: left;
+-ms-justify-content: left;
+justify-content: left;
+-ms-flex-pack: left;
+text-align: left;
+border: none;
+background-color: #505050b6;
+cursor: pointer;
+color: white;
+}
+.dropdown:checked + label:before{
+pointer-events: auto;
+}
+.dropdown-content {
+display: none;
+transition: max-height 0.5s ease-out;
+}
+
+.dropdown-content.show {
+display: block;
+transition: max-height 0.5s ease-in;
+}
+
+.dropdown:not(:checked) + label .uil {
+font-size: 24px;
+margin-left: 10px;
+transform: rotate(-180deg);
+transition: transform 200ms linear;
+}
+
+.dropdown:checked + label .uil {
+font-size: 24px;
+margin-left: 10px;
+transform: rotate(180deg);
+transition: transform 200ms linear;
+}
+
+
+

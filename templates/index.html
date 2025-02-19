@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Insights</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="commit-btn">Commits</button>
+        <button class="progress-btn">Progress</button>
+        <button class="insights-btn">AI Insights</button>
+        <button class="contributors-btn">Contributors</button>
+        <button class="branches-btn">Branches</button>
+        <button class="issues-btn">Issues</button>
+        <button class="peak-btn">Peak Coding Hours</button>
+        <button class="deployment-btn">Deployments</button>
+        <button class="pull-btn">Pull</button>
+        <a href="/jira">Jira Issues</a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <input type="text" class="input-field" placeholder="github.com/..." />
+
+        <!-- Commits Chart -->
+        <div class="main-commits-container">
+            <canvas id="chart-line"></canvas>
+            <div class="chart" style="display: none;">
+                <p>Commit SHA: <span class="commit-sha">${commit.sha}</span></p>
+                <p>Author: <span class="commit-author">${commit.commit.author.name}</span></p>
+                <p>Message: <span class="commit-message">${commit.commit.message}</span></p>
+            </div>
+        </div>
+
+        <!-- Pull Request Section -->
+        <div class="main-commits-container">
+            <div class="pullrequest-container">
+                <!-- Pull request information will be appended here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Container -->
+    <div id="chart"></div>
+
+    <!-- Scripts -->
+    <script src="../static/script.js"></script>
+    <script src="../static/pullreqscript.js"></script>
+<!--    upload form container -->
+    <div class="upload-code-container">
+        <h1>Upload File Tester</h1>
+
+        <!-- File Upload Form -->
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <label for="file">Upload your code file:</label>
+            <input type="file" name="file" id="file" required>
+            <button type="submit">Analyze Code</button>
+        </form>
+
+        <!-- Display Analysis Result -->
+        {% if analysis %}
+            <h2>Analysis Result:</h2>
+            <pre>{{ analysis }}</pre>
+        {% endif %}
+    </div>
+
+</body>
+</html>
