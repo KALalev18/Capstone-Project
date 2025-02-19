@@ -215,12 +215,14 @@ button:hover {
 
 
 
+
+
+
+/* this is the css for the smaller screen that is less than or equal to 800px */
 @media (max-width: 800px) {
   .input-field {
     width: 80%;
   }
-
-  
 
   .sidebar-toggle {
     display: block;
@@ -228,7 +230,6 @@ button:hover {
 
   .sidebar {
     display: none;
-    /* Hide the sidebar on smaller screens */
     animation: slide-in 0.5s forwards
   }
 
@@ -288,7 +289,7 @@ button:hover {
 
 
 
-/* for the dropdown */
+/* for the dropdown and also the design for the arrows and how it should navigate up and down and vice versa */
 .sec-center {
   position: relative;
   margin-bottom: 15px;

@@ -126,7 +126,7 @@ button:hover {
   }
 }
 
-/* the issues from jira */
+/* the issues style for the jira */
 .issue-card {
   border: 1px solid #ddd;
   padding: 15px;
@@ -178,6 +178,6 @@ th {
 }
 
 td.summary {
-  width: 420px; /* Adjust the width as needed */
+  width: 420px;
   word-wrap: break-word;
 }

@@ -1,4 +1,10 @@
 async function fetchOpenPullRequests(username, repository) {
+    // This function is designed to fetch open pull requests from a GitHub repository provided by the user using a GET request.
+    // It takes user input for the GitHub repository URL.
+    // It then sends a GET request to the GitHub API to fetch open pull requests from the repository.
+    // If the request is successful, it displays the open pull requests in a list format.
+    // If there are no open pull requests found, it displays a message indicating that no open pull requests were found.
+    // If there is an error, it displays an error message.
     const apiUrl = `https://api.github.com/repos/${username}/${repository}/pulls?state=open&per_page=10`;
     const response = await fetch(apiUrl);
     if (response.status === 403) {
@@ -10,6 +16,7 @@ async function fetchOpenPullRequests(username, repository) {
 }
 
 async function fetchClosedPullRequests(username, repository) {
+    // It then sends a GET request to the GitHub API to fetch closed pull requests from the repository.
     const apiUrl = `https://api.github.com/repos/${username}/${repository}/pulls?state=closed&per_page=10`;
     const response = await fetch(apiUrl);
     if (response.status === 403) {
@@ -27,6 +34,10 @@ async function fetchPullRequestDetails(url) {
 }
 
 function displayOpenPullRequests() {
+    // This function is designed to display open pull requests in a list format.
+    // It takes user input for the GitHub repository URL.
+    // It then calls the fetchOpenPullRequests function to fetch open pull requests from the repository.
+    // If there are no open pull requests found, it displays a message indicating that no open pull requests were found.
     const inputField = document.querySelector('.input-field');
     const url = inputField.value.trim();
 
@@ -94,6 +105,10 @@ function displayOpenPullRequests() {
 }
 
 function displayClosedPullRequests() {
+    // This function is designed to display closed pull requests in a list format.
+    // It takes user input for the GitHub repository URL.
+    // It then calls the fetchClosedPullRequests function to fetch closed pull requests from the repository.
+    // If there are no closed pull requests found, it displays a message indicating that no closed pull requests were found.
     const inputField = document.querySelector('.input-field');
     const url = inputField.value.trim();
 
@@ -155,6 +170,6 @@ function displayClosedPullRequests() {
         });
 }
 
-// Expose displayClosedPullRequests to the global scope for the onclick event
+// this exposes displayClosedPullRequests and displayOpenPullRequests to the global scope for the onclick event
 window.displayClosedPullRequests = displayClosedPullRequests;
 window.displayOpenPullRequests = displayOpenPullRequests;

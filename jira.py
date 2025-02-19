@@ -7,6 +7,7 @@ CORS(app)  # Enable CORS for all routes
 
 @app.route('/api/issues', methods=['POST'])
 def get_issues():
+    # Get the data from the request input
     data = request.json
     base_url = data.get('baseUrl')
     user = data.get('userEmail')
@@ -29,6 +30,7 @@ def get_issues():
             return "Failed to fetch issues", response.status_code
 
         issues = response.json()["issues"]
+        # Extract the necessary information from the issues and return it
         issues_list = [
             {
                 "key": issue["key"],

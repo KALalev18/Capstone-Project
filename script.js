@@ -123,6 +123,7 @@ function fetchData() {
     }
 }
 
+// Function to toggle the dropdown content, when the arrow changes direction from up to down and vice versa
 function toggleDropdown(id) {
     const dropdownContent = document.getElementById(id);
     const arrowIcon = dropdownContent.previousElementSibling.querySelector('.uil');
@@ -138,6 +139,7 @@ function toggleDropdown(id) {
 }
 
 function filterCommits(commits, sortOption) {
+    // Filter commits based on the month sort option, so that only commits from the selected month are displayed
     const today = new Date();
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     const filteredCommits = commits.filter(commit => {
@@ -156,6 +158,8 @@ function filterCommits(commits, sortOption) {
     });
     return filteredCommits;
 }
+
+
 document.addEventListener('DOMContentLoaded', function () {
     function createChart() {
         const inputField = document.querySelector('.input-field');
@@ -300,7 +304,7 @@ function getContributors() {
     } 
 }
 
-
+//this is for the sidebar when the user clicks on the hamburger icon using a small screen
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main');
@@ -308,6 +312,7 @@ function toggleSidebar() {
 
     if (sidebar.classList.contains('open')) {
         sidebar.classList.add('closing');
+        // Remove blur effect from main content and chart content
         mainContent.classList.remove('blur-background');
         chartContent.classList.remove('blur-background');
 
@@ -321,222 +326,5 @@ function toggleSidebar() {
     }
 }
 
-
-
-
-// the pull request guys
-async function fetchPullRequests(username, repository) {
-    const apiUrl = `https://api.github.com/repos/${username}/${repository}/pulls?state=all&per_page=100`;
-    let page = 1;
-    let allPullRequests = [];
-    let hasMorePullRequests = true;
-
-    while (hasMorePullRequests) {
-        const response = await fetch(`${apiUrl}&page=${page}`);
-        const pullRequests = await response.json();
-
-        if (pullRequests.length > 0) {
-            allPullRequests = allPullRequests.concat(pullRequests);
-            page++;
-        } else {
-            hasMorePullRequests = false;
-        }
-    }
-
-    return allPullRequests;
-}
-
-function createPullRequestChart(username, repository) {
-    fetchPullRequests(username, repository)
-        .then(data => {
-            if (data.length === 0) {
-                console.error('No pull request data found.');
-                const canvas = document.getElementById('pull-request-chart');
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.font = '16px Arial';
-                ctx.fillText('No pull request data found.', 10, 50);
-                return;
-            }
-
-            const pullRequestData = {};
-            data.forEach(pr => {
-                const date = new Date(pr.created_at).toISOString().split('T')[0];
-                pullRequestData[date] = (pullRequestData[date] || 0) + 1;
-            });
-
-            const dates = Object.keys(pullRequestData).sort((a, b) => new Date(a) - new Date(b));
-            const startDate = new Date(dates[0]);
-            const endDate = new Date(dates[dates.length - 1]);
-            const fullPullRequestData = {};
-
-            for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-                const dateStr = d.toISOString().split('T')[0];
-                fullPullRequestData[dateStr] = pullRequestData[dateStr] || 0;
-            }
-
-            const chartData = Object.keys(fullPullRequestData).map(date => ({
-                date,
-                pullRequests: fullPullRequestData[date]
-            }));
-
-            const canvas = document.getElementById('pull-request-chart');
-            if (!canvas) {
-                console.error('Canvas element with ID "pull-request-chart" not found.');
-                return;
-            }
-
-            const ctx = canvas.getContext('2d');
-            if (!ctx) {
-                console.error('Could not get 2D context for the canvas.');
-                return;
-            }
-
-            if (window.myPullRequestChart) {
-                window.myPullRequestChart.destroy();
-            }
-
-            window.myPullRequestChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: chartData.map(pr => pr.date),
-                    datasets: [{
-                        label: 'Pull Requests per day',
-                        data: chartData.map(pr => pr.pullRequests),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: {
-                            type: 'category',
-                            ticks: {
-                                autoSkip: true,
-                                maxTicksLimit: 10
-                            }
-                        },
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching or processing pull request data:', error);
-        });
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    function createChart() {
-        const inputField = document.querySelector('.input-field');
-        const url = inputField.value.trim();
-
-        if (!url) {
-            console.error('Please enter a GitHub repository URL.');
-            return;
-        }
-
-        const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
-        if (!match) {
-            console.error('Invalid GitHub URL. Please use the format: https://github.com/username/repository');
-            return;
-        }
-
-        const username = match[1];
-        const repository = match[2];
-
-        const apiUrl = `https://api.github.com/repos/${username}/${repository}/commits`;
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const commitData = {};
-                data.forEach(commit => {
-                    const date = new Date(commit.commit.author.date).toISOString().split('T')[0];
-                    commitData[date] = (commitData[date] || 0) + 1;
-                });
-
-                const dates = Object.keys(commitData).sort((a, b) => new Date(a) - new Date(b));
-                if (dates.length === 0) {
-                    console.error('No commit data found.');
-                    return;
-                }
-
-                const startDate = new Date(dates[0]);
-                const endDate = new Date(dates[dates.length - 1]);
-                const fullCommitData = {};
-
-                for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-                    const dateStr = d.toISOString().split('T')[0];
-                    fullCommitData[dateStr] = commitData[dateStr] || 0;
-                }
-
-                const chartData = Object.keys(fullCommitData).map(date => ({
-                    date,
-                    commits: fullCommitData[date]
-                }));
-
-                const canvas = document.getElementById('chart');
-                if (!canvas) {
-                    console.error('Canvas element with ID "chart" not found.');
-                    return;
-                }
-
-                const ctx = canvas.getContext('2d');
-                if (!ctx) {
-                    console.error('Could not get 2D context for the canvas.');
-                    return;
-                }
-
-                if (window.myChart) {
-                    window.myChart.destroy();
-                }
-
-                window.myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: chartData.map(commit => commit.date),
-                        datasets: [{
-                            label: 'Commits per day',
-                            data: chartData.map(commit => commit.commits),
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                type: 'category',
-                                ticks: {
-                                    autoSkip: true,
-                                    maxTicksLimit: 10
-                                }
-                            },
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-
-                // Create pull request chart
-                createPullRequestChart(username, repository);
-            })
-            .catch(error => {
-                console.error('Error fetching or processing data:', error);
-            });
-    }
-
-    // Expose createChart to the global scope for the onclick event
-    window.createChart = createChart;
-});
 
  
