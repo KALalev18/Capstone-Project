@@ -32,6 +32,7 @@ function clearBox(elementClass) {
     if (element) element.innerHTML = "";
 }
 
+// Displays the commits 
 
 function fetchData() {
     const inputField = document.querySelector('.input-field');
@@ -73,6 +74,8 @@ function fetchData() {
         console.error('Invalid GitHub URL');
     }
 }
+
+// Chart
 
 function createChart() {
     const inputField = document.querySelector('.input-field');
@@ -176,6 +179,9 @@ function createChart() {
         });
 }
 
+
+// Contributors
+
 function getContributors() {
     const inputField = document.querySelector('.input-field');
     const url = inputField.value;
@@ -240,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-
+//Branches
 
 function getBranches() {
     const inputField = document.querySelector('.input-field');
@@ -287,6 +293,9 @@ function getBranches() {
         console.error('Invalid GitHub URL');
     }
 }
+
+// AI Insights (Not done yet)
+
 async function getAIInsights() {
     const inputField = document.querySelector('.input-field');
     const url = inputField.value.trim(); 
@@ -361,7 +370,7 @@ async function getAIInsights() {
     }
 }
 
-
+// Issues
 
 function getIssues(){
     // id
@@ -424,6 +433,10 @@ function getIssues(){
         console.error('Invalid GitHub URL');
     }
 }
+
+// Peak Hours
+
+
 async function getAveragePeakHours() {
     const inputField = document.querySelector('.input-field');
     const url = inputField.value;
@@ -481,6 +494,9 @@ async function getAveragePeakHours() {
         console.error("Error fetching commits:", error);
     }
 }
+
+
+
 function displayCommitHours(avgHourlyCommits) {
     const mainDiv = document.querySelector('.main-commits-container');
     mainDiv.innerHTML = '';
@@ -505,6 +521,8 @@ function displayCommitHours(avgHourlyCommits) {
         mainDiv.appendChild(hourDiv);
     });
 }
+
+//Deployments
 
 function getDeployments(){
     const inputField = document.querySelector('.input-field');
@@ -565,6 +583,7 @@ function getDeployments(){
 
 
 // JIRA
+
 async function fetchIssues() {
     try {
       const response = await fetch('http://127.0.0.1:5000/api/issues');
@@ -745,8 +764,6 @@ async function fetchIssues() {
   
 // PULL
 
-
-
 async function RequestDetails(url) {
     const response = await fetch(url);
     const details = await response.json();
@@ -844,70 +861,6 @@ function clearBox(elementID) {
 }
 
 
-// function displayClosedPullRequests() {
-//     const inputField = document.querySelector('.input-field');
-//     const url = inputField.value.trim();
-
-//     if (!url) {
-//         console.error('Please enter a GitHub repository URL.');
-//         return;
-//     }
-
-//     const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
-//     if (!match) {
-//         console.error('Invalid GitHub URL. Please use the format: https://github.com/username/repository');
-//         return;
-//     }
-
-//     const username = match[1];
-//     const repository = match[2];
-
-//     fetchClosedPullRequests(username, repository)
-//         .then(data => {
-//             const pullRequestContainer = document.querySelector('.pullrequest-container');
-//             pullRequestContainer.innerHTML = ''; // Clear previous content
-
-//             if (data.length === 0) {
-//                 const noPullRequestsMessage = document.createElement('p');
-//                 noPullRequestsMessage.textContent = 'No closed pull requests found.';
-//                 pullRequestContainer.appendChild(noPullRequestsMessage);
-//                 return;
-//             }
-
-//             data.forEach(pr => {
-//                 const prDiv = document.createElement('div');
-//                 prDiv.className = 'chart closed-pr';
-
-//                 const titleP = document.createElement('p');
-//                 titleP.textContent = `Title: ${pr.title}`;
-
-//                 const authorP = document.createElement('p');
-//                 authorP.textContent = `Author: ${pr.user.login}`;
-
-//                 const closedAtP = document.createElement('p');
-//                 const closedAtDate = pr.merged_at ? new Date(pr.merged_at) : new Date(pr.closed_at);
-//                 const closedAtText = pr.merged_at ? 'Merged On' : 'Closed On';
-//                 closedAtP.textContent = `${closedAtText}: ${closedAtDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-
-//                 prDiv.appendChild(titleP);
-//                 prDiv.appendChild(authorP);
-//                 prDiv.appendChild(closedAtP);
-
-//                 pullRequestContainer.appendChild(prDiv);
-//             });
-
-//             // Hide open pull requests
-//             document.querySelectorAll('.open-pr').forEach(el => el.style.display = 'none');
-//             // Show closed pull requests
-//             document.querySelectorAll('.closed-pr').forEach(el => el.style.display = 'block');
-//         })
-//         .catch(error => {
-//             console.error('Error fetching or processing pull request data:', error);
-//         });
-// }
-
-//Sidebar
-
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main');
@@ -976,10 +929,7 @@ function filterCommits(commits, sortOption) {
     return filteredCommits;
 }
 
-
-
-
-// Expose displayClosedPullRequests to the global scope for the onclick event
+// Buttons
 
 document.addEventListener("DOMContentLoaded", () => {
     const commitBtn = document.querySelector('.commit-btn');
