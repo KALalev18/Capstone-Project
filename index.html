@@ -1,25 +1,56 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    
-    <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
-    <title>Code Asessment</title>
-  </head>
-  <body>
-       
-       
-        <div class = "upload-code-container">
-        <h1>Upload the link or code below</h1>
-        <input type="text" class = "input-field" placeholder='github.com/...'/>
-        <form action="/api" method="post" enctype="multipart/form-data" class = 'fileUploadForm'>
-            <label for="file">File</label>
-            <input id="file" name="file" type="file" />
-            <button>Upload</button>
-        </form>
-        <button onclick="fetchData()">Fetch the data</button>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style_commits.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <div class="sidebar">
+            <!-- <button class="close-btn" onclick="toggleSidebar()">&#x276E;</button> -->
+            <button class="commit-btn">Commits</button>
+            <button class="progress-btn">Progress</button>
+            <button class="insights-btn">AI Insights</button>
+            <button class="contributors-btn">Contributors</button>
+            <button class="branches-btn">Branches</button>
+            <button class="issues-btn">Issues</button>
+            <button class="peak-btn">Peak Coding Hours</button>
+            
+            <button class="deployment-btn">Deployments</button>
+            
+            <button class="pull-btn">Pull</button>
+            <a href = '/jira.html'>Jira Issues</a>
         </div>
-  </body>
+        <div id="chart"></div>
+        <div class="main">
+            <input type="text" class="input-field" placeholder="github.com/..." />
+            <!-- <button class="fetch-btn" onclick="fetchData()">Fetch the data</button> -->
+    
+            <div class="sec-center"> 	
+                <!-- <input class="dropdown" type="checkbox" id="dropdown" name="dropdown"/>
+                <label class="for-dropdown" for="dropdown"><i class="uil uil-arrow-down"></i>Today</label> -->
+            </div>
+            <div class="main-commits-container">
+                <canvas id="chart-line"></canvas>
+                <div class="chart" style="display: none;">
+                    <p>Commit SHA: <span class="commit-sha">${commit.sha}</span></p>
+                    <p>Author: <span class="commit-author">${commit.commit.author.name}</span></p>
+                    <p>Message: <span class="commit-message">${commit.commit.message}</span></p>
+                </div>
+            </div>
+            <div class="main-commits-container">
+                <!-- <button class="pullrequest-btn" onclick="displayOpenPullRequests()" >Open</button>
+                <button class="pullrequest-btn" onclick="displayClosedPullRequests()">Closed</button> -->
+                <div class="pullrequest-container">
+                    <!-- Pull request information will be appended here -->
+                </div>
+            </div>
+            
+        </div>
+        <!-- <button class="sidebar-toggle" onclick="toggleSidebar()">&#x276F;</button> -->
+        <script src="script.js"></script>
+        <script src="pullreqscript.js"></script>
+    </body>
 </html>
