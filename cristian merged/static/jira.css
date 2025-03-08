@@ -1,0 +1,183 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.1;
+}
+
+/* Button styling */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #505050b6;
+  cursor: pointer;
+  transition: background-color 0.5s, border-color 0.25s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #7b7b7bb6;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Input field styling */
+.input-field {
+  border: none;
+  border-radius: 10px;
+  background-color: gray;
+  width: 100%;
+  max-width: 370px;
+  min-width: 370px; 
+  height: 30px;
+  padding-left: 20px;
+  margin: 10px 0;
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.input-field::placeholder {
+  color: rgba(235, 235, 235, 0.7);
+}
+
+/* Container styling */
+.upload-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 500px;
+}
+
+.fileUploadForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* Sidebar styling */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  height: 100%;
+  position: fixed;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.sidebar * {
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: gray;
+}
+
+/* Main content styling */
+.main {
+  margin-left: 12%;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 800px) {
+  .sidebar {
+      display: none;
+  }
+
+  .upload-code-container {
+      width: 70%;
+      padding: 10px;
+  }
+
+  .input-field,
+  .fileUploadForm {
+      width: 60%;
+  }
+
+  button {
+      width: 100%;
+      margin-left: 0;
+  }
+}
+
+/* the issues from jira */
+.issue-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.issue-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: rgb(21, 21, 185);
+  color: white;
+}
+
+.status-in-progress {
+  background-color: orange;
+}
+
+.status-done {
+  background-color: green;
+}
+
+.status-dropped {
+  background-color: red;
+}
+
+.error-message {
+  color: red;
+  padding: 10px;
+  border: 1px solid red;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #2189b9;
+}
+
+td.summary {
+  width: 420px; /* Adjust the width as needed */
+  word-wrap: break-word;
+}
