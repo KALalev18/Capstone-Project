@@ -1,13 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="style_new_design.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="dashboard.css" />
     <title>Dashboard</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- the first row -->
+      <div class="row gx-4">
+        <!-- the commit card -->
+        <div class="col-lg-4">
+          <div class="commits p-4">
+            <div class="commit-header">
+              <div>
+                <h1>71</h1>
+                <p>Total commits</p>
+              </div>
+              <div>
+                <h1>Reggie(37)</h1>
+                <p>Most Committer(No.)</p>
+              </div>
+            </div>
+            <div class="commit-chart">
+              <!-- Chart will be rendered here -->
+              <canvas id="commitsChart"></canvas>
+            </div>
+            <div class="commit-footer">
+              <p>12th May 2020 - 13th March 2023</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- the progress card -->
+        <div class="col-lg-8 mt-4 mt-lg-0">
+          <div class="progress-box p-3">
+            <div>
+              <canvas id="progressChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- the second row -->
+      <div class="row gx-4 mt-4">
+        <!-- Left group: Branch, Pull Request, Contribution, and Deployment cards -->
+        <div class="col-lg-6">
+          <div class="row">
+            <!-- Branch Card (left half) -->
+            <div class="col-6">
+              <div class="branch-card p-4">
+                <div class="branch-header">
+                  <div>
+                    <h1>20</h1>
+                    <p>Branches</p>
+                  </div>
+                  <div>
+                    <h1>18</h1>
+                    <p>Protected</p>
+                  </div>
+                  <div>
+                    <h1>2</h1>
+                    <p>Not Protected</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Pull Request Card (right half) -->
+            <div class="col-6">
+              <div class="pull-request-card p-4">
+                <div class="pull-request-header">
+                  <div>
+                    <h1>4</h1>
+                    <p>Pull Request</p>
+                  </div>
+                  <div>
+                    <div class="conflict">
+                      <h1>4</h1>
+                      <p>Conflict</p>
+                    </div>
+                    <div class="no-conflict">
+                      <h1>0</h1>
+                      <p>No Conflict</p>
+                    </div>
+                  </div>
+                  <div>
+                    <h1>12</h1>
+                    <p>Closed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Second nested row: Contribution and Deployment  -->
+          <div class="row mt-4">
+            <!-- Contribution Card -->
+            <div class="col-lg-5">
+              <div class="contribution-card p-4">
+                <div class="contribution-header">
+                  <div>
+                    <div class="contribution-chart">
+                      <h3>Contributions</h3>
+                      <canvas id="contributionChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deployment Card  -->
+            <div class="col-lg-7 mt-4 mt-lg-0">
+              <div class="deployment-card p-4">
+                <!-- Remove "table-striped" here to eliminate row shading -->
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="text-center">
+                      <!-- Create a row for the h3 and span all columns -->
+                      <tr>
+                        <th colspan="3">
+                          <h3>Deployments</h3>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <!-- Use Bootstrap padding classes on TD cells -->
+                      <tr>
+                        <td class="px-4 py-3">
+                          The quick brown fox jumps over the la...
+                        </td>
+                        <td class="px-4 py-3">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-3">
+                          The quick brown fox jumps over the lazy d...
+                        </td>
+                        <td class="px-4 py-3">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-3">
+                          The quick brown fox jumps ove...
+                        </td>
+                        <td class="px-4 py-3">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-3">
+                          The quick brown fox jumps over the lazy...
+                        </td>
+                        <td class="px-4 py-3">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-3">
+                          The quick brown fox jumps over the lazy dog
+                        </td>
+                        <td class="px-4 py-3">12th-May-23</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right group: Issues Card remains unchanged -->
+        <div class="col-lg-6 mt-4 mt-lg-0">
+          <div class="issues-card p-3">
+            <div class="text-center mb-5 mt-3">
+              <h3>Issues</h3>
+            </div>
+            <div class="row">
+              <div class="col-lg-5 ">
+                <div class="issues-doughnut">
+                  <canvas id="issuesDoughnutChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Table (Right) -->
+              <div class="col-lg-7">
+                <div class="table-responsive">
+                  <table class="table ">
+                    <tbody>
+                      <!-- Use Bootstrap padding classes on TD cells -->
+                      <tr>
+                        <td class="px-4 py-4">
+                          The quick brown fox jumps over the la...
+                        </td>
+                        <td class="px-4 py-4">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-4">
+                          The quick brown fox jumps over the lazy d...
+                        </td>
+                        <td class="px-4 py-4">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-4">
+                          The quick brown fox jumps ove...
+                        </td>
+                        <td class="px-4 py-4">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-4">
+                          The quick brown fox jumps over the lazy...
+                        </td>
+                        <td class="px-4 py-4">12th-May-23</td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-4">
+                          The quick brown fox jumps over the lazy dog
+                        </td>
+                        <td class="px-4 py-4">12th-May-23</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- the third row -->
+      <div class="row gx-4 mt-4">
+        <!-- the coding hours card -->
+        <div class="col-lg-12">
+          <div class="codinghrs-box p-3">
+            <div class="codinghrs-chart">
+              <canvas id="codinghrsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="db_commit.js"></script>
+    <script src="db_progress.js"></script>
+    <script src="db_codehrs.js"></script>
+    <script src="db_contributions.js"></script>
+    <script src="db_issues.js"></script>
+  </body>
 </html>

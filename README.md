@@ -20,3 +20,9 @@ https://github.com/user-attachments/assets/cf9fed23-10c6-416b-b3fd-c986b9396d1e
 
 https://github.com/user-attachments/assets/bcbf4d1f-cbbd-40f2-a7da-48983e6f564f
 
+
+## demo of the Paste the code section(Just the text area and it style relating to pasted code)
+
+
+
+## demo of reated the dashboard layout and connected it to the main page(API not connected yet)

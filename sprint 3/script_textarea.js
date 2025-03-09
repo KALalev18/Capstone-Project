@@ -196,3 +196,13 @@ window.onload = function() {
         const inputField = document.querySelector('.input-field');
     };
 };
+
+//for the dashboard.html linkning
+
+document.addEventListener('DOMContentLoaded', function () {
+  const viewStatsButton = document.getElementById('view-stats-button');
+  
+  viewStatsButton.addEventListener('click', function () {
+    window.location.href = 'dashboard.html';
+  });
+});
