@@ -1,14 +1,15 @@
 import os
 from flask import Flask, render_template, request
 from groq import Groq
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
 # api key
-GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+load_dotenv()
 
 # Initialize the Groq client
-client = Groq(api_key=GROQ_API_KEY)
+client = Groq(api_key= os.getenv('GROQ_API_KEY'))
 
 @app.route('/jira')
 def jira():
@@ -39,7 +40,7 @@ def index():
 
 def analyze_code_with_groq(code_content):
     prompt = f"""
-    Analyze the following code and provide insights or suggestions for improvement:
+    Analyze the following code and provide insights or suggestions for improvement AND show me the complexity of the code with cyclomatic complexity, how you got the answer to it, and what it means.:
     ```
     {code_content}
     ```
@@ -51,8 +52,8 @@ def analyze_code_with_groq(code_content):
                 {"role": "system", "content": "You are a helpful assistant that analyzes code."},
                 {"role": "user", "content": prompt}
             ],
-            model="mixtral-8x7b-32768",  #maybe change to deepseek idk we'll see
-            max_tokens=500,
+            model="qwen-2.5-coder-32b",  #maybe change to deepseek idk we'll see
+            max_tokens=1000,
             temperature=0.7  # numbers for test
         )
 
