@@ -1,3 +1,5 @@
 keys.env
 .scanner-work
 sonar-project.properties
+.env
+.venv
