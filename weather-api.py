@@ -53,7 +53,6 @@ def fetch_current_weather(city): # Fetch weather data for current weather with p
         return None
 
 def store_weather_data(weather_data, file_path="weather_data.csv"):
-    """Store weather data in a CSV file"""
     df = pd.DataFrame([weather_data])
     
     try:
@@ -104,7 +103,6 @@ def fetch_forecast(city): # Fetch weather data for forecast with params.
         return None
 
 def store_forecast_data(forecast_data, file_path="forecast_data.csv"):
-    """Store forecast data in a CSV file"""
     df = pd.DataFrame(forecast_data)
     df.to_csv(file_path, index=False)
     return True
