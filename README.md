@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/8db6b9d6-8f9e-43b1-87f3-52673dad428c
 
 https://github.com/user-attachments/assets/2389b6be-4e9b-4e50-91f2-fecacca79f3c
 
-## demo of related the dashboard layout and connected it to the main page(API is connected yet)
+## demo of related the dashboard layout and connected it to the main page(API is connected)
 
 
 
