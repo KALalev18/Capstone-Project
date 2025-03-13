@@ -17,6 +17,10 @@ body, html {
   margin: 0;
 }
 
+body::selection {
+  background-color: #e90bcbce;
+}
+
 body {
   min-height: 100vh;
   background-color: var(--bg);
@@ -84,7 +88,7 @@ body {
 /* Style the chart container as needed */
 .commit-chart {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 5px;
   height: 250px; /* Adjust height as needed */
 }
 
@@ -117,11 +121,6 @@ body {
   text-align: center;
 }
 
-.pull-request-header > div:nth-child(2) {
-  display: flex;
-  align-items: center;
-  gap: 5px; /* adjust spacing as needed */
-}
 
 /* New styling for Contribution Card: similar to branch-card */
 .contribution-card {
@@ -186,32 +185,20 @@ body {
   border-bottom: none;
 }
 
-.conflict h1, 
-.no-conflict h1 {
-  margin: 0; /* Remove default margins so they sit nicely on one line */
+.deployment-card table td:first-child {
+  width: 70%;  
 }
+
+.deployment-card table td:last-child {
+  width: 30%;  
+  text-align: left;
+}
+
 
 .conflict { 
   color: rgb(235, 9, 9);
-  position: relative;
-  /* Remove any extra spacing since we want a clean divider */
-  padding-right: 5px;
-  margin-right: -1px;
 }
 
-.no-conflict {
-
-  color: rgb(58, 233, 5);
-}
-
-.conflict::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%; /* spans the full height of the conflict container */
-  border-right: 2px solid white; /* vertical divider line */
-}
 
 .issues-card {
   border: 1px solid white;
@@ -239,6 +226,15 @@ body {
 .issues-card table td {
   font-size: 17px; /* Adjust this value as needed */
   font-weight: 500; /* Optional: make the text slightly bolder */
+}
+
+.issues-card table td:first-child {
+  width: 70%;  
+}
+
+.issues-card table td:last-child {
+  width: 30%;  
+  text-align: left;
 }
 
 /* New styling for Coding Hours Card */

@@ -165,7 +165,7 @@ window.onload = function() {
     window.addEventListener('resize', function() {
         updateLineNumbers();
     });
-    
+
     // Handle tab key to insert spaces instead of changing focus
     codeInput.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
@@ -197,12 +197,67 @@ window.onload = function() {
     };
 };
 
-//for the dashboard.html linkning
 
-document.addEventListener('DOMContentLoaded', function () {
-  const viewStatsButton = document.getElementById('view-stats-button');
-  
-  viewStatsButton.addEventListener('click', function () {
-    window.location.href = 'dashboard.html';
-  });
+
+//for the dashboard.html linkning to the github repo
+document.addEventListener('DOMContentLoaded', function() {
+    // Show the GitHub URL input when "Link to Github Repo" button is clicked
+    const linkToGithubButton = document.querySelector('.aurora-glow-button3');
+    const uploadCodeContainer = document.querySelector('.upload-code-container');
+    const codeInputContainer = document.querySelector('.code-input-container');
+    
+    linkToGithubButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        uploadCodeContainer.style.display = 'flex';
+        codeInputContainer.style.display = 'none';
+    });
+    
+    // Handle "View Stats" button click
+    const viewStatsButton = document.getElementById('view-stats-button');
+    viewStatsButton.addEventListener('click', async function() {
+        const githubUrlInput = document.querySelector('.input-field');
+        const errorMessage = document.getElementById('error-message');
+        const url = githubUrlInput.value.trim();
+        
+        // Clear previous error message
+        errorMessage.textContent = '';
+        
+        // Validate if it's a proper GitHub repository URL
+        const githubUrlPattern = /^https?:\/\/(www\.)?github\.com\/([^/]+)\/([^/]+)\/?$/i;
+        
+        if (!githubUrlPattern.test(url)) {
+            errorMessage.textContent = 'Invalid GitHub repository URL. Please enter a valid URL (e.g., https://github.com/username/repository)';
+            githubUrlInput.focus();
+            return;
+        }
+        
+        // Extract username and repository name from the URL
+        const match = url.match(githubUrlPattern);
+        const username = match[2];
+        const repository = match[3];
+        
+        // Check if the repository exists using GitHub API
+        const apiUrl = `https://api.github.com/repos/${username}/${repository}`;
+        
+        // Use headers only if window.githubToken is defined.
+        const headers = window.githubToken ? { Authorization: `token ${window.githubToken}` } : {};
+
+
+        
+        try {
+            const response = await fetch(apiUrl, { headers });
+            if (!response.ok) {
+                throw new Error('Repository does not exist');
+            }
+            
+            // Save URL to localStorage so dashboard.html can access it
+            localStorage.setItem('repoUrl', url);
+            
+            // Redirect to dashboard.html
+            window.location.href = 'dashboard.html';
+        } catch (error) {
+            errorMessage.textContent = 'Repository does not exist. Please enter a valid GitHub repository URL.';
+            githubUrlInput.focus();
+        }
+    });
 });

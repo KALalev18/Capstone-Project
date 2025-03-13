@@ -406,12 +406,15 @@ label.dragging {
   border-radius: 10px;
   background-color: gray;
   width: 100%;
+  font-size: 16px;
   max-width: 370px;
   min-width: 370px; 
   height: 30px;
   padding-left: 20px;
   margin: 10px 0;
   padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   outline: none;
   white-space: nowrap;
   overflow: hidden; 
