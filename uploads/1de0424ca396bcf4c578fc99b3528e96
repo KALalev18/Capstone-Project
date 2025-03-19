@@ -1,0 +1,38 @@
+// Define a function int findMax(int *arr, int size) which takes a pointer to an
+// integer array and its size as parameters to find and return the maximum value in the
+// array. Use a pointer int *ptr to iterate through the array instead of arr[i]. Compare
+// values by dereferencing the pointer *ptr. Move to the next element using pointer
+// arithmetic ptr++.
+// In the main function: (1) Ask the user to input the number of elements, (2) read the
+// elements into an array, (3) call findMax() and print the maximum value
+
+#include <stdio.h>
+
+
+int findMax(int *arr, int size){
+    int max = arr[0];
+
+     for (int i = 0; i < size; i++) {
+        
+            if(*(arr+i)>max){
+                max = *(arr+i);
+            }
+    
+}
+return max;
+}
+int main() {
+
+    int input;
+    printf("Enter the number of elements:\n");
+    scanf("%d",&input);
+    int arr[input];
+    // int *arr = &ar;
+    printf("Enter the numbers:\n");
+    for (int i = 0; i < input; i++) {
+        scanf("%d", &arr[i]);
+    }
+    printf("The maximum value is: %d",findMax(arr,input));
+
+    return 0;
+}

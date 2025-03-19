@@ -1,0 +1,46 @@
+
+
+
+
+
+#include <stdio.h>
+
+// int odd = 0;
+// int even = 0;
+
+
+
+#define MAX_SIZE 30
+
+int sumOfArray(int row, int col, int arr[row][col]){
+
+    int summ = 0;
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            summ += arr[i][j]; 
+        }
+    }
+
+    return summ;
+}
+
+int main() {
+    
+    int row, col;
+    printf("Enter the number of rows:\n");
+    scanf("%d", &row);
+    printf("Enter the number of columns:\n");
+    scanf("%d", &col);
+    int arr[row][col];
+    for (int i = 0; i < row; i++) {
+        printf("Enter row %d:\n",i+1);
+        for (int j = 0; j < col; j++) {
+           
+            scanf("%d", &arr[i][j]); 
+        }
+    }
+
+    printf("Sum of all elements: %d\n", sumOfArray(row, col, arr));
+    
+    return 0;
+}

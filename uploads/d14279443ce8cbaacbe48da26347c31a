@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *data = (int*)malloc(4 * sizeof(int));
+    int length = 4;
+    int i = 0, input;
+
+    if (data == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    printf("Enter numbers (enter -1 to stop):\n");
+    while (1) {
+        printf("Enter a number:\n");
+        scanf("%d", &input);
+        if (input == -1) {
+             printf("\n");
+            break;
+        }
+
+        data[i] = input;
+        i++;
+
+        if ((float)i / length >= 0.75) {
+            int new_length = length * 2;
+            printf("The array size increases to %d.\n", new_length);
+            int *temp = realloc(data, new_length * sizeof(int));
+            data = temp;
+            length = new_length;
+        }
+    }
+    printf("Final array (with %d elements): ", i);
+    for (int j = 0; j < i; j++) {
+        printf("%d ", data[j]);
+    }
+    printf("\n");
+    free(data);
+    return 0;
+}

@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct {
+    char name[10];
+    char species[10];
+    int age;
+
+} Pet;
+
+Pet *create_pet(char *name, char *species, int age){
+    Pet *new_pet = (Pet*)malloc(sizeof(Pet));
+
+    if (new_pet == NULL){
+        puts("Memory allocation failed");
+        return NULL;
+    }
+
+    strcpy(new_pet ->name,name);
+    strcpy(new_pet ->species,species);
+    new_pet->age = age;
+    return new_pet;
+}
+
+
+int main(){
+    int count;
+    printf("How many pets would you like to add?\n");
+    scanf("%d",&count);
+    Pet *arr[10];
+    char name[10];
+    char species[10];
+    int age;
+
+    for(int i = 0; i< count;i++){
+        printf("Enter the name for pet %d:\n",i+1);
+        scanf("%s",name);
+        printf("Enter the species for pet %d:\n",i+1);
+        scanf("%s",species);
+        printf("Enter the age for pet %d:\n",i+1);
+        scanf("%d",&age);
+        Pet *pet = create_pet(name,species,age);
+        arr[i] = pet;
+        
+    }
+    printf("\n");
+    printf("Pets:\n");
+    for (int j = 0;j<count;j++){
+
+        printf("No.%d Name: %s, Species: %s, Age: %d\n",j+1,arr[j]->name,arr[j]->species,arr[j]->age);
+    }
+    free(*arr);
+    return 0;
+}

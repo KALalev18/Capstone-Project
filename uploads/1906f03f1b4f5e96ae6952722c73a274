@@ -1,0 +1,48 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+int main() {
+
+    FILE *fp;
+    char input[100];
+
+    printf("Enter the file name to be read:\n");
+    
+    scanf("%s",input);
+    printf("\n");
+    fp = fopen(input,"r");
+    if (fp==NULL){
+        printf("Error");
+        return 1;
+    }
+    
+    char line[200];
+    printf("Reading CSV file...\n");
+    int i=0;
+    while (fgets(line,sizeof(line),fp)!=NULL){
+        char* year = strtok(line, ",");
+        int year_int;
+        year_int = 2100 - atoi(year);
+        char* f_name = strtok(NULL, ",");
+        char* l_name = strtok(NULL, ",");
+        char* gender = strtok(NULL, ",");
+        gender[strcspn(gender, "\r\n")] = '\0';
+
+        if (i!=0) {
+            int year_int = 2100 - atoi(year);
+            
+            printf("Name: %s %s, Gender: %s, Birth Year: %s, Age in 2100: %d\n", 
+                   f_name, l_name, gender, year, year_int);
+        } 
+        i++;
+         
+        // printf("%s",line);
+    }
+    fclose(fp);
+
+    return 0;
+}

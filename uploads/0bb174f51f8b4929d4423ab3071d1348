@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    int birthYear;
+    char firstName[50];
+    char lastName[50];
+    char gender[20];
+} Person;
+
+void sortRecordsByBirthYear(Person people[], int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (people[j].birthYear > people[j + 1].birthYear) {
+                Person temp = people[j];
+                people[j] = people[j + 1];
+                people[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    FILE *fp;
+    char input[100];
+    Person people[200];
+    printf("Enter the file name to be read:\n");
+
+    scanf("%s", input);
+    printf("\n");
+    fp = fopen(input, "r");
+    if (fp == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+    int countt = 0;
+    int r = 0;
+    char line[200];
+    printf("Reading CSV file...\n");
+
+    while (fgets(line, sizeof(line), fp) != NULL) {
+     
+        char* year = strtok(line, ",");
+        char* f_name = strtok(NULL, ",");
+        char* l_name = strtok(NULL, ",");
+        char* gender = strtok(NULL, ",");
+        gender[strcspn(gender, "\r\n")] = '\0';
+        if(atoi(year) != 0){
+        people[r].birthYear = atoi(year);
+        strncpy(people[r].firstName, f_name, sizeof(people[r].firstName) - 1);
+        strncpy(people[r].lastName, l_name, sizeof(people[r].lastName) - 1);
+        strncpy(people[r].gender, gender, sizeof(people[r].gender) - 1);
+
+        r++;
+        }
+       
+        
+      
+    }
+
+    fclose(fp);
+
+    sortRecordsByBirthYear(people, r);
+
+    printf("\nSorted Records (by Birth Year):\n");
+    for (int i = 0; i < r; i++) {
+        printf("Birth Year: %d, Name: %s %s, Gender: %s\n", 
+                people[i].birthYear, 
+                people[i].firstName, 
+                people[i].lastName, 
+                people[i].gender);
+    }
+
+    return 0;
+}

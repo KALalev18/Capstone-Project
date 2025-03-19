@@ -1,0 +1,38 @@
+// Exercise 2: Count even and odd numbers in an array
+// Write a function void countNum(int a[], int size) that counts how many
+// numbers in the array are even and how many are odd. The main program should ask for the
+// numbers in one line separated by spaces (see Task 1 for more explanations).
+
+
+#include <stdio.h>
+
+#define MAX_SIZE 30
+int odd = 0;
+int even = 0;
+void countNum(int a[], int size){
+
+    for (int i = 0; i < size ; i++) {
+        if (a[i]%2 == 0){
+            even++;
+
+        }
+        else{
+            odd++;
+        }
+    }
+
+}
+
+int main() {
+    int a[MAX_SIZE];
+    int size = 0;
+  
+    printf("Enter the array elements separated by spaces (non-integer value terminates):\n");
+    while (size < MAX_SIZE && scanf("%d", &a[size]) == 1) {
+        size++;
+    }
+    // printf(a[1]);
+    countNum(a,size);
+    printf("Even numbers: %d\nOdd numbers: %d",even,odd);
+    return 0;
+}

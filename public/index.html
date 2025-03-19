@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_upload.css">
+    <script src="/test.js" defer></script>
+    <title>CodeAsseser</title>
+</head>
+<body>
+    <h1 class="title">CodeAsseser
+        <div class="aurora">
+            <div class="aurora__item"></div>
+            <div class="aurora__item"></div>
+            <div class="aurora__item"></div>
+            <div class="aurora__item"></div>
+        </div>
+    </h1>
+    
+    <!-- Hidden file input -->
+    <input type="file" id="code-upload" style="display: none;" onchange="handleFileChange(event)">
+    
+    <!-- Custom file upload label -->
+    <label for="code-upload" id="upload-form" enctype="multipart/form-data">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="40" height="40" rx="20" fill="#F2F4F7"/>
+            <rect x="3" y="3" width="40" height="40" rx="20" stroke="#F9FAFB" stroke-width="6"/>
+            <g clip-path="url(#clip0_12201_2031)">
+                <path d="M26.3345 26.3352L23.0012 23.0019M23.0012 23.0019L19.6679 26.3352M23.0012 23.0019V30.5019M29.9929 28.3269C30.8056 27.8838 31.4477 27.1826 31.8177 26.334C32.1878 25.4855 32.2647 24.5379 32.0364 23.6408C31.808 22.7436 31.2874 21.9481 30.5567 21.3797C29.8261 20.8113 28.9269 20.5025 28.0012 20.5019H26.9512C26.699 19.5262 26.2288 18.6205 25.5761 17.8527C24.9235 17.0849 24.1052 16.4751 23.1829 16.069C22.2606 15.663 21.2583 15.4713 20.2513 15.5084C19.2443 15.5455 18.2587 15.8104 17.3688 16.2832C16.4789 16.7561 15.7078 17.4244 15.1134 18.2382C14.519 19.0519 14.1168 19.9898 13.937 20.9814C13.7572 21.9729 13.8046 22.9923 14.0755 23.9629C14.3465 24.9335 14.8339 25.8301 15.5012 26.5852" stroke="#475467" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+                <clipPath id="clip0_12201_2031">
+                    <rect width="20" height="20" fill="white" transform="translate(13 13)"/>
+                </clipPath>
+            </defs>
+        </svg>
+        <div class="inner-container">
+            <div class="description">
+                <p class="instruction">Click to upload</p>
+            </div>
+        </div>
+    </label>
+
+ 
+    <div id="analysis-result" class="analysis-result">
+        <pre>
+            // The Analysis will be displayed here.
+        </pre>
+    </div>
+    
+
+    <script>
+        // Handle file input change
+        function handleFileChange(event) {
+            const formData = new FormData();
+            formData.append("file", event.target.files[0]);
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('analysis-result').innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById("upload-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            document.getElementById('file-input').click();
+        });
+    </script>
+</body>
+</html>

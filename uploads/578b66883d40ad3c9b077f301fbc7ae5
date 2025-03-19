@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int data;
+    struct node *next;
+} Node;
+
+
+typedef struct {
+    Node *top;
+} Stack;
+
+Stack *createStack(){
+    Stack * S = (Stack*)malloc(sizeof(Stack));
+    S->top = NULL;
+    return S;
+
+}
+int StackEmpty(Stack *s) {
+    return s->top == NULL;
+
+}
+void pushStack(Stack *s, int key) {
+    // if (s==NULL){
+    //     printf("Stack dos not exist");
+    //     return;
+    // }
+    Node *new = (Node*)malloc(sizeof(Node));
+    new->data = key;
+    new->next = s->top;
+    s->top = new;
+
+}
+int popStack(Stack *s) {
+    // if (s == NULL ) {
+    //     printf("Stack does not exist, please create a stack first.\n");
+    //     return -1;  
+    // }
+     if(StackEmpty(s)){
+
+     printf("Stack is empty!\n");
+            printf("\n");
+            return -1;
+    }
+    Node *temp = s->top;
+    int p = temp->data;
+    s->top = s->top->next;
+    free(temp);
+    return p;
+
+}
+
+void print_list(Node * ptr){
+    // if (ptr == NULL) {
+    //     printf("Stack is empty.\n");
+    //     return;
+    // }
+   
+    int position = 1;
+    while(ptr != NULL){
+        printf("Node position %d: %d\n",position, ptr->data);
+        position+=1;
+        ptr = ptr->next;
+
+    }
+    printf("\n");
+}
+
+int main(){
+    Stack *s = NULL;
+    int choice;
+    int key;
+    int stack_created = 0;
+    while (1){
+    printf("Menu:\n1.Create an empty stack\n2.Push element to a stack\n3.Pop element from a stack\n4.Print stack contents\n0.Exit\nEnter your choice:\n");
+    scanf("%d", &choice);
+
+    if(choice == 1){
+        s = createStack();
+        printf("Stack created successfully!\n");
+        printf("\n");
+        stack_created++;
+    }
+    else if(choice == 2){
+        if (stack_created!=0){
+        printf("Enter an integer to be pushed:\n");
+        int push_el;
+        scanf("%d",&push_el);
+        pushStack(s,push_el);
+        printf("\n");}
+        else{
+            printf("The stack does not exist, please create a stack first!\n");
+            printf("\n");
+        }
+    }
+    else if(choice == 3){
+      
+        if (stack_created!=0) {
+        int popped = popStack(s);
+        if(popped != -1){
+               printf("Popped element: %d\n\n", popped);
+        }
+       
+
+        }
+        else  {
+            printf("The stack does not exist, please create a stack first!\n");
+            printf("\n");
+        }
+        //  else if (StackEmpty(s)){
+        //          printf("Stack is empty!\n");
+        //     printf("\n");
+        // }
+        
+    }
+    else if(choice == 4){
+        
+        if (stack_created!=0){
+        if(StackEmpty(s)){
+              printf("Stack is empty!\n\n");
+        }else{
+        printf("Printing...\n");
+        print_list(s->top);
+        }
+        }
+   else  {
+            printf("The stack does not exist, please create a stack first!\n");
+            printf("\n");
+        }
+        //  else if(StackEmpty(s)){
+        //     printf("Stack is empty!\n");
+        //     printf("\n");
+        // }
+    }
+    else {
+        printf("Exiting program...\n");
+        break;
+        }
+
+    }
+    return 0;
+}

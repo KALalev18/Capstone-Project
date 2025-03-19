@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+int main() {
+
+
+FILE *fpt;
+
+fpt = fopen("chap6_task4_output.txt", "w+");
+// char name[] = "Alo";
+// int age = 11;
+// char gender[] = "Bi";
+char name[50];
+int age;
+char gender[50];
+
+printf("Enter name (without spaces):\n");
+scanf("%s",name);
+printf("Enter age: \n");
+scanf("%d",&age);
+
+printf("Enter gender: \n");
+scanf("%s",gender);
+fprintf(fpt,"%s,%d,%s\n", name, age, gender);
+char choice;
+while ( 1 ){
+    printf("Do you want to add another person? (y/n):\n");
+    scanf(" %c",&choice);
+    if(choice == 'y'){
+        printf("Enter name (without spaces):\n");
+        scanf("%s",name);
+        printf("Enter age: \n");
+        scanf("%d",&age);
+
+        printf("Enter gender: \n");
+        scanf("%s",gender);
+        fprintf(fpt,"%s,%d,%s\n", name, age, gender);
+    }else{
+        break;
+    }
+}
+printf("Data saved successfully to chap6_task4_output.txt.\n");
+
+
+
+fclose(fpt);
+return 0;
+}

@@ -1,0 +1,34 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+char **generateStrings(int n){
+    char **array = (char **)malloc(n*sizeof(char *));
+
+    if(array == NULL){
+        printf("NULL");
+    }
+
+    for (int i = 0; i<n;i++){
+        array[i] = (char *)malloc(20 * sizeof(char));
+        printf("Enter string %d:\n",i+1);
+        scanf(" %99[^\n]", array[i]);
+    }
+    printf("\n");
+    return array;
+
+}
+
+
+int main(){
+    int inputInt;
+    printf("Enter the number of strings:\n");
+    scanf("%d",&inputInt);
+
+    char** myArr = generateStrings(inputInt);
+    printf("The stored strings are:\n");
+    for (int i = 0; i< inputInt; i++){
+        printf("%d: %s\n",i+1,myArr[i]);
+    }
+    free(myArr);
+    return 0;
+}

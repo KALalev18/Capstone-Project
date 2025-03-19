@@ -1,0 +1,16 @@
+def integ():
+    listt = []
+    while True:
+        value = input("Enter an integer (or type 'done' to finish input):\n")
+        if value == 'done':
+            break
+        else:
+            listt.append(value)
+    summ = int(input('Enter a target sum:\n'))
+    for i in range(0, len(listt)):
+        for j in range(1, len(listt)):
+            if int(listt[i])+int(listt[j])==summ:
+                if int(listt[i])<int(listt[j]):
+                    print(f'({listt[i]}, {listt[j]})')
+
+integ()

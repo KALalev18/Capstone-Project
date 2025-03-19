@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct node{
+    int data;
+    struct node*next;
+}Node;
+
+typedef struct {
+    Node*head;
+}List;
+
+List * create(){
+    List * L = (List*)malloc(sizeof(List));
+    L->head = NULL;
+    return L;
+
+}
+
+void insert(List * L, int key){
+    Node* pNew;
+    pNew = (Node*)malloc(sizeof(Node));
+    pNew->data = key;
+    pNew-> next = L->head;
+    L->head = pNew;
+
+}
+
+void reverse(List *L){
+    Node* pr = NULL;
+    Node* nxt = NULL;
+    Node* curr = L->head;
+
+    while (curr!= NULL)
+    {
+        nxt = curr->next;
+        curr-> next = pr;
+        pr = curr;
+        curr= nxt;
+    }
+
+    L->head = pr;
+    
+
+}
+
+void print_list(Node * ptr){
+    puts("Printing...");
+    int position = 1;
+    while(ptr != NULL){
+        printf("Node position %d: %d\n",position, ptr->data);
+        position+=1;
+        ptr = ptr->next;
+
+    }
+}
+
+
+int main(){
+    int input;
+    char choice[2];
+    List *L = create();
+    while (1){
+        printf("Enter an integer to add:\n");
+        scanf("%d",&input);
+        insert(L,input);
+        getchar(); 
+ 
+
+        printf("Do you want to add more numbers? (y/n):\n");
+        fgets(choice, sizeof(choice), stdin);
+        if(choice[0] != 'y') break;
+
+    }   
+    printf("\n");
+    printf("Original List:\n");
+    print_list(L->head);
+    printf("\n");
+    printf("Reversed List:\n");
+    reverse(L);
+    print_list(L->head);
+    
+    return 0;
+}
