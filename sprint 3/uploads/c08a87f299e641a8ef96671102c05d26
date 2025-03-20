@@ -1,0 +1,47 @@
+import React, { useEffect } from "react";
+import "./marquee.css";
+import tekLogo from "./assets/tek logo.png";
+import moysaLogo from "./assets/moysa.png";
+import reactLogo from "./assets/react.svg";
+
+const Marquee = () => {
+  useEffect(() => {
+    const root = document.documentElement;
+    const marqueeElementsDisplayed = parseInt(
+      getComputedStyle(root).getPropertyValue("--marquee-elements-displayed"),
+      10
+    );
+    const marqueeContent = document.querySelector("ul.marquee-content");
+
+    root.style.setProperty("--marquee-elements", marqueeContent.children.length);
+
+    const originalElements = Array.from(marqueeContent.children);
+
+    for (let i = 0; i < marqueeElementsDisplayed; i++) {
+      originalElements.forEach((element) => {
+        marqueeContent.appendChild(element.cloneNode(true));
+      });
+    }
+  }, []);
+
+  return (
+    <div className="marquee">
+      <ul className="marquee-content">
+        <li>
+          <img src={tekLogo} alt="TEK Logo" />
+        </li>
+        <li>
+          <img src={moysaLogo} alt="Moysa Logo" />
+        </li>
+        <li>
+          <img src={reactLogo} alt="React Logo" />
+        </li>
+        <li>
+          <h1>LUT</h1>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export default Marquee;
