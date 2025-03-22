@@ -31,7 +31,9 @@ https://github.com/user-attachments/assets/2389b6be-4e9b-4e50-91f2-fecacca79f3c
 
 ## demo of related the dashboard layout and connected it to the main page(API is connected)
 
-
-
 https://github.com/user-attachments/assets/9a2206b9-0861-4d6c-ad21-a21e454e00c6
+
+## demo of dropdown working with the coding hours chart
+
+https://github.com/user-attachments/assets/f1938dfa-02f5-432e-b90e-f14ecd12e3d3
 
