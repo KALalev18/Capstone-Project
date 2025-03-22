@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    ...existing code...
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="dropdown.css" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <div class="container-fluid" style="cursor: pointer;">
+      <!-- the first row -->
+      ...existing code...
+
+      <!-- the third row -->
+      <div class="row gx-4 mt-4">
+        <!-- the coding hours card -->
+        <div class="col-lg-12">
+          <div class="codinghrs-box p-3">
+            <!-- Dropdown Implementation -->
+            <div class="container dropdown-container">
+                <div class="main">
+                    <select name="" id="mySelect">
+                        <option value="1">All</option>
+                    </select>
+                </div>
+            </div>
+            <!-- End Dropdown Implementation -->
+            <div class="codinghrs-chart">
+              <canvas id="codinghrsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="db_commit.js"></script>
+    <script src="db_progress.js"></script>
+    <script src="db_codehrs.js"></script>
+    <script src="db_contributions.js"></script>
+    <script src="db_issues.js"></script>
+    <script src="db_pullrequests.js"></script>
+    <script src="db_branches.js"></script>
+    <script src="db_deployment.js"></script>
+    <script src="dropdown.js"></script>
+    <script>
+      // Initialize dropdown after the page loads
+      document.addEventListener("DOMContentLoaded", function() {
+        create_custom_dropdowns();
+      });
+    </script>
+  </body>
+</html>

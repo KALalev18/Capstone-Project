@@ -91,6 +91,51 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
       }
     });
+
+    // Fetch each contributor’s details to get their actual name (if provided)
+    const contributorNames = await Promise.all(sortedContributors.map(async contributor => {
+        try {
+            const res = await fetch(contributor.url, {
+                headers: { Authorization: `token ${window.githubToken}` }
+            });
+            if (!res.ok) return contributor.login;
+            const userDetails = await res.json();
+            return userDetails.name ? userDetails.name : contributor.login;
+        } catch (error) {
+            return contributor.login;
+        }
+    }));
+
+    // Update the dropdown with contributor names
+    const dropdownSelect = document.getElementById('mySelect');
+    if (dropdownSelect) {
+        // Clear existing options and add the default "All" option
+        dropdownSelect.innerHTML = `<option value="all">All</option>`;
+        
+        // Append one option per contributor using the actual name if available
+        sortedContributors.forEach((contributor, index) => {
+            dropdownSelect.innerHTML += `<option value="${contributor.login}">${contributorNames[index]}</option>`;
+        });
+        
+        // If our custom dropdown has already been initialized, update its list items
+        let dropdownDiv = dropdownSelect.nextElementSibling;
+        if (dropdownDiv && dropdownDiv.classList.contains("dropdown-select")) {
+            const ul = dropdownDiv.querySelector("ul");
+            ul.innerHTML = "";
+            const options = dropdownSelect.querySelectorAll("option");
+            options.forEach(option => {
+                const li = document.createElement("li");
+                li.classList.add("option");
+                if (option.selected) li.classList.add("selected");
+                li.dataset.value = option.value;
+                li.dataset.displayText = option.dataset.displayText || "";
+                li.textContent = option.textContent;
+                ul.appendChild(li);
+            });
+            const current = dropdownDiv.querySelector(".current");
+            current.textContent = dropdownSelect.options[dropdownSelect.selectedIndex].dataset.displayText || dropdownSelect.options[dropdownSelect.selectedIndex].textContent;
+        }
+    }
   } catch (error) {
     console.error('Error fetching contributors data:', error);
   }

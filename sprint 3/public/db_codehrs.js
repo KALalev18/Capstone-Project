@@ -9,7 +9,7 @@ var codinghrsChart = new Chart(ctx3, {
       "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"
     ],
     datasets: [{
-      label: 'Coding Hours',
+      label: 'Average Coding Hours',
       data: [],
       backgroundColor: 'rgba(198, 13, 223, 0.91)',
       borderColor: 'rgba(172, 9, 212, 0.55)',
@@ -62,7 +62,8 @@ var codinghrsChart = new Chart(ctx3, {
   }
 });
 
-async function fetchAverageCodingHours() {
+// Modify the function to accept an optional contributor parameter (default is "all")
+async function fetchAverageCodingHours(contributor = "all") {
   const repoUrl = window.repoUrl;
   const githubToken = window.githubToken;
   const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -77,7 +78,6 @@ async function fetchAverageCodingHours() {
   let apiUrl = `https://api.github.com/repos/${username}/${repository}/commits?per_page=100&page=1`;
   let hourCounts = new Array(24).fill(0);
   let uniqueDates = new Set();
-  let commitCount = 0;
   let page = 1;
 
   try {
@@ -98,9 +98,11 @@ async function fetchAverageCodingHours() {
         const commitHour = commitDate.getHours();
         const dateStr = commitDate.toISOString().split('T')[0];
 
-        hourCounts[commitHour]++;
-        uniqueDates.add(dateStr);
-        commitCount++;
+        // Count this commit if no filter is set OR commit's author matches the selected contributor
+        if (contributor === "all" || (commit.author && commit.author.login === contributor)) {
+          hourCounts[commitHour]++;
+          uniqueDates.add(dateStr);
+        }
       });
 
       // Check for next page in GitHub pagination headers
@@ -118,6 +120,7 @@ async function fetchAverageCodingHours() {
   }
 }
 
+// Existing function to update the chart remains unchanged
 function updateCodingHoursChart(avgHourlyCommits) {
   const maxAvg = Math.max(...avgHourlyCommits);
   const yAxisMax = Math.ceil(maxAvg * 10) / 10; // Round up to nearest 0.1
@@ -127,5 +130,21 @@ function updateCodingHoursChart(avgHourlyCommits) {
   codinghrsChart.update();
 }
 
-// Fetch and update the chart with average coding hours data
+// Initially fetch and update the chart with whole repo data
 fetchAverageCodingHours();
+
+// Listen for changes on the dropdown (with id "mySelect")
+document.getElementById('mySelect').addEventListener('change', function() {
+    const selectedValue = this.value.trim(); // for "All", we set value to "all" in our dropdown update code
+    const codingChartContainer = document.querySelector('.codinghrs-chart');
+
+    // Show chart in any case
+    codingChartContainer.style.display = 'block';
+
+    // If "all" is selected, show whole repo data; otherwise, show filtered data
+    if (selectedValue === "all") {
+        fetchAverageCodingHours("all");
+    } else {
+        fetchAverageCodingHours(selectedValue);
+    }
+});
