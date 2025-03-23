@@ -475,7 +475,7 @@ button {
 .analysis-container {
   display: none;
   width: 90%;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 15px;
   border: 2px solid #ccc;
