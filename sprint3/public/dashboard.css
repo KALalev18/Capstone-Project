@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+:root {
+  --bg: #000000;
+  --clr-1: #00c2ff;
+  --clr-2: #33ff8c;
+  --clr-3: hsl(281, 100%, 50%);
+  --clr-4: #f200ff;
+
+  --blur: 1rem;
+  --fs: clamp(3rem, 8vw, 7rem);
+  --ls: clamp(-1.75px, -0.25vw, -3.5px);
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+body::selection {
+  background-color: #e90bcbce;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+*,
+*::before,
+*::after {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+.commits, .progress-box {
+  border: 1px solid white;
+  height: 450px;
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.progress-box {
+  position: relative;
+}
+
+.progress-box > div {
+  width: 100%;
+  height: 100%;
+}
+
+.progress-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.commits > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Make header a flex container to push first div left and second div right */
+.commit-header {
+  display: flex;
+
+  justify-content: space-between;
+  width: 100%;
+}
+
+.commit-header > div {
+  text-align: center;
+}
+
+/* Style the chart container as needed */
+.commit-chart {
+  width: 100%;
+  margin-top: 5px;
+  height: 250px; /* Adjust height as needed */
+}
+
+.commit-footer {
+  display: block;            
+  width: fit-content !important;  /* Let it size only to its content */
+  margin: 20px auto 0;         /* Center it horizontally with top margin */
+  text-align: center;         
+  padding: 10px 0;
+  border: none;   
+}
+
+.branch-card, .pull-request-card {
+  border: 1px solid white;
+  height: 130px; /* Card height for these small cards */
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.branch-header, .pull-request-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.branch-header > div, .pull-request-header > div {
+  text-align: center;
+}
+
+
+/* New styling for Contribution Card: similar to branch-card */
+.contribution-card {
+  border: 1px solid white;
+  height: 410px; /* Same height as branch-card */
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.contribution-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.contribution-header > div {
+  text-align: center;
+}
+
+.contribution-header h3 {
+  margin: 0;
+}
+
+.contribution-chart {
+  width: 100%;
+  height: 300px;
+}
+
+/* New styling for Deployment Card: similar to pull-request-card */
+.deployment-card {
+  border: 1px solid white;
+  height: 410px; 
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+
+
+/* Remove any background colors from the deployment card table */
+.deployment-card table,
+.deployment-card table thead,
+.deployment-card table tbody,
+.deployment-card table tr,
+.deployment-card table th,
+.deployment-card table td {
+  background-color: transparent ;
+  border-color: rgba(255, 255, 255, 0.1) ;
+  color: white;
+}
+
+.deployment-card table th{
+  border-bottom: none;
+}
+
+.deployment-card table td:first-child {
+  width: 70%;  
+}
+
+.deployment-card table td:last-child {
+  width: 30%;  
+  text-align: left;
+}
+
+
+.conflict { 
+  color: rgb(235, 9, 9);
+}
+
+
+.issues-card {
+  border: 1px solid white;
+  height: 560px; /* Same height as progress-box */
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.issues-card table,
+.issues-card table thead,
+.issues-card table tbody,
+.issues-card table tr,
+.issues-card table th,
+.issues-card table td {
+  background-color: transparent ;
+  border-color: rgba(255, 255, 255, 0.1) ;
+  color: white;
+}
+
+.issues-card table th{
+  border-bottom: none;
+}
+
+.issues-card table td {
+  font-size: 17px; /* Adjust this value as needed */
+  font-weight: 500; /* Optional: make the text slightly bolder */
+}
+
+.issues-card table td:first-child {
+  width: 70%;  
+}
+
+.issues-card table td:last-child {
+  width: 30%;  
+  text-align: left;
+}
+
+/* New styling for Coding Hours Card */
+.codinghrs-box {
+  border: 1px solid white;
+  height: 450px;
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.codinghrs-chart {
+  width: 100%;
+  margin-top: 20px;
+  height: 350px; /* Adjust height as needed */
+}
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style_new_design.css" />
+    <title>Code CodeAsseser</title>
+  </head>
+  <body>
+    <div class="content">
+      <h1 class="title">
+        Welcome to the CodeAsseser
+        <div class="aurora">
+          <div class="aurora__item"></div>
+          <div class="aurora__item"></div>
+          <div class="aurora__item"></div>
+          <div class="aurora__item"></div>
+        </div>
+      </h1>
+      <p class="subtitle">Upload --- Paste --- Link</p>
+      <div class="button-container">
+        <a
+          class="aurora-glow-button1"
+          href="Analysis_Upload.html"
+          style="text-decoration: none"
+          >Upload the File</a
+        >
+        <a class="aurora-glow-button2" href="#" style="text-decoration: none"
+          >Paste the Code</a
+        >
+        <a
+          class="aurora-glow-button3"
+          href="#"
+          id="github-link-button"
+          style="text-decoration: none"
+          >Link to Github Repo</a
+        >
+      </div>
+      
+      <div class="code-input-container" style="display: none">
+        <div class="line-numbers" id="line-numbers">
+          <div class="ace_gutter-cell" style="height: 19px">1</div>
+        </div>
+        <textarea
+          id="code-input"
+          class="code-input"
+          placeholder="Paste your code here..."
+          spellcheck="false"
+        ></textarea>
+       
+      </div>
+      <a class="aurora-glow-button4" href="#" style="text-decoration: none"
+      >Process the Code</a
+    >
+    <!-- Container to display the analysis result -->
+    <div class="analysis-container" >
+      <h2></h2> 
+      <div class="analysis-result"></div>
+  </div>
+
+
+
+      <!-- Paste the link to the git hub -->
+      <!-- for let the display be visible and in the future will change that -->
+      <div class="upload-code-container" style="opacity: 0; transition: opacity 1s;">
+        <input
+          type="text"
+          class="input-field"
+          placeholder="https://github.com/..."
+          spellcheck="false"
+        />
+        <button id="view-stats-button">View Stats</button>
+        <div id="error-message" style="color: red; margin-top: 10px"></div>
+      </div>
+    </div>
+    <script src="script_textarea.js"></script>
+    <script src="script_fileupload.js"></script>
+    <script>
+      document.getElementById('github-link-button').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the link from navigating
+        var uploadCodeContainer = document.querySelector('.upload-code-container');
+        uploadCodeContainer.style.opacity = 1;
+      });
+    </script>
+  </body>
+</html>
