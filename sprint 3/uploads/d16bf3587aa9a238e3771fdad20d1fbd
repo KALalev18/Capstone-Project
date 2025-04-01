@@ -1,0 +1,238 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "Node.h"
+#include "Tree.h"
+
+// Forward declarations
+void displayMenu();
+int getValidMenuChoice();
+void getNonEmptyLine(const char* prompt, char* buffer, size_t size);
+
+void menuInsertNode(Tree *tree);
+void searchNode(Tree *tree);
+void menuDeleteNode(Tree *tree);
+void loadFromFile(Tree *tree);
+void storeToFile(Tree *tree);
+void printTree(Tree *tree);
+
+int main() {
+    Tree *tree = createTree();
+    int choice;
+
+    do {
+        displayMenu();
+        choice = getValidMenuChoice();  // Stay here until user picks a valid option 0–6
+        switch (choice) {
+            case 1:
+                menuInsertNode(tree);
+                break;
+            case 2:
+                searchNode(tree);
+                break;
+            case 3:
+                menuDeleteNode(tree);
+                break;
+            case 4:
+                loadFromFile(tree);
+                break;
+            case 5:
+                storeToFile(tree);
+                break;
+            case 6:
+                printTree(tree);
+                break;
+            case 0:
+                printf("Exiting the program.\n");
+                break;
+            default:
+                // Should never reach here, but just in case
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+
+    freeTree(tree);
+    return 0;
+}
+
+// Prints the menu
+void displayMenu() {
+    printf("\nMenu:\n");
+    printf("1. Insert Node\n");
+    printf("2. Search Node\n");
+    printf("3. Delete Node\n");
+    printf("4. Load from File\n");
+    printf("5. Store to File\n");
+    printf("6. Print Tree\n");
+    printf("0. Exit\n");
+}
+
+// Continuously prompts for a menu choice 0–6 without reprinting the entire menu
+int getValidMenuChoice() {
+    char input[20];
+    int val;
+    while (1) {
+        printf("Enter your choice: ");
+        if (!fgets(input, sizeof(input), stdin)) {
+            printf("Please enter a choice between 0 to 6\n");
+            continue;
+        }
+        input[strcspn(input, "\n")] = '\0';  // Strip newline
+
+        if (strlen(input) == 0) {
+            printf("Please enter a choice between 0 to 6\n");
+            continue;
+        }
+
+        // Check if all characters are digits
+        int isDigit = 1;
+        for (size_t i = 0; i < strlen(input); i++) {
+            if (!isdigit((unsigned char)input[i])) {
+                isDigit = 0;
+                break;
+            }
+        }
+        if (!isDigit) {
+            printf("Please pick a choice between 0 to 6\n");
+            continue;
+        }
+
+        val = atoi(input);
+        if (val < 0 || val > 6) {
+            printf("Please pick a choice between 0 to 6\n");
+            continue;
+        }
+        return val;  // Valid choice
+    }
+}
+
+// Continuously prompts for a non-empty line
+void getNonEmptyLine(const char* prompt, char* buffer, size_t size) {
+    while (1) {
+        printf("%s", prompt);
+        if (!fgets(buffer, size, stdin)) {
+            printf("Input error, please try again.\n");
+            continue;
+        }
+        buffer[strcspn(buffer, "\n")] = '\0';
+        if (strlen(buffer) == 0) {
+            printf("Please do not leave blank. Try again.\n");
+            continue;
+        }
+        break;
+    }
+}
+
+// Insert Node
+void menuInsertNode(Tree *tree) {
+    char key[30], description[200];
+
+    while (1) {
+        getNonEmptyLine("Enter key: ", key, sizeof(key));
+
+        // Check for duplicate key before asking for description
+        if (search(tree, key) != NULL) {
+            printf("Duplicate key: %s. Node not inserted.\n", key);
+            continue; // Ask the user for another key
+        }
+
+        getNonEmptyLine("Enter description: ", description, sizeof(description));
+
+        Node *newNode = createNode(key, description);
+        if (newNode != NULL) {
+            insertNode(tree, newNode);
+            printf("'%s' and '%s' has been inserted.\n", key, description);
+        }
+        break;
+    }
+}
+
+// Search Node
+void searchNode(Tree *tree) {
+    char key[30];
+    getNonEmptyLine("Enter key to search: ", key, sizeof(key));
+    Node *result = search(tree, key);
+    if (result) {
+        printf("Found: %s - %s\n", result->key, result->description);
+    } else {
+        printf("Node with key '%s' not found.\n", key);
+    }
+}
+
+// Delete Node
+void menuDeleteNode(Tree *tree) {
+    char key[30];
+    getNonEmptyLine("Enter key to delete: ", key, sizeof(key));
+    Node *result = search(tree, key);
+    if (result) {
+        deleteNode(tree, key);
+        printf("'%s' has been deleted.\n", key);
+    } else {
+        printf("'%s' does not exist for deletion.\n", key);
+    }
+}
+
+// Load from file
+void loadFromFile(Tree *tree) {
+    char filename[100];
+    getNonEmptyLine("Enter filename to load: ", filename, sizeof(filename));
+    loadTextFile(tree, filename); 
+}
+
+// Store to file
+void storeToFile(Tree *tree) {
+    char filename[100];
+    getNonEmptyLine("Enter filename to store: ", filename, sizeof(filename));
+    storeTextFile(tree, filename);
+}
+
+// Print Tree
+void printTree(Tree *tree) {
+    // If tree is empty
+    if (treeEmpty(tree)) {
+        printf("No tree found.\n");
+        return;
+    }
+
+    char input[20];
+    int n;
+
+    while (1) {
+        printf("Enter number of nodes to print: ");
+        if (!fgets(input, sizeof(input), stdin)) {
+            printf("Please enter a valid integer.\n");
+            continue;
+        }
+        input[strcspn(input, "\n")] = '\0';
+        if (strlen(input) == 0) {
+            printf("Please enter a valid integer.\n");
+            continue;
+        }
+        // Check if numeric
+        int isNum = 1;
+        for (size_t i = 0; i < strlen(input); i++) {
+            if (!isdigit((unsigned char)input[i])) {
+                isNum = 0;
+                break;
+            }
+        }
+        if (!isNum) {
+            printf("Please enter a valid integer.\n");
+            continue;
+        }
+        n = atoi(input);
+        if (n < 1) {
+            printf("Please enter a positive integer.\n");
+            continue;
+        }
+        break;  // Valid
+    }
+
+    inorderPrint(tree, n);
+
+    int totalCount = countNodes(tree);
+    if (n > totalCount) {
+        printf("\nThere were only %d nodes in the tree and not %d\n", totalCount, n);
+    }
+}

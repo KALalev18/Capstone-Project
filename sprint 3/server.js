@@ -13,6 +13,10 @@ const API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 app.use(express.static("public"));
 
+app.get('/', (req, res) => {
+  res.redirect('/FrontPage.html');
+});
+
 app.post("/", upload.single("file"), async (req, res) => {
     if (!req.file) {
         console.error("No file uploaded.");

@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+char asciiToChar(int asciiValue) {
+    return (char) asciiValue;
+}
+
+int charToAscii(char c) {
+    return (int) c;
+}
+
+int main() {
+    int pick, asciiValue;
+    char c;
+    int firstit = 1;
+
+    do {
+        if (firstit) {
+            printf("Menu:\n");
+            firstit = 0;
+        } else {
+            printf("\nMenu:\n");
+        }
+
+        printf("1. Convert ASCII value to character\n");
+        printf("2. Convert character to ASCII value\n");
+        printf("0. Exit\n");
+        printf("Enter your choice:\n");
+        scanf("%d", &pick);
+
+        switch (pick) {
+            case 1:
+                printf("Enter an ASCII value:\n");
+                scanf("%d", &asciiValue);
+                printf("The character for ASCII value %d is '%c'.\n", asciiValue, asciiToChar(asciiValue));
+                break;
+            case 2:
+                printf("Enter a character:\n");
+                scanf(" %c", &c);
+                printf("The ASCII value for character '%c' is %d.\n", c, charToAscii(c));
+                break;
+            case 0:
+                printf("Exiting the program. Goodbye!\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (pick != 0);
+
+    return 0;
+}
