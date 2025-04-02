@@ -1,123 +1,96 @@
-import requests
+from datetime import datetime, timedelta
+from meteostat import Hourly, Stations
+from geopy.geocoders import Nominatim
+import warnings
 import pandas as pd
-from datetime import datetime
-from dotenv import load_dotenv
-import os
-import matplotlib.pyplot as plt
+import json
 
-#'Weather data provided by OpenWeather'
-#Hyperlink to our website https://openweathermap.org/
-# TODO: add logo according to the guidelines on the website for accreditation
-# THIS NEEDS TO BE DONE ACCORDING TO THEIR WEBSITE
+warnings.filterwarnings("ignore", category=FutureWarning)
 
-load_dotenv()
-API_KEY = os.getenv('OPENWEATHER_API_KEY') # API key can be obtained from https://home.openweathermap.org/users/sign_up Get the free plan.
-CITY = "London" # Any city
-#	Hourly forecast: unavailable
-#   Daily forecast: unavailable
-#   Calls per minute: 60
-#   3 hour forecast: 5 days
+weather_conditions = {
+    1: "Clear", 2: "Fair", 3: "Cloudy", 4: "Overcast", 5: "Fog", 6: "Freezing Fog",
+    7: "Light Rain", 8: "Rain", 9: "Heavy Rain", 10: "Freezing Rain", 11: "Heavy Freezing Rain",
+    12: "Sleet", 13: "Heavy Sleet", 14: "Light Snowfall", 15: "Snowfall", 16: "Heavy Snowfall",
+    17: "Rain Shower", 18: "Heavy Rain Shower", 19: "Sleet Shower", 20: "Heavy Selt Shower",
+    21: "Snow Shower", 22: "Heavy Snow Shower", 23: "Lightning", 24: "Hail", 25: "Thunderstorm",
+    26: "Heavy Thunderstorm", 27: "Storm"
+}
 
 
+def interpolate_coco(data):
+    data = data.sort_index()
+    for i in range(len(data)):
+        if pd.isna(data.iloc[i]['coco']):
+            original_index = data.index[i]
+            for offset in range(1, 4):
+                prev_hour = original_index - timedelta(hours=offset)
+                if prev_hour in data.index and not pd.isna(data.loc[prev_hour, 'coco']):
+                    data.at[original_index, 'coco'] = data.loc[prev_hour, 'coco']
+                    break
+                next_hour = original_index + timedelta(hours=offset)
+                if next_hour in data.index and not pd.isna(data.loc[next_hour, 'coco']):
+                    data.at[original_index, 'coco'] = data.loc[next_hour, 'coco']
+                    break
+    return data
 
-#### Demonstration of openweather API. We get the data here, we can process the data through the .csv we get ####
-### Current weather data
-def fetch_current_weather(city): # Fetch weather data for current weather with params.
-    base_url = "http://api.openweathermap.org/data/2.5/weather"
-    params = {
-        "q": city,
-        "appid": API_KEY,
-        "units": "metric"
-    }
-    
+
+def get_best_station(city_name):
+    geolocator = Nominatim(user_agent="weather_app")
+    location = geolocator.geocode(city_name)
+    if not location:
+        raise ValueError(f"City '{city_name}' not found.")
+    print(f"Coordinates for '{city_name}': Latitude={location.latitude}, Longitude={location.longitude}")
+    stations = Stations().nearby(location.latitude, location.longitude)
+    station_list = stations.fetch(10)
+    if station_list.empty:
+        raise ValueError(f"No weather stations found for '{city_name}'.")
+    print("Available Stations:")
+    print(station_list)
+    for _, station in station_list.iterrows():
+        station_id = station.name
+        print(f"Trying station ID: {station_id}")
+        start = datetime(2018, 1, 1)
+        end = datetime(2018, 12, 31, 23, 59)
+        data = Hourly(station_id, start, end).fetch()
+        if not data.empty and not data['coco'].isna().all():
+            print(f"Selected station ID: {station_id} with valid data")
+            return station_id
+    raise ValueError(f"No station with valid data found for '{city_name}'.")
+
+
+def fetch_weather_data(city_name, start_date, end_date):
     try:
-        response = requests.get(base_url, params=params, timeout=10)
-        data = response.json()
-        
-        if response.status_code == 200:
-            return {
-                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "temp": data["main"]["temp"],
-                "humidity": data["main"]["humidity"],
-                "pressure": data["main"]["pressure"],
-                "weather_main": data["weather"][0]["main"],
-                "weather_desc": data["weather"][0]["description"],
-                "clouds": data["clouds"]["all"],
-                "wind_speed": data["wind"]["speed"]
-            }
-        else:
-            print(f"API Error: {data.get('message', 'Unknown error')}")
-            return None
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-        return None
+        station_id = get_best_station(city_name)
+        print(f"Using weather station ID: {station_id} for '{city_name}'")
+        data = Hourly(station_id, start_date, end_date).fetch()
+        data = interpolate_coco(data)
 
-def store_weather_data(weather_data, file_path="weather_data.csv"):
-    df = pd.DataFrame([weather_data])
-    
-    try:
-        # Try to append to existing file
-        existing_df = pd.read_csv(file_path)
-        updated_df = pd.concat([existing_df, df], ignore_index=True)
-        updated_df.to_csv(file_path, index=False)
-    except FileNotFoundError:
-        # Create new file if it doesn't exist
-        df.to_csv(file_path, index=False)
-        
-    return True
+        # Print the header
+        print("\nDate\t\tTime\t\tWeather Condition")
+        print("-" * 40)
+
+        # Print data on screen
+        for index, row in data.iterrows():
+            date_time = index
+            coco = row.get('coco')
+            if pd.isna(coco):
+                weather_condition = "No Data"
+            elif coco == 0.0:
+                weather_condition = "No Data"
+            else:
+                weather_condition = weather_conditions.get(coco, f"Code {coco}")
+            print(f"{date_time.strftime('%Y-%m-%d')}\t{date_time.strftime('%H:%M:%S')}\t{weather_condition}")
+
+        # Save data to JSON file
+        data_dict = data.reset_index().to_dict(orient='records')
+        with open('weather_data.json', 'w') as f:
+            json.dump(data_dict, f, default=str)
+        print("\nWeather data saved to 'weather_data.json'")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-
-### Forecast data (probably unnecessary, but here just in case)
-def fetch_forecast(city): # Fetch weather data for forecast with params.
-    base_url = "http://api.openweathermap.org/data/2.5/forecast"
-    params = {
-        "q": city,
-        "appid": API_KEY,
-        "units": "metric"
-    }
-    
-    try:
-        response = requests.get(base_url, params=params, timeout=10)
-        data = response.json()
-        
-        if response.status_code == 200:
-            forecast_data = []
-            for item in data["list"]:
-                forecast_data.append({
-                    "timestamp": item["dt_txt"],
-                    "temp": item["main"]["temp"],
-                    "humidity": item["main"]["humidity"],
-                    "pressure": item["main"]["pressure"],
-                    "weather_main": item["weather"][0]["main"],
-                    "weather_desc": item["weather"][0]["description"],
-                    "clouds": item["clouds"]["all"],
-                    "wind_speed": item["wind"]["speed"]
-                })
-            return forecast_data
-        else:
-            print(f"API Error: {data.get('message', 'Unknown error')}")
-            return None
-    except requests.exceptions.RequestException as e:
-        print(f"Request failed: {e}")
-        return None
-
-def store_forecast_data(forecast_data, file_path="forecast_data.csv"):
-    df = pd.DataFrame(forecast_data)
-    df.to_csv(file_path, index=False)
-    return True
-
-
-
-### Main
-# Get and store current weather. TODO: Assess if the .csv should be in .gitignore and if we need to delete this data after usage.
-weather_data = fetch_current_weather(CITY)
-if weather_data:
-    store_weather_data(weather_data)
-    print(f"Current weather data for {CITY} has been stored.")
-
-# Get and store forecast data.
-forecast_data = fetch_forecast(CITY)
-if forecast_data:
-    store_forecast_data(forecast_data)
-    print(f"5-day forecast for {CITY} has been stored.")
+city_name = input("Enter the name of the city: ").strip()
+start_date = datetime.strptime(input("Enter start date (YYYY-MM-DD): "), "%Y-%m-%d")
+end_date = datetime.strptime(input("Enter end date (YYYY-MM-DD): "), "%Y-%m-%d")
+fetch_weather_data(city_name, start_date, end_date)
