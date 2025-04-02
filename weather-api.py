@@ -65,11 +65,9 @@ def fetch_weather_data(city_name, start_date, end_date):
         data = Hourly(station_id, start_date, end_date).fetch()
         data = interpolate_coco(data)
 
-        # Print the header
         print("\nDate\t\tTime\t\tWeather Condition")
         print("-" * 40)
 
-        # Print data on screen
         for index, row in data.iterrows():
             date_time = index
             coco = row.get('coco')
@@ -81,7 +79,6 @@ def fetch_weather_data(city_name, start_date, end_date):
                 weather_condition = weather_conditions.get(coco, f"Code {coco}")
             print(f"{date_time.strftime('%Y-%m-%d')}\t{date_time.strftime('%H:%M:%S')}\t{weather_condition}")
 
-        # Save data to JSON file
         data_dict = data.reset_index().to_dict(orient='records')
         with open('weather_data.json', 'w') as f:
             json.dump(data_dict, f, default=str)
