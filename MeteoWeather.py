@@ -4,26 +4,29 @@
 # Weather code meanings: https://dev.meteostat.net/formats.html#weather-condition-codes
 
 # Meteostat python hourly: https://dev.meteostat.net/python/api/hourly/
-"""# Import Meteostat library and dependencies
+# Import Meteostat library and dependencies
 from datetime import datetime
 from meteostat import Hourly
 
-# Set time period
-start = datetime(2025, 1, 1)
-end = datetime(2025, 3, 22)
+# Example usage: Replace with frontend input
+start = datetime(2001, 1, 1)
+end_date = datetime.now()
 
 # Get hourly data
-data = Hourly('NY', start, end)
-data = data.fetch()
+def hourlyData(station_id, start_date, end_date):
+    data = Hourly(station_id, start_date, end_date)
+    return data.fetch()
+# e.g data = Hourly('EGTK07', start, end)
+# data = data.fetch()
 
-# Print DataFrame
-print(data)"""
+# Print the data example
+print(hourlyData('EGTK07', start, end_date))
 
 
 # Shows GB region stations
 #https://dev.meteostat.net/python/api/stations/count.html
-"""
-from meteostat import Stations
+
+"""from meteostat import Stations
 
 stations = Stations()
 stations = stations.region('GB')
