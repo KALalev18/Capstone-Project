@@ -89,7 +89,7 @@ def fetch_weather_data(city_name, start_date, end_date):
     except Exception as e:
         print(f"Error: {e}")
 
-
+#remove as neccessary
 city_name = input("Enter the name of the city: ").strip()
 start_date = datetime.strptime(input("Enter start date (YYYY-MM-DD): "), "%Y-%m-%d")
 end_date = datetime.strptime(input("Enter end date (YYYY-MM-DD): "), "%Y-%m-%d")
