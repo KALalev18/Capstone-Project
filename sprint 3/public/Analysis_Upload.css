@@ -336,7 +336,6 @@ label .inner-container .file-type-info {
   color: #f8f8f2; 
   padding: 5px 5px 5px 5px;
   margin: 5px 5px 5px 5px;
-
   overflow-x: auto;  
   white-space: pre-wrap;  
   word-wrap: break-word;  
@@ -344,4 +343,63 @@ label .inner-container .file-type-info {
 
 h1,h2,h3{
   margin: 0px 0px 0px 0px;
+}
+
+.button-container {
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #b1afafe5;
+  cursor: pointer;
+  transition: background-color 0.5s, border-color 0.25s;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#file-names {
+  display: none;
+  margin-top: 20px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.file-names {
+  margin-top: 10px;
+}
+
+.file-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.file-name {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.remove-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-button:hover {
+  background-color: #ff1a1a;
 }

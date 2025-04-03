@@ -19,7 +19,7 @@
     </h1>
     
     <!-- Hidden file input -->
-    <input type="file" id="code-upload" style="display: none;" onchange="handleFileChange(event)">
+    <input type="file" id="code-upload" style="display: none;" multiple onchange="handleFileChange(event)">
     
     <!-- Custom file upload label -->
     <label for="code-upload" id="upload-form" enctype="multipart/form-data">
@@ -41,36 +41,23 @@
             </div>
         </div>
     </label>
+    <div id="file-names" class="file-names"></div>
 
- 
+    <!-- Add a container for the buttons -->
+    <div class="button-container">
+        <!-- Give each button a unique ID -->
+        <button id="analyse-button" disabled>Analyse File</button>
+        <button id="generate-graph-button" disabled>Generate Function Graph</button>
+    </div>
+    
+
     <div id="analysis-result" class="analysis-result">
         <pre>
-            // The Analysis will be displayed here.
+            // The Analysis or the Processed file Pictures will be displayed here.
         </pre>
     </div>
     
 
-    <script>
-        // Handle file input change
-        function handleFileChange(event) {
-            const formData = new FormData();
-            formData.append("file", event.target.files[0]);
-
-            fetch('/', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('analysis-result').innerHTML = data;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        document.getElementById("upload-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            document.getElementById('file-input').click();
-        });
-    </script>
+    <script src="./Analysis_upload.js"></script>
 </body>
 </html>
