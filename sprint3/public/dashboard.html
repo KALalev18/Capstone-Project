@@ -23,7 +23,7 @@
       <!-- the first row -->
       <div class="row gx-4">
         <!-- the commit card -->
-        <div class="col-lg-4" onclick="window.location='template.html';">
+        <div id = "commits" class="col-lg-4" >
           <div class="commits p-4">
             <div class="commit-header">
               <div>
@@ -46,8 +46,8 @@
         </div>
 
         <!-- the progress card -->
-        <div class="col-lg-8 mt-4 mt-lg-0" onclick="window.location='template.html';">
-          <div class="progress-box p-3">
+        <div class="col-lg-4" >
+          <div class="progress-box p-3" id="progress">
             <div>
               <canvas id="progressChart"></canvas>
             </div>
@@ -61,8 +61,8 @@
         <div class="col-lg-6">
           <div class="row">
             <!-- Branch Card (left half) -->
-            <div class="col-6" onclick="window.location='template.html';">
-              <div class="branch-card p-4">
+            <div class="col-6" >
+              <div class="branch-card p-4" id = 'branches'>
                 <div class="branch-header">
                   <div>
                     <h1></h1>
@@ -80,8 +80,8 @@
               </div>
             </div>
             <!-- Pull Request Card (right half) -->
-            <div class="col-6" onclick="window.location='template.html';">
-              <div class="pull-request-card p-4">
+            <div class="col-6" >
+              <div class="pull-request-card p-4" id = 'prs'>
                 <div class="pull-request-header">
                   <div>
                     <h1></h1>
@@ -107,8 +107,8 @@
           <!-- Second nested row: Contribution and Deployment  -->
           <div class="row mt-4">
             <!-- Contribution Card -->
-            <div class="col-lg-5" onclick="window.location='template.html';">
-              <div class="contribution-card p-4">
+            <div class="col-lg-5" >
+              <div class="contribution-card p-4" id="contributor">
                 <div class="contribution-header">
                   <div>
                     <div class="contribution-chart">
@@ -121,8 +121,8 @@
             </div>
 
             <!-- Deployment Card  -->
-            <div class="col-lg-7 mt-4 mt-lg-0" onclick="window.location='template.html';">
-              <div class="deployment-card p-4">
+            <div class="col-lg-7 mt-4 mt-lg-0" >
+              <div class="deployment-card p-4" id="deployment">
                 <!-- Remove "table-striped" here to eliminate row shading -->
                 <div class="table-responsive">
                   <table class="table">
@@ -175,8 +175,8 @@
         </div>
 
         <!-- Right group: Issues Card remains unchanged -->
-        <div class="col-lg-6 mt-4 mt-lg-0" onclick="window.location='template.html';">
-          <div class="issues-card p-3">
+        <div class="col-lg-6 mt-4 mt-lg-0" >
+          <div class="issues-card p-3" id = 'issue'>
             <div class="text-center mb-5 mt-3">
               <h3></h3>
             </div>
@@ -261,5 +261,6 @@
     <script src="db_branches.js"></script>
     <script src="db_deployment.js"></script>
     <script src="dropdown.js"></script>
+    <script src="templates/templates.js"></script>
   </body>
 </html>
