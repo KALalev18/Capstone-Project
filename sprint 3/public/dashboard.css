@@ -308,7 +308,7 @@ h3 {
   margin: .33em 0;
 }
 
-table {
+.calendar-table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
