@@ -282,6 +282,27 @@ body {
   box-shadow: 0 0 20px #32cd32;
 }
 
+.aurora-glow-button4 {
+  display: block;
+  width: 230px;
+  padding: 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.4rem;
+  color: #fff;
+  background: linear-gradient(145deg, #32cd32, #1e90ff);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.aurora-glow-button4:hover {
+  box-shadow: 0 0 20px #32cd32;
+}
+
 /* Code input container */
 .code-input-container {
   margin-top: 40px;
@@ -451,4 +472,66 @@ button {
   cursor: pointer;
   transition: background-color 0.5s, border-color 0.25s;
   margin-top: 20px;
+}
+
+/* Additional styles for the analysis result container */
+/* Completely revised analysis container styles */
+.analysis-container {
+  display: none;
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* Force ALL elements inside analysis-result to wrap text */
+.analysis-container *,
+.analysis-result *,
+.analysis-container pre,
+.analysis-result pre,
+.analysis-container code,
+.analysis-result code {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+/* Specific fix for code blocks that might be nested */
+.analysis-result pre code {
+  display: inline-block !important;
+  width: 100% !important;
+}
+
+/* Style tables to fit properly */
+.analysis-result table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+
+.analysis-result td, 
+.analysis-result th {
+  word-break: break-word !important;
+  padding: 5px !important;
+  border: 1px solid #444 !important;
+}
+
+/* For any inline elements */
+.analysis-result span, 
+.analysis-result a, 
+.analysis-result strong, 
+.analysis-result em {
+  display: inline !important;
 }

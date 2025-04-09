@@ -6,13 +6,16 @@ window.onload = function() {
     const uploadCodeContainer = document.querySelector('.upload-code-container');
     const pasteButton = document.querySelector('.aurora-glow-button2');
     const linkButton = document.querySelector('.aurora-glow-button3');
+    const processButton = document.querySelector('.aurora-glow-button4');
+    const analysisContainer = document.querySelector('.analysis-container');
     
     if (!codeInput || !lineNumbers) {
         console.error('Could not find code input or line numbers elements');
         return;
     }
-    
-    // Show code input container when "Paste the Code" button is clicked
+    processButton.style.display = 'none';
+    // analysisContainer.style.display = 'none';
+   // Show code input container when "Paste the Code" button is clicked
     if (pasteButton) {
         pasteButton.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default anchor behavior
@@ -31,6 +34,7 @@ window.onload = function() {
                 
                 // Scroll to the container to ensure it's visible
                 codeInputContainer.scrollIntoView({ behavior: 'smooth' });
+                processButton.style.display = 'block';
             }
         });
     }
@@ -43,6 +47,16 @@ window.onload = function() {
             // Hide the code input container if it's visible
             if (codeInputContainer) {
                 codeInputContainer.style.display = 'none';
+            }
+            
+            // Hide the analysis container
+            if (analysisContainer) {
+                analysisContainer.style.display = 'none';
+            }
+            
+            // Hide the Process Code button
+            if (processButton) {
+                processButton.style.display = 'none';
             }
             
             // Show the GitHub repo container
@@ -150,7 +164,15 @@ window.onload = function() {
         setTimeout(() => { codeInput.scrollTop = 0; }, 0);
         setTimeout(() => { codeInput.scrollTop = 0; }, 10);
         setTimeout(() => { codeInput.scrollTop = 0; }, 50);
-        setTimeout(() => { codeInput.scrollTop = 0; }, 100);
+        
+        // Add this: Scroll to the process button after a short delay
+        setTimeout(() => {
+            // Ensure the process button is visible
+            processButton.style.display = 'block';
+            
+            // Scroll to the process button
+            processButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 200);
     });
     
     // Sync horizontal scrolling only (vertical scrolling is no longer needed)
@@ -195,6 +217,119 @@ window.onload = function() {
         //nothing haapens for now
         const inputField = document.querySelector('.input-field');
     };
+
+    // Function to show an error message
+    function showError(message, errorId) {
+        clearError(errorId); // Clear existing error if any
+        const error = document.createElement('p');
+        error.id = errorId;
+        error.textContent = message;
+        error.style.color = 'red';
+        error.style.marginTop = '10px';
+        error.style.fontWeight = 'bold';
+        error.style.textAlign = 'center';
+        document.querySelector('.content').appendChild(error);
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            clearError(errorId);
+        }, 3000);
+    }
+
+    // Function to clear error messages
+    function clearError(errorId) {
+        const error = document.getElementById(errorId);
+        if (error) {
+            error.remove();
+        }
+    }
+
+    // Function to show a status message
+    function showStatus(message, statusId) {
+        clearStatus(statusId);
+        const status = document.createElement('p');
+        status.id = statusId;
+        status.textContent = message;
+        status.style.color = '#50e52c';
+        status.style.marginTop = '10px';
+        status.style.fontWeight = 'bold';
+        status.style.textAlign = 'center';
+        document.querySelector('.content').appendChild(status);
+        return status;
+    }
+
+    // Function to clear status messages
+    function clearStatus(statusId) {
+        const status = document.getElementById(statusId);
+        if (status) {
+            status.remove();
+        }
+    }
+
+    // Function to show a success message
+    function showSuccess(message, statusId) {
+        const status = document.getElementById(statusId);
+        if (status) {
+            status.textContent = message;
+            status.style.color = '#f62df5';
+            
+            // Auto-remove after 1 second
+            setTimeout(() => {
+                clearStatus(statusId);
+            }, 1000);
+        }
+    }
+
+    // Add event listener for "Process the Code" button
+    if (processButton) {
+        processButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the code from the textarea
+            const code = codeInput.value.trim();
+
+            // Check if code is not empty
+            if (!code) {
+                showError("Please paste or type some code before processing.", "process-error");
+                return;
+            }
+
+            // Show processing status
+            const statusElement = showStatus("Processing code...", "process-status");
+            
+            // Scroll to the status message
+            setTimeout(() => {
+                statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+            
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the analysis result
+                if (analysisContainer) {
+                    analysisContainer.style.display = 'block';
+                }
+                analysisContainer.innerHTML = data;
+                showSuccess("", "process-status");
+                
+                // Scroll to the analysis container
+                setTimeout(() => {
+                    analysisContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            })
+            .catch(error => {
+                console.error("Error processing the code:", error);
+                showError("Error processing the code. Please try again.", "process-error");
+                clearStatus("process-status");
+            });
+        });
+    }
 };
 
 
@@ -205,11 +340,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const linkToGithubButton = document.querySelector('.aurora-glow-button3');
     const uploadCodeContainer = document.querySelector('.upload-code-container');
     const codeInputContainer = document.querySelector('.code-input-container');
+    const analysisContainer = document.querySelector('.analysis-container');
+    const processButton = document.querySelector('.aurora-glow-button4');
     
     linkToGithubButton.addEventListener('click', function(e) {
         e.preventDefault();
         uploadCodeContainer.style.display = 'flex';
         codeInputContainer.style.display = 'none';
+        
+        // Also hide the analysis container and process button
+        if (analysisContainer) {
+            analysisContainer.style.display = 'none';
+        }
+        
+        if (processButton) {
+            processButton.style.display = 'none';
+        }
     });
     
     // Handle "View Stats" button click
