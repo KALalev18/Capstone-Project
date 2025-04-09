@@ -1,0 +1,28 @@
+name: "SonarCloud Scan"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up SonarScanner
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          args: >
+            -Dsonar.organization=kalalev18
+            -Dsonar.projectKey=Capstone-Project
+            -Dsonar.python.coverage.reportPaths=coverage.xml
