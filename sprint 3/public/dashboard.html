@@ -231,25 +231,18 @@
 
     <!-- the third row -->
     <div class="row gx-4 mt-4 third-row">
-      <!-- the coding hours card -->
-      <div class="col-lg-12">
-        <!-- onclick="window.location='templates/prs.html';" -->
-        <div class="codinghrs-box p-3">
-          <!-- Dropdown Implementation -->
-          <select name="" id="mySelect">
-            <option value="1">All</option>
-          </select>
-          <!-- End Dropdown Implementation -->
-          <div class="codinghrs-chart">
-            <canvas id="codinghrsChart"></canvas>
-          </div>
-        </div>
+      <div class="col-lg-12 mt-4">
+        <!-- Dropdown Implementation -->
+      <select name="" id="mySelect">
+        <option value="1">All</option>
+      </select>
+      <!-- End Dropdown Implementation -->
       </div>
-
       <div class="col-lg-12">
         <!-- the calendar on the left -->
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <div class="calendar-container">
+            
             <div class="calendar">
               <header>
                 <h2>ㅤ</h2>
@@ -272,12 +265,22 @@
                 </tbody>
               </table>
             </div>
+            <!-- Add this element to display the selected date -->
+            <p id="selected-date" class="selected-date-display">Select a date</p>
           </div>
         </div>
-
-        <!-- the weather details on the right -->
-        <div class="col-lg-6"></div>
+      
+      <!-- the coding hours card -->
+      <div class="col-lg-12">
+        <!-- onclick="window.location='templates/prs.html';" -->
+        <div class="codinghrs-box p-3">
+          <div class="codinghrs-chart">
+            <canvas id="codinghrsChart"></canvas>
+          </div>
+        </div>
       </div>
+
+      
 
     </div>
   </div>

@@ -99,6 +99,14 @@ document.addEventListener('click', function (event) {
         const select = option.closest('.dropdown-select').previousElementSibling;
         select.value = option.dataset.value;
         select.dispatchEvent(new Event('change'));
+        
+        // Add a custom event to indicate this was a user-initiated contributor change
+        select.dispatchEvent(new CustomEvent('contributorChanged', {
+            detail: { 
+                value: option.dataset.value,
+                text: text 
+            }
+        }));
     }
 });
 

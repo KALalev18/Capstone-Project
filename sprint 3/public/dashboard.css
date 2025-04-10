@@ -343,7 +343,7 @@ h3 {
   border: 2px solid #e90bcbce;
 }
 
-.current-day {
+.select-day {
   background: #e90bcbce;
   color: white;
 }
@@ -388,7 +388,7 @@ h3 {
   width: .5em;
 }
 
-.event.current-day:after {
+.event.select-day:after {
   background: white ;
 }
 
@@ -424,4 +424,19 @@ h3 {
 
 .btn-next {
   right: 2em;
+}
+
+/* Style for the selected date display */
+.selected-date-display {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1.1em;
+  color: white;
+  min-height: 1.5em; /* Maintains consistent height even when empty */
+}
+
+/* Add this for date range selection */
+.calendar td.in-range {
+  background-color: rgba(233, 11, 203, 0.3); /* Lighter version of your select-day color */
+  border: 1px solid rgba(233, 11, 203, 0.5);
 }

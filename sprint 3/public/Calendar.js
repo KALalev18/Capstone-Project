@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let firstCommitMonth;
     let firstCommitYear;
 
+    // Add these variables for date range selection
+    let startDate = null;
+    let endDate = null;
+    let isSelectingRange = false;
+
     // Add these variables to store commit months information
     let currentContributor = "all";
     let commitMonthsArray = [];
@@ -192,23 +197,150 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     // Current month days
                     cell.textContent = date;
-
-                    // Check if it's today
-                    if (date === currentDate.getDate() && 
-                        currentMonth === currentDate.getMonth() && 
-                        currentYear === currentDate.getFullYear()) {
-                        cell.classList.add('current-day');
+                    const currentDateObj = new Date(currentYear, currentMonth, date);
+                    
+                    // Mark date as in-range if between start and end dates
+                    if (startDate && !endDate && isSelectingRange) {
+                        if (isSameDay(currentDateObj, startDate)) {
+                            cell.classList.add('select-day'); // Apply select-day to start date
+                        }
+                    } else if (startDate && endDate) {
+                        // Apply select-day to both start and end dates
+                        if (isSameDay(currentDateObj, startDate) || isSameDay(currentDateObj, endDate)) {
+                            cell.classList.add('select-day');
+                        }
+                        // Apply in-range to dates between start and end
+                        else if (currentDateObj > startDate && currentDateObj < endDate) {
+                            cell.classList.add('in-range');
+                        }
                     }
 
-                    // Add click handler to make any date the "current" date when clicked
-                    cell.addEventListener('click', function () {
-                        // Remove current-day class from all cells
+                    // Add double-click event listener to reset selection
+                    cell.addEventListener('dblclick', function(e) {
+                        e.preventDefault(); // Prevent any default behavior
+                        
+                        const selectedDay = parseInt(this.textContent);
+                        const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+                        const today = new Date();
+                        
+                        // Set today to midnight for proper comparison
+                        today.setHours(0, 0, 0, 0);
+                        
+                        // Check if selected date is in the future
+                        if (selectedDate > today) {
+                            document.getElementById('selected-date').textContent = "Future date selection is not possible";
+                            return; // Exit the function early
+                        }
+                        
+                        // Clear all selections
                         document.querySelectorAll('.calendar td').forEach(td => {
-                            td.classList.remove('current-day');
+                            td.classList.remove('select-day');
+                            td.classList.remove('in-range');
                         });
+                        
+                        // Reset selection and set this as the only selected date
+                        startDate = selectedDate;
+                        endDate = null;
+                        isSelectingRange = true;
+                        this.classList.add('select-day');
+                        
+                        // Display single date
+                        document.getElementById('selected-date').textContent = formatSelectedDate(selectedDate);
+                    });
 
-                        // Add current-day class to clicked cell
-                        this.classList.add('current-day');
+                    // Add click handler for date selection
+                    cell.addEventListener('click', function () {
+                        const selectedDay = parseInt(this.textContent);
+                        const selectedDate = new Date(currentYear, currentMonth, selectedDay);
+                        const today = new Date();
+                        
+                        // Set today to midnight for proper comparison
+                        today.setHours(0, 0, 0, 0);
+                        
+                        // Check if selected date is in the future
+                        if (selectedDate > today) {
+                            // Display error message and don't allow selection
+                            document.getElementById('selected-date').textContent = "Future date selection is not possible";
+                            return; // Exit the function early
+                        }
+                        
+                        // Check if clicking on the already selected single date
+                        if (startDate && !endDate && isSameDay(selectedDate, startDate)) {
+                            // Clear the selection
+                            document.querySelectorAll('.calendar td').forEach(td => {
+                                td.classList.remove('select-day');
+                                td.classList.remove('in-range');
+                            });
+                            startDate = null;
+                            endDate = null;
+                            isSelectingRange = false;
+                            document.getElementById('selected-date').textContent = 'Select a date';
+                            return; // Exit early
+                        }
+                        
+                        if (!startDate || !isSelectingRange) {
+                            // First click or starting a new selection
+                            // Clear all selections
+                            document.querySelectorAll('.calendar td').forEach(td => {
+                                td.classList.remove('select-day');
+                                td.classList.remove('in-range');
+                            });
+                            
+                            startDate = selectedDate;
+                            endDate = null;
+                            isSelectingRange = true;
+                            this.classList.add('select-day');
+                            
+                            // // Display single date
+                            // document.getElementById('selected-date').textContent = formatSelectedDate(selectedDate);
+                        } else if (startDate && !endDate) {
+                            // Second click - complete the range
+                            endDate = selectedDate;
+                            
+                            // Ensure startDate is the earlier date
+                            if (startDate > endDate) {
+                                const temp = startDate;
+                                startDate = endDate;
+                                endDate = temp;
+                            }
+                            
+                            // Refresh the calendar to show the full range correctly
+                            updateCalendar();
+                            
+                            // Update display for all dates in range
+                            updateDateRangeDisplay();
+                        } else if (startDate && endDate) {
+                            // Third or subsequent click - extend the range
+                            const extendedDate = selectedDate;
+                            
+                            // If the new date is before the start date, update start date
+                            if (extendedDate < startDate) {
+                                startDate = extendedDate;
+                            } 
+                            // If the new date is after the end date, update end date
+                            else if (extendedDate > endDate) {
+                                endDate = extendedDate;
+                            } 
+                            // If the new date is within the range, find the closest endpoint and update it
+                            else {
+                                // Calculate distances to start and end
+                                const distToStart = Math.abs(extendedDate - startDate);
+                                const distToEnd = Math.abs(extendedDate - endDate);
+                                
+                                // Update the closest endpoint
+                                if (distToStart <= distToEnd) {
+                                    startDate = extendedDate;
+                                } else {
+                                    endDate = extendedDate;
+                                }
+                            }
+                            
+                            // Refresh the calendar to show the updated range
+                            updateCalendar();
+                            
+                            // Update display for all dates in range
+                            updateDateRangeDisplay();
+                        }
                     });
 
                     // Check if it's a commit event day
@@ -235,6 +367,81 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Helper function to check if two dates are the same day
+    function isSameDay(date1, date2) {
+        return date1.getDate() === date2.getDate() && 
+               date1.getMonth() === date2.getMonth() && 
+               date1.getFullYear() === date2.getFullYear();
+    }
+
+    // Helper function to check if a date is between two others
+    function isBetweenDates(date, start, end) {
+        return date >= start && date <= end;
+    }
+
+    // Update the display when a complete range is selected
+    function updateDateRangeDisplay() {
+        if (startDate && endDate) {
+            const startFormatted = formatSelectedDate(startDate);
+            const endFormatted = formatSelectedDate(endDate);
+            document.getElementById('selected-date').textContent = `${startFormatted} - ${endFormatted}`;
+            
+            // Dispatch custom event with the date range
+            const dateRangeEvent = new CustomEvent('dateRangeSelected', {
+                detail: { start: startDate, end: endDate }
+            });
+            document.dispatchEvent(dateRangeEvent);
+        } else if (startDate) {
+            document.getElementById('selected-date').textContent = formatSelectedDate(startDate);
+        } else {
+            document.getElementById('selected-date').textContent = 'Select a date';
+            
+            // Dispatch event to reset date filter
+            const dateRangeEvent = new CustomEvent('dateRangeSelected', {
+                detail: { start: null, end: null }
+            });
+            document.dispatchEvent(dateRangeEvent);
+        }
+    }
+
+    // Add this helper function to format the date with proper ordinals
+    function formatSelectedDate(date) {
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        
+        // Add ordinal suffix to day
+        let suffix = 'th';
+        if (day === 1 || day === 21 || day === 31) {
+            suffix = 'st';
+        } else if (day === 2 || day === 22) {
+            suffix = 'nd';
+        } else if (day === 3 || day === 23) {
+            suffix = 'rd';
+        }
+        
+        return `${day}${suffix} ${month} ${year}`;
+    }
+
+    // Also add an event when date selection is cleared
+    document.getElementById('selected-date').addEventListener('click', function() {
+        // Clear all selections when clicking on the date display
+        document.querySelectorAll('.calendar td').forEach(td => {
+            td.classList.remove('select-day');
+            td.classList.remove('in-range');
+        });
+        startDate = null;
+        endDate = null;
+        isSelectingRange = false;
+        this.textContent = 'Select a date';
+        
+        // Dispatch event to reset the filter
+        const dateRangeEvent = new CustomEvent('dateSelectionReset', {
+            detail: { start: null, end: null }
+        });
+        document.dispatchEvent(dateRangeEvent);
+    });
+
     // Setup navigation buttons
     // Modify the prev button click handler to skip to previous month with commits
     document.querySelector('.btn-prev').addEventListener('click', function (e) {
@@ -251,6 +458,8 @@ document.addEventListener('DOMContentLoaded', function () {
             updatePrevButtonState();
             updateNextButtonState();
         }
+        // Add this to ensure date range highlighting is maintained when changing months
+        setTimeout(updateDateRangeDisplay, 10);
     });
 
     // Update the next button click handler to skip to next month with commits
@@ -268,11 +477,41 @@ document.addEventListener('DOMContentLoaded', function () {
             updatePrevButtonState();
             updateNextButtonState();
         }
+        // Add this to ensure date range highlighting is maintained when changing months
+        setTimeout(updateDateRangeDisplay, 10);
     });
 
     // Listen for dropdown changes
     document.getElementById('mySelect').addEventListener('change', function() {
         const selectedValue = this.value;
+        updateCalendarEvents(selectedValue);
+    });
+
+    // Add a listener specifically for user-initiated contributor changes
+    document.getElementById('mySelect').addEventListener('contributorChanged', function(event) {
+        const selectedValue = event.detail.value;
+        
+        // Clear all date selections
+        document.querySelectorAll('.calendar td').forEach(td => {
+            td.classList.remove('select-day');
+            td.classList.remove('in-range');
+        });
+        
+        // Reset date selection variables
+        startDate = null;
+        endDate = null;
+        isSelectingRange = false;
+        
+        // Update the text to prompt for date selection
+        document.getElementById('selected-date').textContent = 'Select a date for ' + event.detail.text;
+        
+        // Dispatch event to reset date filters but maintain contributor selection
+        const dateResetEvent = new CustomEvent('dateSelectionReset', {
+            detail: { contributor: selectedValue }
+        });
+        document.dispatchEvent(dateResetEvent);
+        
+        // Update calendar events for this contributor
         updateCalendarEvents(selectedValue);
     });
 
