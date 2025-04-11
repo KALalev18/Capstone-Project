@@ -440,3 +440,11 @@ h3 {
   background-color: rgba(233, 11, 203, 0.3); /* Lighter version of your select-day color */
   border: 1px solid rgba(233, 11, 203, 0.5);
 }
+
+.sonarqube-card {
+  border: 1px solid white;
+  background-color: transparent;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}

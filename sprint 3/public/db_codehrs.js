@@ -199,7 +199,7 @@ async function fetchAverageCodingHours(contributor = "all") {
   }
 }
 
-// Modify the existing function to accept an optional contributor parameter
+// Modify the existing function to use dropdown display text
 function updateCodingHoursChart(avgHourlyCommits, contributor = "all") {
     const maxAvg = Math.max(...avgHourlyCommits);
     const yAxisMax = Math.ceil(maxAvg * 10) / 10; // Round up to nearest 0.1
@@ -210,13 +210,42 @@ function updateCodingHoursChart(avgHourlyCommits, contributor = "all") {
     // Update the chart container
     const chartContainer = document.querySelector('.codinghrs-chart');
     
+    // Get the contributor display name from the dropdown
+    let contributorName = "all";
+    if (contributor !== "all") {
+        const dropdown = document.getElementById('mySelect');
+        if (dropdown) {
+            // Try to get from original select element
+            const option = Array.from(dropdown.options).find(opt => opt.value === contributor);
+            if (option) {
+                contributorName = option.textContent;
+            }
+            
+            // If that didn't work, check the custom dropdown implementation
+            if (contributorName === "all" || contributorName === "") {
+                const customDropdown = dropdown.nextElementSibling;
+                if (customDropdown && customDropdown.classList.contains('dropdown-select')) {
+                    const selectedOption = customDropdown.querySelector(`.option[data-value="${contributor}"]`);
+                    if (selectedOption) {
+                        contributorName = selectedOption.textContent;
+                    } else {
+                        // Fallback to using the contributor ID if we can't find the name
+                        contributorName = contributor;
+                    }
+                }
+            }
+        } else {
+            contributorName = contributor; // Fallback
+        }
+    }
+    
     if (!hasData) {
         if (dateFilterStart) {
             // If we have a date filter but no data
             codinghrsChart.options.plugins.title.text = 'No coding activity in selected date range';
         } else if (contributor !== "all") {
             // If we have a contributor selected but no data
-            codinghrsChart.options.plugins.title.text = `No coding activity for selected contributor`;
+            codinghrsChart.options.plugins.title.text = `No coding activity for ${contributorName}`;
         } else {
             // Default title
             codinghrsChart.options.plugins.title.text = 'Average Coding Hours';
@@ -224,9 +253,9 @@ function updateCodingHoursChart(avgHourlyCommits, contributor = "all") {
     } else {
         // If we have data, show appropriate title
         if (contributor !== "all" && dateFilterStart) {
-            codinghrsChart.options.plugins.title.text = `Average Coding Hours for selected contributor in date range`;
+            codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName} in date range`;
         } else if (contributor !== "all") {
-            codinghrsChart.options.plugins.title.text = `Average Coding Hours for selected contributor`;
+            codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName}`;
         } else if (dateFilterStart) {
             codinghrsChart.options.plugins.title.text = 'Average Coding Hours in selected date range';
         } else {

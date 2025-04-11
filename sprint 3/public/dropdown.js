@@ -5,6 +5,12 @@ function create_custom_dropdowns() {
         if (!select.nextElementSibling || !select.nextElementSibling.classList.contains('dropdown-select')) {
             const dropdown = document.createElement('div');
             dropdown.classList.add('dropdown-select', 'wide', ...(select.className ? select.className.split(' ') : []));
+            
+            // Check if this select should have search disabled
+            if (select.hasAttribute('data-no-search')) {
+                dropdown.setAttribute('data-no-search', 'true');
+            }
+            
             dropdown.tabIndex = 0;
             dropdown.innerHTML = '<span class="current"></span><div class="list"><ul></ul></div>';
             select.parentNode.insertBefore(dropdown, select.nextSibling);
@@ -31,11 +37,14 @@ function create_custom_dropdowns() {
 
     const lists = document.querySelectorAll('.dropdown-select ul');
     lists.forEach(list => {
-        const searchDiv = document.createElement('div');
-        searchDiv.classList.add('dd-search');
-        searchDiv.innerHTML = '<input id="txtSearchValue" autocomplete="off" class="dd-searchbox" type="text">';
-        list.parentNode.insertBefore(searchDiv, list);
-        searchDiv.querySelector('input').addEventListener('keyup', filter);
+        // Only add search box if the dropdown doesn't have data-no-search attribute
+        if (!list.closest('.dropdown-select').hasAttribute('data-no-search')) {
+            const searchDiv = document.createElement('div');
+            searchDiv.classList.add('dd-search');
+            searchDiv.innerHTML = '<input id="txtSearchValue" autocomplete="off" class="dd-searchbox" type="text">';
+            list.parentNode.insertBefore(searchDiv, list);
+            searchDiv.querySelector('input').addEventListener('keyup', filter);
+        }
     });
 }
 
