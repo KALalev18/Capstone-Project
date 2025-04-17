@@ -72,11 +72,24 @@ app.post("/", upload.single("file"), async (req, res) => {
         fileContent = fs.readFileSync(uploadedFilePath, "utf-8");
         
         // Process the file content...
-        const prompt = `Analyze the following code and provide insights or suggestions for improvement AND show me the complexity of the code with cyclomatic complexity, how you got the answer to it, and what it means. Provide the response in HTML Formatting, make sure not to include <html>:
-        \`\`\`
-        ${fileContent}
-        \`\`\`
-        `;
+        const prompt = `
+Analyze the following code and respond with the following sections in HTML (do NOT include <html> or <body> tags):
+
+<h2>1. Code Insights & Suggestions</h2>
+- List improvements, best practices, and potential issues.
+
+<h2>2. Cyclomatic Complexity</h2>
+- Calculate the cyclomatic complexity of the code.
+- Show your calculation steps.
+- Explain what the result means.
+
+<h2>3. Annotated Code</h2>
+- Show the code with comments or highlights if needed.
+
+<pre><code>
+${fileContent}
+</code></pre>
+`;
 
         // Call Groq API
         const response = await fetch(API_URL, {
@@ -86,9 +99,9 @@ app.post("/", upload.single("file"), async (req, res) => {
                 "Authorization": `Bearer ${API_KEY}`
             },
             body: JSON.stringify({
-                model: "qwen-2.5-coder-32b", // Update with the correct model if needed
+                model: "llama3-70b-8192", // Update with the correct model if needed
                 messages: [
-                    { role: "system", content: "You are a helpful assistant that analyzes code." },
+                    { role: "system", content: "You are a code analysis assistant. Always respond in HTML format (no <html> or <body> tags). Always include cyclomatic complexity with calculation steps and an explanation." },
                     { role: "user", content: prompt }
                 ],
                 max_tokens: 2000,
@@ -351,9 +364,9 @@ app.post('/analyze', async (req, res) => {
                 "Authorization": `Bearer ${API_KEY}`
             },
             body: JSON.stringify({
-                model: "qwen-2.5-coder-32b", // Update with the correct model if needed
+                model: "llama3-70b-8192", // Update with the correct model if needed
                 messages: [
-                    { role: "system", content: "You are a helpful assistant that analyzes code." },
+                    { role: "system", content: "You are a code analysis assistant. Always respond in HTML format (no <html> or <body> tags). Always include cyclomatic complexity with calculation steps and an explanation." },
                     { role: "user", content: prompt }
                 ],
                 max_tokens: 2000,
