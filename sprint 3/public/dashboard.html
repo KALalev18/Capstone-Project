@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <link rel="stylesheet" href="dashboard.css" />
   <link rel="stylesheet" href="sonarqube.css" />
   <link rel="stylesheet" href="dropdown.css" />
@@ -293,6 +294,12 @@
                 <!-- Empty at first, will be populated after connecting -->
               </div>
             </div>
+            <!-- Chart for code smells  -->
+            <div class="sonarqube-code-quality">
+              <div id="sonarqube-quality-chart">
+                <!-- Chart will be rendered here -->
+              </div>
+            </div>
             <!-- Add this new section for the issues chart -->
             <div class="sonarqube-issues">
               <!-- Dropdown Implementation - Initially hidden -->
@@ -306,10 +313,6 @@
               <!-- End Dropdown Implementation -->
               <div id="sonarqube-issues-chart">
                 <!-- Chart will be rendered here -->
-              </div>
-              <!-- Add this new metrics summary section -->
-              <div id="sonarqube-metrics-summary" class="metrics-summary">
-                <!-- Metrics will be populated here -->
               </div>
             </div>
           </div>

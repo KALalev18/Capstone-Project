@@ -79,6 +79,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedValue = dropdown.value;
         updateSonarQubeChartWithDateFilter(selectedValue);
       }
+      
+      // Directly update the quality chart as well to make sure it's always updated
+      const projectKey = localStorage.getItem('sonarQubeProjectKey');
+      if (projectKey) {
+        fetchCodeQualityData('https://sonarcloud.io', projectKey);
+      }
     }
   });
   
@@ -93,6 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (dropdown) {
         const selectedValue = dropdown.value;
         updateSonarQubeChartWithDateFilter(selectedValue);
+      }
+      
+      // Directly update the quality chart as well
+      const projectKey = localStorage.getItem('sonarQubeProjectKey');
+      if (projectKey) {
+        fetchCodeQualityData('https://sonarcloud.io', projectKey);
       }
     }
   });
@@ -113,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchDuplicationsData('https://sonarcloud.io', projectKey);
         break;
     }
+    
+    // Add this line to also update the quality chart when the date filter changes
+    fetchCodeQualityData('https://sonarcloud.io', projectKey);
   }
   
   // Format date helper function for display
@@ -230,8 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
           // Only fetch the issues data initially
           fetchIssuesData('https://sonarcloud.io', projectKey);
           
-          // Also fetch the metrics data
-          fetchSonarQubeMetrics('https://sonarcloud.io', projectKey);
+          // Fetch code quality data
+          fetchCodeQualityData('https://sonarcloud.io', projectKey);
         })
         .catch(error => {
           console.error('Error during SonarQube connection:', error);
@@ -363,12 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const chartContainer = document.getElementById('sonarqube-issues-chart');
       if (chartContainer) {
         chartContainer.innerHTML = '';
-      }
-      
-      // Hide the metrics container
-      const metricsContainer = document.getElementById('sonarqube-metrics-summary');
-      if (metricsContainer) {
-        metricsContainer.style.display = 'none';
       }
     }
   }
@@ -1058,74 +1067,318 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Add this function to fetch metrics data
-  async function fetchSonarQubeMetrics(baseUrl, projectKey) {
+  // Add this new function after fetchQualityGateData
+  async function fetchCodeQualityData(baseUrl, projectKey) {
     try {
-      const metricsContainer = document.getElementById('sonarqube-metrics-summary');
-      if (!metricsContainer) {
-        console.error('Metrics summary container not found');
+      const chartContainer = document.getElementById('sonarqube-quality-chart');
+      if (!chartContainer) {
+        console.error('Code quality chart container not found');
         return;
       }
+    
+      chartContainer.innerHTML = '<div class="loading">Fetching code quality data...</div>';
       
-      // Hide the metrics container initially (will show after successful fetch)
-      metricsContainer.style.display = 'none';
+      // Using the measures history endpoint to get code quality metrics over time
+      const historyApiUrl = `${baseUrl}/api/measures/search_history?component=${projectKey}&metrics=bugs,vulnerabilities,code_smells&ps=100`;
       
-      // Fetch key metrics: bugs, vulnerabilities, code_smells
-      const metricKeys = 'bugs,vulnerabilities,code_smells';
-      const apiUrl = `${baseUrl}/api/measures/component?component=${projectKey}&metricKeys=${metricKeys}`;
-      console.log('Fetching SonarQube metrics from:', apiUrl);
+      console.log('Fetching code quality history from:', historyApiUrl);
       
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+      // Using the CORS proxy
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(historyApiUrl)}`;
+      console.log('Using proxy URL for code quality history:', proxyUrl);
+      
       const response = await fetch(proxyUrl);
       
       if (!response.ok) {
-        throw new Error(`Metrics API error: ${response.status} ${response.statusText}`);
+        throw new Error(`Code quality history API error: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
-      console.log('SonarQube metrics data:', data);
+      console.log('SonarCloud code quality history data:', data);
       
-      // Process the metrics data
-      const measures = data.component?.measures || [];
-      const metrics = {
-        bugs: measures.find(m => m.metric === 'bugs')?.value || '0',
-        vulnerabilities: measures.find(m => m.metric === 'vulnerabilities')?.value || '0',
-        codeSmells: measures.find(m => m.metric === 'code_smells')?.value || '0'
+      // Process the data for the chart
+      const measures = data.measures || [];
+      
+      if (!measures.length) {
+        chartContainer.innerHTML = '<div class="chart-error">No code quality history available</div>';
+        return;
+      }
+      
+      // Maps to store data by hour for each metric
+      const hourlyMetrics = {
+        bugs: Array(24).fill(0),
+        vulnerabilities: Array(24).fill(0),
+        code_smells: Array(24).fill(0)
       };
       
-      // Update the metrics container
-      metricsContainer.innerHTML = `
-        <div class="metric-card bugs ${metrics.bugs === '0' ? 'empty' : ''}">
-          <div class="metric-value">${metrics.bugs}</div>
-          <div class="metric-label">Bugs</div>
-        </div>
-        <div class="metric-card vulnerabilities ${metrics.vulnerabilities === '0' ? 'empty' : ''}">
-          <div class="metric-value">${metrics.vulnerabilities}</div>
-          <div class="metric-label">Vulnerabilities</div>
-        </div>
-        <div class="metric-card code-smells ${metrics.codeSmells === '0' ? 'empty' : ''}">
-          <div class="metric-value">${metrics.codeSmells}</div>
-          <div class="metric-label">Code Smells</div>
-        </div>
-      `;
+      // Count of data points per hour (for calculating averages later)
+      const hourlyDataPoints = Array(24).fill(0);
       
-      // Show the metrics container
-      metricsContainer.style.display = 'flex';
+      let hasDataInDateRange = false;
+      
+      // Process all history points for each metric
+      measures.forEach(measure => {
+        const metricName = measure.metric;
+        if (!hourlyMetrics[metricName] || !measure.history) return;
+        
+        measure.history.forEach(point => {
+          const date = new Date(point.date);
+          
+          // Skip points outside date range if filter is active
+          if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+            // Compare dates at day level only
+            const compareDate = new Date(date);
+            compareDate.setHours(0, 0, 0, 0);
+            sonarQubeDateFilterStart.setHours(0, 0, 0, 0);
+            sonarQubeDateFilterEnd.setHours(0, 0, 0, 0);
+            
+            if (compareDate < sonarQubeDateFilterStart || compareDate > sonarQubeDateFilterEnd) {
+              return; // Skip this point as it's outside the date range
+            }
+            
+            hasDataInDateRange = true;
+          }
+          
+          // Get the hour of the day (0-23)
+          const hour = date.getHours();
+          
+          // Add the value to the corresponding hour's aggregate
+          hourlyMetrics[metricName][hour] += parseFloat(point.value) || 0;
+          
+          // Increment the count of data points for this hour
+          hourlyDataPoints[hour]++;
+        });
+      });
+      
+      // Show message if filtered data is empty
+      if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd && !hasDataInDateRange) {
+        chartContainer.innerHTML = '<div class="chart-error">No code quality data available in selected date range</div>';
+        return;
+      }
+      
+      
+      
+      // Format the hour labels (12am to 11pm)
+      const hourLabels = Array(24).fill().map((_, i) => {
+        const hour = i % 12 || 12; // Convert 0 to 12 for 12am
+        const period = i < 12 ? 'am' : 'pm';
+        return `${hour}${period}`;
+      });
+      
+      // Create chart if we have data
+      // Clear loading indicator
+      chartContainer.innerHTML = '';
+      
+      // Set explicit height for chart container
+      chartContainer.style.height = '400px';
+      
+      // Make the date range title more prominent
+      if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'chart-date-range';
+        
+        // If it's the same day, just show one date
+        if (isSameDay(sonarQubeDateFilterStart, sonarQubeDateFilterEnd)) {
+          titleDiv.textContent = `Code quality data for ${formatDate(sonarQubeDateFilterStart)}`;
+        } else {
+          titleDiv.textContent = `Code quality data from ${formatDate(sonarQubeDateFilterStart)} to ${formatDate(sonarQubeDateFilterEnd)}`;
+        }
+        
+        titleDiv.style.fontSize = '1.1em';
+        titleDiv.style.fontWeight = 'bold';
+        titleDiv.style.padding = '8px';
+        chartContainer.appendChild(titleDiv);
+      }
+      
+      // Create div for ApexCharts
+      const chartDiv = document.createElement('div');
+      chartDiv.id = 'sonarqube-quality-apex-chart';
+      chartDiv.style.width = '100%';
+      chartDiv.style.height = '100%';
+      chartContainer.appendChild(chartDiv);
+      
+      // Generate timestamp series for each hour
+      const today = new Date();
+      const baseDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      
+      // Prepare series data in the format ApexCharts expects
+      const seriesData = [
+        {
+          name: 'Code Smells',
+          data: hourlyMetrics.code_smells.map((value, index) => {
+            const timestamp = new Date(baseDate);
+            timestamp.setHours(index);
+            return {
+              x: timestamp.getTime(),
+              y: Math.round(value)
+            };
+          })
+        },
+        {
+          name: 'Bugs',
+          data: hourlyMetrics.bugs.map((value, index) => {
+            const timestamp = new Date(baseDate);
+            timestamp.setHours(index);
+            return {
+              x: timestamp.getTime(),
+              y: Math.round(value)
+            };
+          })
+        },
+        {
+          name: 'Vulnerabilities',
+          data: hourlyMetrics.vulnerabilities.map((value, index) => {
+            const timestamp = new Date(baseDate);
+            timestamp.setHours(index);
+            return {
+              x: timestamp.getTime(),
+              y: Math.round(value)
+            };
+          })
+        }
+      ];
+      
+      // Define ApexCharts options
+      const options = {
+        series: seriesData,
+        chart: {
+          type: 'area',
+          height: 350,
+          toolbar: {
+            show: false
+          },
+          background: 'transparent',
+          fontFamily: 'inherit',
+          // Add subtitle to show date context
+          subtitle: {
+            text: sonarQubeDateFilterStart ? 'Hourly breakdown of code quality issues' : 'All-time hourly breakdown of code quality issues',
+            align: 'center',
+            margin: 10,
+            offsetX: 0,
+            offsetY: 0,
+            floating: false,
+            style: {
+              fontSize: '12px',
+              color: 'rgba(255, 255, 255, 0.6)'
+            }
+          }
+        },
+        colors: ['#e90bcb', '#ff6347', '#ffd700'], // Pink for code smells, Tomato for bugs, Gold for vulnerabilities
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 2
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.2,
+            opacityTo: 0.1,
+            stops: [0, 90, 100]
+          }
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: hourLabels,
+          labels: {
+            style: {
+              colors: 'rgba(255, 255, 255, 0.7)'
+            },
+            formatter: function(value) {
+              // Convert timestamp to hour format (12am, 1am, etc.)
+              const date = new Date(value);
+              const hour = date.getHours() % 12 || 12;
+              const period = date.getHours() < 12 ? 'am' : 'pm';
+              return `${hour}${period}`;
+            }
+          },
+          axisBorder: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          axisTicks: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          }
+        },
+        yaxis: {
+          min: 0,
+          labels: {
+            style: {
+              colors: 'rgba(255, 255, 255, 0.7)'
+            }
+          }
+        },
+        tooltip: {
+          shared: true,
+          x: {
+            formatter: function(value) {
+              // Show the date and time in the tooltip
+              const date = new Date(value);
+              const hour = date.getHours() % 12 || 12;
+              const period = date.getHours() < 12 ? 'am' : 'pm';
+              
+              if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+                // If date range is active, include the date in the tooltip
+                const displayDate = isSameDay(sonarQubeDateFilterStart, sonarQubeDateFilterEnd) 
+                  ? formatDate(sonarQubeDateFilterStart)
+                  : `${formatDate(sonarQubeDateFilterStart)} - ${formatDate(sonarQubeDateFilterEnd)}`;
+                return `${displayDate}, ${hour}${period}`;
+              } else {
+                return `${hour}${period}`;
+              }
+            }
+          },
+          y: {
+            formatter: function(val) {
+              return Math.round(val);
+            }
+          },
+          theme: 'dark'
+        },
+        grid: {
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          row: {
+            colors: ['transparent', 'transparent'],
+            opacity: 0.1
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          labels: {
+            colors: 'rgba(255, 255, 255, 0.7)'
+          }
+        }
+      };
+      
+      // Create the ApexChart
+      const chart = new ApexCharts(chartDiv, options);
+      chart.render();
       
     } catch (error) {
-      console.error('Error fetching SonarQube metrics:', error);
-      const metricsContainer = document.getElementById('sonarqube-metrics-summary');
-      if (metricsContainer) {
-        metricsContainer.innerHTML = '<div class="chart-error">Failed to load metrics</div>';
-        metricsContainer.style.display = 'block';
+      console.error('Error fetching SonarQube code quality data:', error);
+      const chartContainer = document.getElementById('sonarqube-quality-chart');
+      if (chartContainer) {
+        chartContainer.innerHTML = `
+          <div class="chart-error">
+            <p>Error loading code quality chart: ${error.message}</p>
+          </div>
+        `;
       }
     }
   }
 
   // Add this line at the end of the DOMContentLoaded event
-  // Reset the chart and metrics containers on page load
+  // Reset the chart container on page load
   const issuesChartContainer = document.getElementById('sonarqube-issues-chart');
-  const metricsContainer = document.getElementById('sonarqube-metrics-summary');
   if (issuesChartContainer) issuesChartContainer.innerHTML = '';
-  if (metricsContainer) metricsContainer.style.display = 'none';
 });
+
+// Add this helper function at the end of your script
+function isSameDay(date1, date2) {
+  return date1.getDate() === date2.getDate() && 
+         date1.getMonth() === date2.getMonth() && 
+         date1.getFullYear() === date2.getFullYear();
+}

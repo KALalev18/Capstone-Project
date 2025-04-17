@@ -261,3 +261,25 @@
   background-color: rgba(233, 11, 203, 0.1);
   border-radius: 4px;
 }
+
+/* ApexCharts specific styles */
+#sonarqube-quality-apex-chart {
+  background-color: transparent;
+  margin-top: 10px;
+}
+
+.apexcharts-tooltip {
+  background-color: rgba(30, 30, 30, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.apexcharts-tooltip-title {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(20, 20, 20, 0.9) !important;
+}
+
+.apexcharts-xaxistooltip {
+  background-color: rgba(30, 30, 30, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
