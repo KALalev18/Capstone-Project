@@ -1,4 +1,4 @@
-// ai2.mjs
+// Conversion to JS file successfully. Gets Groq summary,Sonrqube data, Github commits data and Weather data in the backend.
 
 import dotenv from 'dotenv';
 import axios from 'axios';
