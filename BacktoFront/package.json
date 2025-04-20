@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "luxon": "^3.6.1",
+    "meteostat": "^2.0.0"
+  },
+  "name": "sonarfrontend",
+  "version": "1.0.0",
+  "main": "ai.js",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module"
+}
