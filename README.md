@@ -12,7 +12,17 @@
 
 ![image](https://github.com/user-attachments/assets/ff311798-5c9c-4e84-ba20-b07e657f3782)
 
-8. Paste any GitHub repository link: 
+8. Paste and process the code feature:
+
+![image](https://github.com/user-attachments/assets/db5a1032-02fa-4cdb-87ff-48b2e818fa13)
+
+9. Upload, analyze the file, and generate a function graph based on the content
+
+![image](https://github.com/user-attachments/assets/742a43b2-ca45-4f8f-9ea8-3ee59ee6aa8c)
+
+![image](https://github.com/user-attachments/assets/992d1a8c-e04b-4b88-9e2c-734d05861189)
+
+10. Paste any GitHub repository link: 
 
 ![image](https://github.com/user-attachments/assets/1e653cfb-00ad-4e4b-be29-8f74a28c3991)
 
