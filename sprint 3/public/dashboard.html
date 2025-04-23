@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="sonarqube.css" />
+  <link rel="stylesheet" href="dropdown.css" />
+<<<<<<< HEAD
+  <link rel="stylesheet" href="sentiment.css" />
+  <link rel="stylesheet" href="weather.css">
+=======
+>>>>>>> 2d4779278a7b48fcd57b1693cc9c288ff6c4fbe6
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <!-- the first row -->
+    <div class="row gx-4">
+      <!-- the commit card -->
+      <div class="col-lg-4" onclick="window.location='templates/commit.html';" style="cursor: pointer;">
+        <div class="commits p-4">
+          <div class="commit-header">
+            <div>
+              <h1></h1>
+              <p></p>
+            </div>
+            <div>
+              <h1></h1>
+              <p></p>
+            </div>
+          </div>
+          <div class="commit-chart">
+            <!-- Chart will be rendered here -->
+            <canvas id="commitsChart"></canvas>
+          </div>
+          <div class="commit-footer">
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- the progress card -->
+      <div class="col-lg-8 mt-4 mt-lg-0">
+        <div class="progress-box p-3">
+          <div>
+            <canvas id="progressChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the second row -->
+    <div class="row gx-4 mt-4">
+      <!-- Left group: Branch, Pull Request, Contribution, and Deployment cards -->
+      <div class="col-lg-6">
+        <div class="row">
+          <!-- Branch Card (left half) -->
+          <div class="col-6" onclick="window.location='templates/branches.html';" style="cursor: pointer;">
+            <div class="branch-card p-4">
+              <div class="branch-header">
+                <div>
+                  <h1></h1>
+                  <p>Branches</p>
+                </div>
+                <div>
+                  <h1></h1>
+                  <p>Protected</p>
+                </div>
+                <div>
+                  <h1></h1>
+                  <p>Unprotected</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Pull Request Card (right half) -->
+          <div class="col-6" onclick="window.location='templates/prs.html';" style="cursor: pointer;">
+            <div class="pull-request-card p-4">
+              <div class="pull-request-header">
+                <div>
+                  <h1></h1>
+                  <p>Pull Request</p>
+                </div>
+                <div>
+                  <h1></h1>
+                  <p>Opened</p>
+                </div>
+                <div>
+                  <h1></h1>
+                  <p>Closed</p>
+                </div>
+                <div class="conflict">
+                  <h1></h1>
+                  <p>Conflicts</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Second nested row: Contribution and Deployment  -->
+        <div class="row mt-4">
+          <!-- Contribution Card -->
+          <div class="col-lg-5" onclick="window.location='templates/contributors.html';" style="cursor: pointer;">
+            <div class="contribution-card p-4">
+              <div class="contribution-header">
+                <div>
+                  <div class="contribution-chart">
+                    <h3></h3>
+                    <canvas id="contributionChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deployment Card  -->
+          <div class="col-lg-7 mt-4 mt-lg-0" onclick="window.location='templates/deployments.html';"
+            style="cursor: pointer;">
+            <div class="deployment-card p-4">
+              <!-- Remove "table-striped" here to eliminate row shading -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-center">
+                    <!-- Create a row for the h3 and span all columns -->
+                    <tr>
+                      <th colspan="3">
+                        <h3></h3>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="px-4 py-3">
+
+                      </td>
+                      <td class="px-4 py-3"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3">
+
+                      </td>
+                      <td class="px-4 py-3"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3">
+
+                      </td>
+                      <td class="px-4 py-3"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3">
+
+                      </td>
+                      <td class="px-4 py-3"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3">
+
+                      </td>
+                      <td class="px-4 py-3"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right group: Issues Card remains unchanged -->
+      <div class="col-lg-6 mt-4 mt-lg-0" onclick="window.location='templates/issues.html';" style="cursor: pointer;">
+        <div class="issues-card p-3">
+          <div class="text-center mb-5 mt-3">
+            <h3></h3>
+          </div>
+          <div class="row">
+            <div class="col-lg-5 ">
+              <div class="issues-doughnut">
+                <canvas id="issuesDoughnutChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Table (Right) -->
+            <div class="col-lg-7">
+              <div class="table-responsive">
+                <table class="table ">
+                  <tbody>
+                    <!-- Use Bootstrap padding classes on TD cells -->
+                    <tr>
+                      <td class="px-4 py-4">
+
+                      </td>
+                      <td class="px-4 py-4"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-4">
+
+                      </td>
+                      <td class="px-4 py-4"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-4">
+
+                      </td>
+                      <td class="px-4 py-4"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-4">
+
+                      </td>
+                      <td class="px-4 py-4"></td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-4">
+
+                      </td>
+                      <td class="px-4 py-4"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the third row -->
+    <div class="row gx-4 mt-4 third-row">
+      <div class="col-lg-12 mt-4">
+        <!-- Dropdown Implementation -->
+<<<<<<< HEAD
+        <select name="" id="mySelect">
+          <option value="1">All</option>
+        </select>
+        <!-- End Dropdown Implementation -->
+      </div>
+      <div class="col-lg-12">
+        <div class="col-lg-12">
+          <!-- Create a proper row for the calendar and weather -->
+          <div class="row">
+            <!-- the calendar on the left -->
+            <div class="col-lg-6">
+              <div class="calendar-container">
+                <div class="calendar">
+                  <header>
+                    <h2>ㅤ</h2>
+                    <a class="btn-prev" href="#">&larr;</a>
+                    <a class="btn-next" href="#">&rarr;</a>
+                  </header>
+                  <table class="calendar-table">
+                    <thead>
+                      <tr>
+                        <td>Mo</td>
+                        <td>Tu</td>
+                        <td>We</td>
+                        <td>Th</td>
+                        <td>Fr</td>
+                        <td>Sa</td>
+                        <td>Su</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+                <p id="selected-date" class="selected-date-display">Select a date</p>
+                <!-- New reset button -->
+                <button id="reset-charts-button">Reset All Charts</button>
+              </div>
+            </div>
+
+            <!-- the weather details on the right -->
+            <div class="col-lg-6">
+              <div class="weather-container">
+                <!-- Keep only the weather header -->
+                <div class="weather-header">
+                  <h3>Weather Conditions</h3>
+                </div>
+                <!-- All other content removed -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- the coding hours card -->
+        <div class="col-lg-12">
+          <!-- onclick="window.location='templates/prs.html';" -->
+          <div class="codinghrs-box p-3">
+            <div class="codinghrs-chart">
+              <canvas id="codinghrsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- the sonarcube activity -->
+        <div class="col-lg-12">
+          <div class="sonarqube-card p-4">
+            <div class="sonarqube-header">
+              <h3>SonarQube Analysis</h3>
+            </div>
+            <div class="sonarqube-content">
+              <div class="sonarqube-status">
+                <div id="quality-gate-status" class="status-indicator">
+                  <!-- Empty at first, will be populated after connecting -->
+                </div>
+              </div>
+              <!-- Chart for code smells  -->
+              <div class="sonarqube-code-quality">
+                <div id="sonarqube-quality-chart">
+                  <!-- Chart will be rendered here -->
+                </div>
+              </div>
+              <div class="sonarqube-issues">
+                <!-- Dropdown Implementation - Initially hidden -->
+                <div id="sonarqube-dropdown-container">
+                  <select name="" id="sonarqube-dropdown" data-no-search="true">
+                    <option value="1" selected>Issues</option>
+                    <option value="2">Coverage</option>
+                    <option value="3">Duplications</option>
+                  </select>
+                </div>
+                <!-- End Dropdown Implementation -->
+                <div id="sonarqube-issues-chart">
+                  <!-- Chart will be rendered here -->
+                </div>
+              </div>
+            </div>
+            <div class="sonarqube-footer">
+              <button id="connect-sonarqube" class="btn btn-outline-light">Connect SonarQube</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sentiment Analysis Section -->
+        <div class="col-lg-12 mt-4">
+          <div class="sentiment-card p-4">
+            <div class="sentiment-header">
+              <h3>Commit Sentiment Analysis</h3>
+            </div>
+            <div class="sentiment-content">
+              <!-- Status indicator for loading/errors -->
+              <div id="sentiment-status" class="mb-3"></div>
+              <!-- Results will appear here -->
+              <div id="commitResults" class="sentiment-results"></div>
+            </div>
+          </div>
+        </div>
+
+
+        <script src="github-token.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+        <script src="db_commit.js"></script>
+        <script src="db_progress.js"></script>
+        <script src="db_codehrs.js"></script>
+        <script src="db_contributions.js"></script>
+        <script src="db_issues.js"></script>
+        <script src="db_pullrequests.js"></script>
+        <script src="db_branches.js"></script>
+        <script src="db_deployment.js"></script>
+        <script src="dropdown.js"></script>
+        <script src="Calendar.js"></script>
+        <script src="sonarqube.js"></script>
+        <script src="sentiment.js"></script>
+        <script src="weather.js"></script>
+=======
+      <select name="" id="mySelect">
+        <option value="1">All</option>
+      </select>
+      <!-- End Dropdown Implementation -->
+      </div>
+      <div class="col-lg-12">
+        <!-- the calendar on the left -->
+        <div class="col-lg-12">
+          <div class="calendar-container">
+            
+            <div class="calendar">
+              <header>
+                <h2>ㅤ</h2>
+                <a class="btn-prev" href="#">&larr;</a>
+                <a class="btn-next" href="#">&rarr;</a>
+              </header>
+              <table class="calendar-table">
+                <thead>
+                  <tr>
+                    <td>Mo</td>
+                    <td>Tu</td>
+                    <td>We</td>
+                    <td>Th</td>
+                    <td>Fr</td>
+                    <td>Sa</td>
+                    <td>Su</td>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <!-- Add this element to display the selected date -->
+            <p id="selected-date" class="selected-date-display">Select a date</p>
+          </div>
+        </div>
+      
+      <!-- the coding hours card -->
+      <div class="col-lg-12">
+        <!-- onclick="window.location='templates/prs.html';" -->
+        <div class="codinghrs-box p-3">
+          <div class="codinghrs-chart">
+            <canvas id="codinghrsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- the sonarcube activity -->
+      <div class="col-lg-12">
+        <div class="sonarqube-card p-4">
+          <div class="sonarqube-header">
+            <h3>SonarQube Analysis</h3>
+          </div>
+          <div class="sonarqube-content">
+            <div class="sonarqube-status">
+              <div id="quality-gate-status" class="status-indicator">
+                <!-- Empty at first, will be populated after connecting -->
+              </div>
+            </div>
+            <!-- Chart for code smells  -->
+            <div class="sonarqube-code-quality">
+              <div id="sonarqube-quality-chart">
+                <!-- Chart will be rendered here -->
+              </div>
+            </div>
+            <!-- Add this new section for the issues chart -->
+            <div class="sonarqube-issues">
+              <!-- Dropdown Implementation - Initially hidden -->
+              <div id="sonarqube-dropdown-container">
+                <select name="" id="sonarqube-dropdown" data-no-search="true">
+                  <option value="1" selected>Issues</option>
+                  <option value="2">Coverage</option>
+                  <option value="3">Duplications</option>
+                </select>
+              </div>
+              <!-- End Dropdown Implementation -->
+              <div id="sonarqube-issues-chart">
+                <!-- Chart will be rendered here -->
+              </div>
+            </div>
+          </div>
+              <div class="sonarqube-footer">
+            <button id="connect-sonarqube" class="btn btn-outline-light">Connect SonarQube</button>
+            <div class="text-center">
+              <a
+                id="sentiment-analysis-button"
+                href="sentiment_analysis.html"
+              >
+                Sentiment Analysis
+              </a>
+              <a
+                id="Ai-Analysis"
+                href="aiindex.html"
+              >
+                WEATHER AND AI ANALYSIS
+              </a>
+            </div>
+          </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="db_commit.js"></script>
+  <script src="db_progress.js"></script>
+  <script src="db_codehrs.js"></script>
+  <script src="db_contributions.js"></script>
+  <script src="db_issues.js"></script>
+  <script src="db_pullrequests.js"></script>
+  <script src="db_branches.js"></script>
+  <script src="db_deployment.js"></script>
+  <script src="dropdown.js"></script>
+  <script src="Calendar.js"></script>
+  <script src="sonarqube.js"></script>
+>>>>>>> 2d4779278a7b48fcd57b1693cc9c288ff6c4fbe6
+</body>
+
+</html>

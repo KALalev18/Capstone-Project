@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonarQube & GitHub Analysis</title>
+    <link rel="stylesheet" href="/gendastyles.css"> <!-- Link to your CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>SonarQube & GitHub Analysis</h1>
+
+        <div id="sonar-issues">
+            <h2>SonarQube Issues</h2>
+            <ul id="issue-list"></ul>
+        </div>
+
+        <div id="weather-data">
+            <h2>Weather Data</h2>
+            <ul id="weather-list"></ul>
+        </div>
+
+        <div id="github-commits">
+            <h2>Recent GitHub Commits</h2>
+            <ul id="commit-list"></ul>
+        </div>
+
+        <div id="analysis-results">
+            <h2>Analysis Results</h2>
+            <div id="commit-analysis"></div>
+            <div id="sonar-analysis"></div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch data from backend and display it
+        fetch('/api/sonar-issues')
+            .then(response => response.json())
+            .then(data => {
+                const issueList = document.getElementById('issue-list');
+                data.sonarIssues.forEach(issue => {
+                    const li = document.createElement('li');
+                    li.textContent = `Issue: ${issue.message}, Severity: ${issue.severity}, Created on: ${issue.creationDate}`;
+                    issueList.appendChild(li);
+                });
+
+                // Display Weather Data
+                const weatherList = document.getElementById('weather-list');
+                data.weatherData.forEach((weather, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `Issue ${index + 1}: Temperature: ${weather.temp} °C, Humidity: ${weather.humidity}%, Wind Speed: ${weather.wind_speed} m/s`;
+                    weatherList.appendChild(li);
+                });
+
+                // Display GitHub Commits
+                const commitList = document.getElementById('commit-list');
+                data.githubCommits.forEach(commit => {
+                    const li = document.createElement('li');
+                    li.textContent = `Commit by ${commit.commit.author.name}: ${commit.commit.message}, Date: ${commit.commit.author.date}`;
+                    commitList.appendChild(li);
+                });
+            });
+
+        // Fetch and display analysis results
+        fetch('/api/commit-analysis')
+            .then(response => response.json())
+            .then(data => {
+                const commitAnalysis = document.getElementById('commit-analysis');
+                commitAnalysis.textContent = data.commitAnalysis;
+            });
+
+        fetch('/api/sonar-analysis')
+            .then(response => response.json())
+            .then(data => {
+                const sonarAnalysis = document.getElementById('sonar-analysis');
+                sonarAnalysis.textContent = data.sonarAnalysis;
+            });
+    </script>
+</body>
+</html>

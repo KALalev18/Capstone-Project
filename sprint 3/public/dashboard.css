@@ -1,0 +1,519 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+:root {
+  --bg: #000000;
+  --clr-1: #00c2ff;
+  --clr-2: #33ff8c;
+  --clr-3: hsl(281, 100%, 50%);
+  --clr-4: #f200ff;
+
+  --blur: 1rem;
+  --fs: clamp(3rem, 8vw, 7rem);
+  --ls: clamp(-1.75px, -0.25vw, -3.5px);
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+body::selection {
+  background-color: #e90bcbce;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+*,
+*::before,
+*::after {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+.commits,
+.progress-box {
+  border: 1px solid white;
+  height: 450px;
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.progress-box {
+  position: relative;
+}
+
+.progress-box>div {
+  width: 100%;
+  height: 100%;
+}
+
+.progress-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.commits>div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Make header a flex container to push first div left and second div right */
+.commit-header {
+  display: flex;
+
+  justify-content: space-between;
+  width: 100%;
+}
+
+.commit-header>div {
+  text-align: center;
+}
+
+/* Style the chart container as needed */
+.commit-chart {
+  width: 100%;
+  margin-top: 5px;
+  height: 250px;
+  /* Adjust height as needed */
+}
+
+.commit-footer {
+  display: block;
+  width: fit-content !important;
+  /* Let it size only to its content */
+  margin: 20px auto 0;
+  /* Center it horizontally with top margin */
+  text-align: center;
+  padding: 10px 0;
+  border: none;
+}
+
+.branch-card,
+.pull-request-card {
+  border: 1px solid white;
+  height: 130px;
+  /* Card height for these small cards */
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.branch-header,
+.pull-request-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.branch-header>div,
+.pull-request-header>div {
+  text-align: center;
+}
+
+
+/* New styling for Contribution Card: similar to branch-card */
+.contribution-card {
+  border: 1px solid white;
+  height: 410px;
+  /* Same height as branch-card */
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.contribution-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.contribution-header>div {
+  text-align: center;
+}
+
+.contribution-header h3 {
+  margin: 0;
+}
+
+.contribution-chart {
+  width: 100%;
+  height: 300px;
+}
+
+/* New styling for Deployment Card: similar to pull-request-card */
+.deployment-card {
+  border: 1px solid white;
+  height: 410px;
+  background-color: transparent;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+
+
+/* Remove any background colors from the deployment card table */
+.deployment-card table,
+.deployment-card table thead,
+.deployment-card table tbody,
+.deployment-card table tr,
+.deployment-card table th,
+.deployment-card table td {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.deployment-card table th {
+  border-bottom: none;
+}
+
+.deployment-card table td:first-child {
+  width: 70%;
+}
+
+.deployment-card table td:last-child {
+  width: 30%;
+  text-align: left;
+}
+
+
+.conflict {
+  color: rgb(235, 9, 9);
+}
+
+
+.issues-card {
+  border: 1px solid white;
+  height: 560px;
+  /* Same height as progress-box */
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.issues-card table,
+.issues-card table thead,
+.issues-card table tbody,
+.issues-card table tr,
+.issues-card table th,
+.issues-card table td {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.issues-card table th {
+  border-bottom: none;
+}
+
+.issues-card table td {
+  font-size: 17px;
+  /* Adjust this value as needed */
+  font-weight: 500;
+  /* Optional: make the text slightly bolder */
+}
+
+.issues-card table td:first-child {
+  width: 70%;
+}
+
+.issues-card table td:last-child {
+  width: 30%;
+  text-align: left;
+}
+
+/* New styling for Coding Hours Card */
+.third-row {
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+.codinghrs-box {
+  height: 450px;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.codinghrs-chart {
+  width: 100%;
+  margin-top: 20px;
+  height: 350px;
+  /* Adjust height as needed */
+}
+
+
+
+
+
+/* ---------- CALENDAR ---------- */
+
+/* The calendar style */
+.calendar-container {
+  width: 510px;
+  margin: 0 auto;
+  background: #111111ea;
+  border-radius: 1em;
+  user-select: none;
+  padding: 1em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+h2 {
+  font-size: 2em;
+  line-height: 1.25em;
+  margin: .25em 0;
+}
+
+h3 {
+  font-size: 1.5em;
+  line-height: 1em;
+  margin: .33em 0;
+}
+
+.calendar-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.calendar {
+  text-align: center;
+  width: 100%;
+  color: white;
+}
+
+.calendar header {
+  position: relative;
+}
+
+.calendar h2 {
+  text-transform: uppercase;
+}
+
+.calendar thead {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.calendar tbody {
+  color: white;
+  
+}
+
+.calendar tbody td:hover {
+  border: 2px solid #e90bcbce;
+}
+
+.select-day {
+  background: #e90bcbce;
+  color: white;
+}
+
+.calendar td {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  height: 3.8em;
+  line-height: 3.8em;
+  text-align: center;
+  width: 3.8em;
+}
+
+.calendar .prev-month,
+.calendar .next-month {
+  color: #7c8a95;
+}
+
+.calendar .prev-month:hover,
+.calendar .next-month:hover {
+  border: 2px solid #e90bcb50;
+}
+
+
+
+.event {
+  cursor: pointer;
+  position: relative;
+}
+
+.event:after {
+  background: #e90bcbce;
+  border-radius: 50%;
+  bottom: .5em;
+  display: block;
+  content: '';
+  height: .5em;
+  left: 50%;
+  margin: -.25em 0 0 -.25em;
+  position: absolute;
+  width: .5em;
+}
+
+.event.select-day:after {
+  background: white ;
+}
+
+.btn-prev,
+.btn-next {
+  border: 2px solid #e90bcbce;
+  border-radius: 50%;
+  color: white;
+  height: 2em;
+  /* Increased from 2em */
+  font-size: 1.2em;
+  /* Increased from .75em */
+  line-height: 1.72em;
+  /* Increased to match height */
+  margin: -1em;
+  /* Adjusted from -1em */
+  position: absolute;
+  top: 50%;
+  width: 2em;
+  /* Increased from 2em */
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+  background: #e90bcbce;
+  color: white;
+}
+
+.btn-prev {
+  left: 2em;
+
+}
+
+.btn-next {
+  right: 2em;
+}
+
+/* Style for the selected date display */
+.selected-date-display {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1.1em;
+  color: white;
+  min-height: 1.5em; /* Maintains consistent height even when empty */
+}
+
+<<<<<<< HEAD
+
+=======
+/* Add this for date range selection */
+>>>>>>> 2d4779278a7b48fcd57b1693cc9c288ff6c4fbe6
+.calendar td.in-range {
+  background-color: rgba(233, 11, 203, 0.3); /* Lighter version of your select-day color */
+  border: 1px solid rgba(233, 11, 203, 0.5);
+}
+
+.sonarqube-card {
+  border: 1px solid white;
+  background-color: transparent;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#sentiment-analysis-button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#sentiment-analysis-button:hover {
+  background-color: var(--clr-1); /* Matches hover effect of other buttons */
+  color: black; /* Optional: Change text color on hover */
+}
+#Ai-Analysis {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#Ai-Analysis:hover {
+  background-color: var(--clr-1); /* Matches hover effect of other buttons */
+  color: black; /* Optional: Change text color on hover */
+}
+<<<<<<< HEAD
+
+
+#reset-charts-button {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(198, 13, 223, 0.91);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#reset-charts-button:hover {
+  background-color: rgba(198, 13, 223, 0.5);
+  color: white;
+}
+
+#reset-charts-button:active {
+  transform: translateY(1px);
+}
+=======
+>>>>>>> 2d4779278a7b48fcd57b1693cc9c288ff6c4fbe6

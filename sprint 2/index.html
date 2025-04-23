@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <title>Code Assessment</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="upload-code-container">
+      <h1>Upload the link or code below</h1>
+      <input type="text" class="input-field" placeholder="github.com/..." />
+      <form action="/api" method="post" enctype="multipart/form-data" class="fileUploadForm">
+        <input id="file" name="file" type="file" />
+        <button>Upload</button>
+      </form>
+      <button onclick="fetchData()">Fetch the data</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+:root {
+  --bg: #000000;
+  --clr-1: #00c2ff;
+  --clr-2: #33ff8c;
+  --clr-3: hsl(281, 100%, 50%);
+  --clr-4: #f200ff;
+
+  --blur: 1rem;
+  --fs: clamp(3rem, 8vw, 7rem);
+  --ls: clamp(-1.75px, -0.25vw, -3.5px);
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+body::selection {
+  background-color: #e90bcbce;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+*,
+*::before,
+*::after {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--clr-1);
+  color: black;
+}
+
+input {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  width: 200px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+form {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#results {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.commit {
+  background-color: var(--bg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid white;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
