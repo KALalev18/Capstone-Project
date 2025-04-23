@@ -1,0 +1,537 @@
+/* Aurora Glow */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+:root {
+  --bg: #000000;
+  --clr-1: #00c2ff;
+  --clr-2: #33ff8c;
+  --clr-3: hsl(281, 100%, 50%);
+  --clr-4: #f200ff;
+
+  --blur: 1rem;
+  --fs: clamp(3rem, 8vw, 7rem);
+  --ls: clamp(-1.75px, -0.25vw, -3.5px);
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  background-color: var(--bg);
+  color: #fff;
+  font-family: "Inter", "DM Sans", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 80px;
+  font-weight: 800;
+  letter-spacing: var(--ls);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  margin: 0;
+}
+
+.subtitle {
+  margin-bottom: 40px;
+  margin-left: 0px;
+}
+
+.aurora {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  mix-blend-mode: darken;
+  pointer-events: none;
+}
+
+.aurora__item {
+  overflow: hidden;
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  background-color: var(--clr-1);
+  border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+  filter: blur(var(--blur));
+  mix-blend-mode: overlay;
+}
+
+.aurora__item:nth-of-type(1) {
+  top: -50%;
+  animation: aurora-border 6s ease-in-out infinite,
+    aurora-1 12s ease-in-out infinite alternate;
+}
+
+.aurora__item:nth-of-type(2) {
+  background-color: var(--clr-3);
+  right: 0;
+  top: 0;
+  animation: aurora-border 6s ease-in-out infinite,
+    aurora-2 12s ease-in-out infinite alternate;
+}
+
+.aurora__item:nth-of-type(3) {
+  background-color: var(--clr-2);
+  left: 0;
+  bottom: 0;
+  animation: aurora-border 6s ease-in-out infinite,
+    aurora-3 8s ease-in-out infinite alternate;
+}
+
+.aurora__item:nth-of-type(4) {
+  background-color: var(--clr-4);
+  right: 0;
+  bottom: -50%;
+  animation: aurora-border 6s ease-in-out infinite,
+    aurora-4 24s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-1 {
+  0% {
+    top: 0;
+    right: 0;
+  }
+
+  50% {
+    top: 100%;
+    right: 75%;
+  }
+
+  75% {
+    top: 100%;
+    right: 25%;
+  }
+
+  100% {
+    top: 0;
+    right: 0;
+  }
+}
+
+@keyframes aurora-2 {
+  0% {
+    top: -50%;
+    left: 0%;
+  }
+
+  60% {
+    top: 100%;
+    left: 75%;
+  }
+
+  85% {
+    top: 100%;
+    left: 25%;
+  }
+
+  100% {
+    top: -50%;
+    left: 0%;
+  }
+}
+
+@keyframes aurora-3 {
+  0% {
+    bottom: 0;
+    left: 0;
+  }
+
+  40% {
+    bottom: 100%;
+    left: 75%;
+  }
+
+  65% {
+    bottom: 40%;
+    left: 50%;
+  }
+
+  100% {
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@keyframes aurora-4 {
+  0% {
+    bottom: -50%;
+    right: 0;
+  }
+
+  50% {
+    bottom: 0%;
+    right: 40%;
+  }
+
+  90% {
+    bottom: 50%;
+    right: 25%;
+  }
+
+  100% {
+    bottom: -50%;
+    right: 0;
+  }
+}
+
+@keyframes aurora-border {
+  0% {
+    border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+  }
+
+  25% {
+    border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%;
+  }
+
+  50% {
+    border-radius: 57% 23% 47% 72% / 63% 17% 66% 33%;
+  }
+
+  75% {
+    border-radius: 28% 49% 29% 100% / 93% 20% 64% 25%;
+  }
+
+  100% {
+    border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+  }
+}
+
+/* Aurora Buttons */
+
+.aurora-glow-button1 {
+  padding: 20px 40px;
+  margin-top: 40px;
+  margin-left: 60px;
+  margin-right: 20px;
+  font-size: 1.4rem;
+  color: #fff;
+  background: linear-gradient(145deg, #32cd32, #1e90ff);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+
+  transition: all 0.5s ease;
+
+}
+
+.aurora-glow-button2 {
+  padding: 20px 40px;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 1.4rem;
+  color: #fff;
+  background: linear-gradient(145deg, #ff00d9, #1e90ff);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+
+  transition: all 0.5s ease;
+
+}
+
+.aurora-glow-button3 {
+  padding: 20px 40px;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 1.4rem;
+  color: #fff;
+  background: linear-gradient(145deg, #00ffbb, #c800ff);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+
+  transition: all 0.5s ease;
+
+}
+
+.aurora-glow-button1:hover {
+  box-shadow: 0 0 20px #32cd32;
+}
+
+.aurora-glow-button2:hover {
+  box-shadow: 0 0 20px #32cd32;
+}
+
+.aurora-glow-button3:hover {
+  box-shadow: 0 0 20px #32cd32;
+}
+
+.aurora-glow-button4 {
+  display: block;
+  width: 230px;
+  padding: 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.4rem;
+  color: #fff;
+  background: linear-gradient(145deg, #32cd32, #1e90ff);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.aurora-glow-button4:hover {
+  box-shadow: 0 0 20px #32cd32;
+}
+
+/* Code input container */
+.code-input-container {
+  margin-top: 40px;
+  position: relative;
+  display: flex;
+  width: 70%;
+  margin: 40px auto 0;
+  overflow: hidden;
+  /* Contains the scrolling content */
+  border-radius: 10px;
+}
+
+.line-numbers {
+  min-width: 70px;
+  width: max-content;
+  background-color: #2a2a2a;
+  color: #8f908a;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  text-align: right;
+  padding-top: 5px;
+  padding-right: 5px;
+  border-radius: 10px 0 0 10px;
+  user-select: none;
+  overflow-y: hidden;
+  /* Hide scrollbar but allow scrolling */
+
+}
+
+.code-input {
+  width: calc(100% - 50px);
+  height: 400px;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 10px;
+  border-radius: 0 10px 10px 0;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  resize: none;
+  line-height: 19px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar styles */
+.code-input::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-input::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.code-input::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.code-input::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.ace_gutter-cell {
+  padding-right: 5px;
+  height: 19px;
+  line-height: 19px;
+}
+
+/* Current line highlight in gutter */
+.ace_gutter-cell.current-line {
+  background-color: #494949b9;
+  /* Darker background for current line */
+  color: #ffffff;
+  /* Brighter text for better contrast */
+  font-weight: bold;
+  /* Make the line number bold */
+  position: relative;
+}
+
+/* Optional: Add a subtle marker to the right of the current line number */
+.ace_gutter-cell.current-line::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #e90bcbce;
+}
+
+
+/* Custom text selection color */
+.code-input::selection {
+  background-color: #e90bcbce;
+  color: #ffffff;
+  /* Text color when selected */
+}
+
+/* Custom text selection color For Firefox */
+.code-input::-moz-selection {
+  background-color: #e90bcbce;
+  color: #ffffff;
+}
+
+
+/* Upload File */
+label.dragging {
+  border-style: dashed;
+  border-color: #d1d5db;
+}
+
+/* for the link to github */
+.upload-code-container {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  max-width: 500px;
+  margin: 40px auto;
+  width: 100%;
+}
+
+.input-field {
+  border: none;
+  
+  border-radius: 10px;
+  background-color: gray;
+  width: 100%;
+  font-size: 16px;
+  max-width: 370px;
+  min-width: 370px;
+  height: 30px;
+  padding-left: 20px;
+  margin: 10px 0;
+  padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.input-field::placeholder {
+  color: rgba(235, 235, 235, 0.7);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #b1afafe5;
+  cursor: pointer;
+  transition: background-color 0.5s, border-color 0.25s;
+  margin-top: 20px;
+}
+
+/* Additional styles for the analysis result container */
+/* Completely revised analysis container styles */
+.analysis-container {
+  display: none;
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* Force ALL elements inside analysis-result to wrap text */
+.analysis-container *,
+.analysis-result *,
+.analysis-container pre,
+.analysis-result pre,
+.analysis-container code,
+.analysis-result code {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+/* Specific fix for code blocks that might be nested */
+.analysis-result pre code {
+  display: inline-block !important;
+  width: 100% !important;
+}
+
+/* Style tables to fit properly */
+.analysis-result table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+
+.analysis-result td, 
+.analysis-result th {
+  word-break: break-word !important;
+  padding: 5px !important;
+  border: 1px solid #444 !important;
+}
+
+/* For any inline elements */
+.analysis-result span, 
+.analysis-result a, 
+.analysis-result strong, 
+.analysis-result em {
+  display: inline !important;
+}

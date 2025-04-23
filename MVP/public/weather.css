@@ -1,0 +1,138 @@
+.weather-container {
+  border: 1px solid white;
+  border-radius: 10px;
+  height: 95%; /* Adjust height to match other charts */
+  width: 100%;
+  margin: 0 auto;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.weather-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.weather-header h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+  background: white;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#weather-date {
+  font-size: 1.1rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.weather-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.weather-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.6);
+  height: 100%;
+}
+
+.weather-icon-large {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.weather-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  height: 100%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Weather chart container styles */
+#weatherTemperatureChart {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 350px;
+}
+
+/* Weather range styling */
+.weather-range-summary {
+  width: 100%;
+  padding: 10px;
+}
+
+.weather-range-summary h4 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.summary-period {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.range-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 5px;
+}
+
+.range-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.min-temp {
+  color: #6bc5f2;
+}
+
+.max-temp {
+  color: #f26b6b;
+}
+
+.weather-loading {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.weather-error {
+  text-align: center;
+  color: #f26b6b;
+  padding: 20px;
+}
+
+.error-details {
+  font-size: 0.8rem;
+  color: rgba(242, 107, 107, 0.7);
+}
+
+/* Animation for weather data loading */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
