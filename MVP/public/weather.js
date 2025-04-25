@@ -88,12 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update header with selected date
             const headerDateElem = document.getElementById('weather-date') || document.createElement('p');
             headerDateElem.id = 'weather-date';
-            headerDateElem.textContent = date.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+            headerDateElem.textContent = formatDayMonthYear(date);
             if (!document.getElementById('weather-date')) {
                 weatherHeader.appendChild(headerDateElem);
             }
@@ -273,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update header with date range
             const headerDateElem = document.getElementById('weather-date') || document.createElement('p');
             headerDateElem.id = 'weather-date';
-            headerDateElem.textContent = `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`;
+            headerDateElem.textContent = `${formatDayMonthYear(startDate)} - ${formatDayMonthYear(endDate)}`;
             
             if (!document.getElementById('weather-date')) {
                 weatherHeader.appendChild(headerDateElem);
@@ -563,6 +558,14 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
+    // Helper function for day/month/year format
+    function formatDayMonthYear(date) {
+        const d = date.getDate();
+        const m = date.getMonth() + 1;
+        const y = date.getFullYear();
+        return `${d}/${m}/${y}`;
+    }
+
     // Listen for date selection events from the calendar
     document.addEventListener('dateRangeSelected', function(event) {
         const { start, end } = event.detail;

@@ -2,7 +2,8 @@ const repoUrlLS = localStorage.getItem('repoUrl');
 if (!repoUrlLS) {
     console.error('Repository URL not found in localStorage.');
 } else {
-    window.repoUrl = repoUrlLS; // expose repoUrl globally so other modules can use it.
+    // Remove .git suffix from the URL before storing it globally
+    window.repoUrl = repoUrlLS.replace(/\.git$/, '');
 }
 
 
@@ -44,12 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function fetchCommitData() {
-    const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+    // Update the pattern matching for repository URLs to handle .git suffix
+    const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)(\.git)?/);
     if (!match) {
         console.error('Invalid GitHub URL');
         return;
     }
     const username = match[1];
+    // Remove .git suffix if present
     const repository = match[2];
     const perPage = 100;
     let page = 1;

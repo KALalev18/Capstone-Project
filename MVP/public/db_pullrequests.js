@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     const username = match[1];
-    const repository = match[2];
+    const repository = match[2].replace(/\.git$/, '');
     
     let allPRs = [];
     let page = 1;

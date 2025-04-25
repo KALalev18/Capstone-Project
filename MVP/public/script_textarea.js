@@ -369,18 +369,19 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.textContent = '';
         
         // Validate if it's a proper GitHub repository URL
-        const githubUrlPattern = /^https?:\/\/(www\.)?github\.com\/([^/]+)\/([^/]+)\/?$/i;
+        const githubUrlPattern = /^https?:\/\/(www\.)?github\.com\/([^/]+)\/([^/]+)\.git$/i;
         
         if (!githubUrlPattern.test(url)) {
-            errorMessage.textContent = 'Invalid GitHub repository URL. Please enter a valid URL (e.g., https://github.com/username/repository)';
+            errorMessage.textContent = 'Invalid GitHub repository URL. Please enter a valid URL (e.g., https://github.com/username/repository.git)';
             githubUrlInput.focus();
             return;
         }
         
         // Extract username and repository name from the URL
-        const match = url.match(githubUrlPattern);
-        const username = match[2];
-        const repository = match[3];
+        const match = url.match(/github\.com\/([^/]+)\/([^/]+)(\.git)?/);
+        const username = match[1];
+        // Remove .git suffix from repository name before using in API
+        const repository = match[2].replace(/\.git$/, '');
         
         // Check if the repository exists using GitHub API
         const apiUrl = `https://api.github.com/repos/${username}/${repository}`;
@@ -397,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Save URL to localStorage so dashboard.html can access it
-            localStorage.setItem('repoUrl', url);
+            localStorage.setItem('repoUrl', url.replace(/\.git$/, ''));
             
             // Redirect to dashboard.html
             window.location.href = 'dashboard.html';

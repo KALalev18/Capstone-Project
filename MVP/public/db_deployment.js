@@ -2,14 +2,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   const repoUrl = window.repoUrl;
   const githubToken = window.githubToken;
   const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
-
   if (!match) {
-    console.error('Invalid GitHub URL');
+    console.error('Invalid GitHub repository URL:', repoUrl);
     return;
   }
-
   const username = match[1];
-  const repository = match[2];
+  const repository = match[2].replace(/\.git$/, ''); // Remove .git suffix if present
   const apiUrl = `https://api.github.com/repos/${username}/${repository}/deployments`;
 
   try {

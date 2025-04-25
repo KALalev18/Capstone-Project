@@ -150,6 +150,174 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // Add this function right after the filterAndAnalyzeCommits function
+  function createSentimentChart(commits) {
+    // Create chart container if it doesn't exist
+    let chartContainer = document.getElementById('sentiment-chart-container');
+    if (!chartContainer) {
+      chartContainer = document.createElement('div');
+      chartContainer.id = 'sentiment-chart-container';
+      chartContainer.className = 'resultItem';
+      chartContainer.innerHTML = `
+        <h3>Sentiment Analysis Timeline</h3>
+        <div style="height: 300px; position: relative;">
+          <canvas id="sentimentChart"></canvas>
+        </div>
+      `;
+    } else {
+      // Clear existing chart
+      chartContainer.querySelector('div').innerHTML = '<canvas id="sentimentChart"></canvas>';
+    }
+    
+    // Group commits by hour and sentiment
+    const hourlyData = Array(24).fill().map(() => ({
+      positive: 0,
+      neutral: 0,
+      negative: 0
+    }));
+    
+    commits.forEach(commit => {
+      const hour = commit.date.getHours();
+      if (commit.commitMessage.score > 0) {
+        hourlyData[hour].positive++;
+      } else if (commit.commitMessage.score < 0) {
+        hourlyData[hour].negative++;
+      } else {
+        hourlyData[hour].neutral++;
+      }
+    });
+    
+    // Create hour labels (12am to 11pm)
+    const hourLabels = Array(24).fill().map((_, i) => {
+      if (i === 0) return '12am';
+      if (i === 12) return '12pm';
+      return i < 12 ? `${i}am` : `${i-12}pm`;
+    });
+    
+    // Extract data for the chart
+    const positiveData = hourlyData.map(hour => hour.positive);
+    const neutralData = hourlyData.map(hour => hour.neutral);
+    const negativeData = hourlyData.map(hour => hour.negative);
+    
+    // Return the container now - we'll create the chart after it's in the DOM
+    return {
+      container: chartContainer,
+      createChart: function() {
+        // Get the canvas context after the element is in the DOM
+        const ctx = document.getElementById('sentimentChart').getContext('2d');
+        
+        return new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: hourLabels,
+            datasets: [
+              {
+                label: 'Positive Commits',
+                data: positiveData,
+                backgroundColor: 'rgba(51, 255, 140, 0.1)',
+                borderColor: '#33ff8c',
+                borderWidth: 2,
+                tension: 0.4,
+                pointBackgroundColor: '#33ff8c',
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                fill: false
+              },
+              {
+                label: 'Neutral Commits',
+                data: neutralData,
+                backgroundColor: 'rgba(255, 183, 27, 0.1)',
+                borderColor: '#ffb71b',
+                borderWidth: 2,
+                tension: 0.4,
+                pointBackgroundColor: '#ffb71b',
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                fill: false
+              },
+              {
+                label: 'Negative Commits',
+                data: negativeData,
+                backgroundColor: 'rgba(255, 99, 71, 0.1)',
+                borderColor: '#ff6347',
+                borderWidth: 2,
+                tension: 0.4,
+                pointBackgroundColor: '#ff6347',
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                fill: false
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Time of Day',
+                  color: '#fff'
+                },
+                grid: {
+                  display: true,
+                  drawBorder: true,
+                  color: 'rgba(255, 255, 255, 0.05)',
+                  borderColor: '#fff'
+                },
+                ticks: {
+                  color: '#fff',
+                  autoSkip: true,
+                  maxTicksLimit: 12
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Number of Commits',
+                  color: '#fff'
+                },
+                grid: {
+                  display: true,
+                  drawBorder: true,
+                  color: 'rgba(255, 255, 255, 0.05)',
+                  borderColor: '#fff'
+                },
+                ticks: {
+                  color: '#fff',
+                  stepSize: 1,
+                  beginAtZero: true
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  color: '#fff',
+                  boxWidth: 12
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: 'rgba(255, 255, 255, 0.2)',
+                borderWidth: 1,
+                padding: 10
+              }
+            },
+            interaction: {
+              mode: 'index',
+              intersect: false
+            }
+          }
+        });
+      }
+    };
+  }
+  
   // Function to convert GitHub emoji shortcodes to actual emojis
   function convertGitHubEmoji(text) {
     // Common emoji mapping used in commit messages
@@ -233,12 +401,15 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // Extract owner and repo from the GitHub URL
-  const match = window.repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
+  // Update the URL extraction
+  const match = window.repoUrl.match(/github\.com\/([^/]+)\/([^/]+)(\.git)?/);
   if (!match) {
     statusDiv.innerHTML = '<p class="chart-error">Invalid GitHub repository URL format.</p>';
     return;
   }
+
+  const owner = match[1];
+  const repo = match[2];
   
   // Display initial loading status
   statusDiv.innerHTML = '<p class="loading">Waiting for commit data to load...</p>';
@@ -390,17 +561,38 @@ document.addEventListener('DOMContentLoaded', function() {
               groqData?.choices?.[0]?.message?.content || 
               "No analysis available.";
               
-            // Set sentiment score based on Groq's analysis with clear neutral handling
+            // Set sentiment score based on Groq's analysis with better detection
             const analysis = analyzedCommits[commitIndex].groqAnalysis.toLowerCase();
-            if (analysis.includes('positive')) {
-              analyzedCommits[commitIndex].commitMessage.score = 1;
-            } else if (analysis.includes('negative')) {
-              analyzedCommits[commitIndex].commitMessage.score = -1;
-            } else if (analysis.includes('neutral')) {
-              analyzedCommits[commitIndex].commitMessage.score = 0;
-            } else {
-              // Default to neutral if unclear
-              analyzedCommits[commitIndex].commitMessage.score = 0;
+
+            // First, check for explicit classifications with stronger patterns
+            if (analysis.includes("classify") && analysis.includes("as")) {
+              if (analysis.includes("as positive") || analysis.includes("as **positive**")) {
+                analyzedCommits[commitIndex].commitMessage.score = 1;
+              } else if (analysis.includes("as negative") || analysis.includes("as **negative**")) {
+                analyzedCommits[commitIndex].commitMessage.score = -1;
+              } else if (analysis.includes("as neutral") || analysis.includes("as **neutral**")) {
+                analyzedCommits[commitIndex].commitMessage.score = 0;
+              }
+            } 
+            // If no explicit classification found, fall back to keyword presence
+            else {
+              // Count occurrences to handle cases with multiple sentiment mentions
+              const positiveCount = (analysis.match(/positive/g) || []).length;
+              const negativeCount = (analysis.match(/negative/g) || []).length;
+              const neutralCount = (analysis.match(/neutral/g) || []).length;
+              
+              // Determine sentiment based on which sentiment has the most mentions
+              if (positiveCount > negativeCount && positiveCount > neutralCount) {
+                analyzedCommits[commitIndex].commitMessage.score = 1;
+              } else if (negativeCount > positiveCount && negativeCount > neutralCount) {
+                analyzedCommits[commitIndex].commitMessage.score = -1;
+              } else if (neutralCount > 0) {
+                // If neutral is mentioned at all and no other sentiment has more mentions
+                analyzedCommits[commitIndex].commitMessage.score = 0;
+              } else {
+                // Default to neutral if unclear
+                analyzedCommits[commitIndex].commitMessage.score = 0;
+              }
             }
             
             success = true;
@@ -447,23 +639,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const needsAnalysis = commitsToShow.some(commit => !commit.groqAnalysis);
     
     if (needsAnalysis) {
-      // Show "Analyzing this page..." message
-      statusDiv.innerHTML = '<p class="loading">Analyzing commits on page ' + page + '...</p>';
+      // Clear the top status message - we'll show it at the bottom instead
+      statusDiv.innerHTML = '';
+      
+      // Render the page content first
+      renderPageContent(page, true); // Pass true to indicate we're analyzing
       
       // Analyze this page
       analyzeCommitsForPage(page).then(() => {
         // Update the display after analysis is complete
-        statusDiv.innerHTML = '';
-        renderPageContent(page);
+        // Re-render without the loading indicator
+        renderPageContent(page, false);
       }).catch(error => {
         console.error('Error analyzing page:', error);
-        statusDiv.innerHTML = `<p class="chart-error">Error analyzing commits: ${error.message}</p>`;
-        renderPageContent(page);
+        // Show error at the bottom of the page
+        const paginationLoading = document.getElementById('pagination-loading');
+        if (paginationLoading) {
+          paginationLoading.innerHTML = `<p class="chart-error">Error analyzing commits: ${error.message}</p>`;
+        }
       });
     } else {
       // No analysis needed, just render the page
       statusDiv.innerHTML = '';
-      renderPageContent(page);
+      renderPageContent(page, false);
     }
   }
   
@@ -472,7 +670,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Update the renderPageContent function to show contributor information
 
-function renderPageContent(page) {
+function renderPageContent(page, isAnalyzing = false) {
   // Clear results div
   resultsDiv.innerHTML = '';
   
@@ -555,6 +753,15 @@ function renderPageContent(page) {
   summaryDiv.innerHTML = summaryHTML;
   resultsDiv.appendChild(summaryDiv);
   
+  // Add the sentiment chart below the summary - UPDATED APPROACH
+  const chartData = createSentimentChart(analyzedCommits);
+  resultsDiv.appendChild(chartData.container);
+  
+  // Create the chart after the container is in the DOM
+  setTimeout(() => {
+    chartData.createChart();
+  }, 0);
+  
   // Rest of the render function (displaying commits, pagination) remains the same
   
   // Display each commit with its sentiment and basic analysis
@@ -598,84 +805,84 @@ function renderPageContent(page) {
     resultsDiv.appendChild(commitElement);
   });
   
+  // Add loading indicator above pagination if we're analyzing
+  if (isAnalyzing) {
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'pagination-loading';
+    loadingDiv.className = 'loading';
+    loadingDiv.style.marginTop = '20px'; // Add some spacing
+    loadingDiv.innerHTML = '<p>Analyzing commits on page ' + page + '...</p>';
+    resultsDiv.appendChild(loadingDiv);
+  }
+  
   // Add pagination controls if we have more than one page
   if (totalPages > 1) {
     const paginationDiv = document.createElement('div');
     paginationDiv.className = 'pagination-controls';
     
-    // Add previous button
+    // Previous page button
     const prevButton = document.createElement('button');
-    prevButton.innerHTML = '&laquo;';
     prevButton.className = 'pagination-btn';
+    prevButton.innerHTML = '&laquo;';
     prevButton.disabled = page === 1;
-    prevButton.addEventListener('click', function() {
-      if (page > 1) {
-        renderCommitsPage(page - 1);
-      }
-    });
+    prevButton.addEventListener('click', () => renderCommitsPage(page - 1));
     paginationDiv.appendChild(prevButton);
     
-    // Add page numbers with ellipsis for large page sets
-    function addPageButton(pageNum) {
-      const pageButton = document.createElement('button');
-      pageButton.textContent = pageNum;
-      pageButton.className = pageNum === page ? 'pagination-btn active' : 'pagination-btn';
-      pageButton.addEventListener('click', function() {
-        renderCommitsPage(pageNum);
-      });
-      paginationDiv.appendChild(pageButton);
-    }
-    
-    // Add ellipsis element
-    function addEllipsis() {
-      const ellipsis = document.createElement('span');
-      ellipsis.textContent = '...';
-      ellipsis.className = 'pagination-ellipsis';
-      paginationDiv.appendChild(ellipsis);
-    }
-    
-    // Show pagination with ellipses as before
-    addPageButton(1);
-    
+    // Calculate which page numbers to show (show max 5 page numbers + first/last if needed)
+    let pageNumbers = [];
     if (totalPages <= 7) {
-      for (let i = 2; i < totalPages; i++) {
-        addPageButton(i);
-      }
+      // If 7 or fewer pages, show all page numbers
+      pageNumbers = Array.from({length: totalPages}, (_, i) => i + 1);
     } else {
+      // Always include page 1
+      pageNumbers.push(1);
+      
+      // For current pages near the beginning
       if (page < 5) {
-        for (let i = 2; i <= 5; i++) {
-          addPageButton(i);
-        }
-        addEllipsis();
-        addPageButton(totalPages);
-      } else if (page > totalPages - 4) {
-        addEllipsis();
-        for (let i = totalPages - 4; i < totalPages; i++) {
-          addPageButton(i);
-        }
-      } else {
-        addEllipsis();
-        for (let i = page - 1; i <= page + 1; i++) {
-          addPageButton(i);
-        }
-        addEllipsis();
-        addPageButton(totalPages);
+        pageNumbers.push(2, 3, 4, 5);
+        pageNumbers.push('ellipsis');
+        pageNumbers.push(totalPages);
+      }
+      // For current pages near the end
+      else if (page > totalPages - 4) {
+        pageNumbers.push('ellipsis');
+        pageNumbers.push(totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      }
+      // For current pages in the middle
+      else {
+        pageNumbers.push('ellipsis');
+        pageNumbers.push(page - 1, page, page + 1);
+        pageNumbers.push('ellipsis');
+        pageNumbers.push(totalPages);
       }
     }
     
-    // Add next button
-    const nextButton = document.createElement('button');
-    nextButton.innerHTML = '&raquo;';
-    nextButton.className = 'pagination-btn';
-    nextButton.disabled = page === totalPages;
-    nextButton.addEventListener('click', function() {
-      if (page < totalPages) {
-        renderCommitsPage(page + 1);
+    // Create page number buttons, ensuring no duplicates
+    const uniquePageNumbers = [...new Set(pageNumbers)];
+    uniquePageNumbers.forEach(num => {
+      if (num === 'ellipsis') {
+        const ellipsis = document.createElement('span');
+        ellipsis.className = 'pagination-ellipsis';
+        ellipsis.textContent = '...';
+        paginationDiv.appendChild(ellipsis);
+      } else {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = 'pagination-btn';
+        if (num === page) pageBtn.classList.add('active');
+        pageBtn.textContent = num;
+        pageBtn.addEventListener('click', () => renderCommitsPage(num));
+        paginationDiv.appendChild(pageBtn);
       }
     });
+    
+    // Next page button
+    const nextButton = document.createElement('button');
+    nextButton.className = 'pagination-btn';
+    nextButton.innerHTML = '&raquo;';
+    nextButton.disabled = page === totalPages;
+    nextButton.addEventListener('click', () => renderCommitsPage(page + 1));
     paginationDiv.appendChild(nextButton);
     
-    // Append pagination controls to results div
     resultsDiv.appendChild(paginationDiv);
   }
   

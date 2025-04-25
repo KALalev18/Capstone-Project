@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   try {
     const match = window.repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
     const username = match[1];
-    const repository = match[2];
+    const repository = match[2].replace(/\.git$/, '');
     let page = 1;
     let contributors = [];
     let hasNextPage = true;

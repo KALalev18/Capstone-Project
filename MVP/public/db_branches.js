@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     const username = match[1];
-    const repository = match[2];
+    const repository = match[2].replace(/\.git$/, '');
     const branchesApiUrl = `https://api.github.com/repos/${username}/${repository}/branches`;
   
     fetch(branchesApiUrl, {

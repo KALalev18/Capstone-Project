@@ -131,7 +131,7 @@ async function fetchAverageCodingHours(contributor = "all") {
   }
 
   const username = match[1];
-  const repository = match[2];
+  const repository = match[2].replace(/\.git$/, '');
   let apiUrl = `https://api.github.com/repos/${username}/${repository}/commits?per_page=100&page=1`;
   let hourCounts = new Array(24).fill(0);
   let uniqueDates = new Set();

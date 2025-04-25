@@ -58,7 +58,7 @@ async function fetchAndDisplayIssues() {
         return;
     }
     const username = match[1];
-    const repository = match[2];
+    const repository = match[2].replace(/\.git$/, '');
     const apiUrl = `https://api.github.com/repos/${username}/${repository}/issues?state=open&sort=created&direction=desc&per_page=5`;
 
     try {

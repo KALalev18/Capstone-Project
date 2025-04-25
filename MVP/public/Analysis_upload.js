@@ -1,3 +1,5 @@
+const SUPPORTED_EXTENSIONS = ["py", "js", "java", "html", "css"];
+
 let uploadedFile = null; // Store the uploaded file
 let errorTimeout; // Variable to store the timeout ID
 
@@ -104,7 +106,7 @@ function analyseFile() {
     });
 }
 
-// Modified generateGraphFromUpload function with status messages
+// Modified generateGraphFromUpload function with file extension validation
 function generateGraphFromUpload() {
     const fileNamesContainer = document.getElementById('file-names');
     const errorId = 'error-message-graph';
@@ -121,6 +123,19 @@ function generateGraphFromUpload() {
     if (!files || files.length === 0) {
         clearError(errorId); // Clear the error message if it exists
         return; // No files selected, do nothing
+    }
+
+    // Check file extensions for all selected files
+    const unsupportedFiles = Array.from(files).filter(file => {
+        const extension = file.name.split('.').pop().toLowerCase();
+        return !SUPPORTED_EXTENSIONS.includes(extension);
+    });
+
+    // If any unsupported files are found, show an error and abort
+    if (unsupportedFiles.length > 0) {
+        const fileNames = unsupportedFiles.map(file => file.name).join(', ');
+        showError(`Cannot generate function graph for unsupported file type(s): ${fileNames}. Supported extensions are: ${SUPPORTED_EXTENSIONS.join(', ')}`, errorId);
+        return;
     }
 
     // Show the generating status
@@ -198,8 +213,6 @@ document.getElementById('code-upload').addEventListener('change', (event) => {
     clearError('error-message-graph');
     handleFileChange(event);
 });
-
-
 
 document.getElementById("upload-form").addEventListener("submit", function(event) {
     event.preventDefault();
