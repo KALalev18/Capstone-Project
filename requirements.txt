@@ -6,3 +6,5 @@ requests
 aiofiles
 setuptools
 wheel
+matplotlib
+networkx
