@@ -1,4 +1,4 @@
-const SUPPORTED_EXTENSIONS = ["py", "js", "java", "html", "css"];
+const SUPPORTED_EXTENSIONS = ["py", "js", "java", "html", "css","c"];
 
 let uploadedFile = null; // Store the uploaded file
 let errorTimeout; // Variable to store the timeout ID
