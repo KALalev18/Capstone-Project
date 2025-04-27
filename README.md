@@ -87,15 +87,25 @@ The sentiment analysis chart is shown as in the picture; the commit analysis tak
 
 ![image](https://github.com/user-attachments/assets/651a545d-8cd9-41cc-84fa-3798fe897837)
 
-## Optional: Setup a .venv
+[Video testing the MVP](https://youtu.be/hM3-eVn4FZ8)
+
+## Optional: Setup a .venv locally - step-by-step guide (not in the repository)
 
 1. In the search bar, search '> Python: Create Environment'
 2. Select the .venv option
 3. Select any Python version you like
 4. Select the 'requirements.txt' file to install the necessary dependencies. (If it doesn't show, use 'pip install -r requirements.txt' later on)
 5. Run '.\.venv\Scripts\Activate' to start the .venv
-6. Run 'python --version' and 'pip list' to check versions of Python and libraries respectively.
+6. Run 'python --version' and 'pip list' to check versions of Python and libraries, respectively.
+7. Run 'pip install requests' to satisfy the requirements.
+8. echo "import sys; print(sys.executable)" > test_env.py, switch the encoding to UTF-8, at the menu below the terminal, and write this in case of conversion failure: 
 
-[Video with testing the MVP - TBD again](https://youtu.be/Ar1QXgED57g)
+import sys; print(sys.executable)
+
+9. Test the .venv with: 'python test_env.py'. By showing a path, finishing with 'python.exe', that means the .venv is set up successfully.
+10. Run commands: 'cd mvp', and then 'node server.js', at the terminal click: http://localhost:3000, and test the project out.
+11. To exit the .venv, run the command 'deactivate'
+
+[Video reference for .venv setup](https://youtu.be/2UzV_nEvtZA)
 
 In case of any further requests, please let us know!
