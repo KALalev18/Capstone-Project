@@ -1,52 +1,54 @@
 # Capstone-Project
 
-# How to run the project (MVP version 1.0)
+## How to run the project (MVP version 1.0)
 
-## 1. Clone the repository: https://github.com/KALalev18/Capstone-Project.git
-## 2. Open a new window with Visual Studio Code.
-## 3. Paste the repository URL and select the designated folder to save the project. 
-## 4. Go to: folder 'MVP' -> .env
+### 1. Clone the repository: https://github.com/KALalev18/Capstone-Project.git
+### 2. Open a new window with Visual Studio Code.
+### 3. Paste the repository URL and select the designated folder to save the project. 
+### 4. Go to: folder 'MVP' -> .env
 
-## 5. How to generate a Groq API key
+### 5. How to generate a Groq API key
 
-  5.1. Log in / register in [GroqCloud](https://console.groq.com/)
-  5.2. Click on 'Creating your API key'
-  5.3. Paste it on line 1, inside the double quotation marks
+  - 5.1. Log in / register in [GroqCloud](https://console.groq.com/)
+  - 5.2. Click on 'Creating your API key'
+  - 5.3. Paste it on line 1, inside the double quotation marks
 
-## 6. How to generate a Metepstat key
+### 6. How to generate a Metepstat key
 
-  6.1. Go to [Meteostat ](https://dev.meteostat.net/), and click 'JSON API' on the navigation menu
-  6.2. Scroll down to the 'Sign Up' heading, and click [RapidAPI](https://rapidapi.com/signup)
-  6.3. Sign up if you haven't. 
-  6.4. If you can't redirect to the API, you can find it by clicking on your profile picture, then selecting 'User Settings', then from the left navigation menu, select the default application, created automatically after setting up your key.
+  - 6.1. Go to [Meteostat ](https://dev.meteostat.net/), and click 'JSON API' on the navigation menu
+  - 6.2. Scroll down to the 'Sign Up' heading, and click [RapidAPI](https://rapidapi.com/signup)
+  - 6.3. Sign up if you haven't. 
+  - 6.4. If you can't redirect to the API, you can find it by clicking on your profile picture, then selecting 'User Settings', then from the left navigation menu, select the default application, created automatically after setting up your key.
+ 
   ![image](https://github.com/user-attachments/assets/50979a9e-3d51-45a0-a7cb-6f1e60deb919)
-  6.5. By clicking the eye, you will get your meteostat key, which you can paste at line 2 in the .env file.
-  6.6. Paste your Meteostat key on line 2, inside the double quotation marks
+  
+  - 6.5. By clicking the eye, you will get your meteostat key, which you can paste at line 2 in the .env file.
+  - 6.6. Paste your Meteostat key on line 2, inside the double quotation marks
 
-## 7. How to generate a GitHub API token
+### 7. How to generate a GitHub API token
 
-  7.1. Click the profile picture on your top right
-  7.2. On the left navigation menu, click 'Developer settings'
-  7.3. Again, on the new left navigation menu, click 'Personal access tokens', then click 'Tokens (classic)'
-  7.4. On the right of 'Personal access tokens (classic)', click 'Generate new token', then click 'Generate new token'
-  7.5. Type your password
-  7.6. Name your token, set the expiration date, and for testing purposes, click all the ticks with the scopes, and click 'Generate token'.
-  7.7. Paste your personal GitHub token inside the double quotation marks on line 3
+  - 7.1. Click the profile picture on your top right
+  - 7.2. On the left navigation menu, click 'Developer settings'
+  - 7.3. Again, on the new left navigation menu, click 'Personal access tokens', then click 'Tokens (classic)'
+  - 7.4. On the right of 'Personal access tokens (classic)', click 'Generate new token', then click 'Generate new token'
+  - 7.5. Type your password
+  - 7.6. Name your token, set the expiration date, and for testing purposes, click all the ticks with the scopes, and click 'Generate token'.
+  - 7.7. Paste your personal GitHub token inside the double quotation marks on line 3
 
-## 8. Don't forget to run 'pip install -r requirements.txt' to install the requirements, with which you can run the project.
-## 9. In the terminal, run: 'cd MVP'
-## 10. Run 'npm install' to verify the node, 
-## 11. Verify the installation with both 'node -v' and 'npm -v' commands
-## 12. After that, run: 'node server.js'
-## 13. http://localhost:3000/FrontPage.html is opened in the browser by default, and it should look like this:
+### 8. Don't forget to run 'pip install -r requirements.txt' to install the requirements, with which you can run the project.
+### 9. In the terminal, run: 'cd MVP'
+### 10. Run 'npm install' to verify the node, 
+### 11. Verify the installation with both 'node -v' and 'npm -v' commands
+### 12. After that, run: 'node server.js'
+### 13. http://localhost:3000/FrontPage.html is opened in the browser by default, and it should look like this:
 
 ![image](https://github.com/user-attachments/assets/ff311798-5c9c-4e84-ba20-b07e657f3782)
 
-## 14. Paste and process the code feature:
+### 14. Paste and process the code feature:
 
 ![image](https://github.com/user-attachments/assets/db5a1032-02fa-4cdb-87ff-48b2e818fa13)
 
-## 15. Upload, analyze the file, and generate a function graph based on the content
+### 15. Upload, analyze the file, and generate a function graph based on the content
 
 ![image](https://github.com/user-attachments/assets/742a43b2-ca45-4f8f-9ea8-3ee59ee6aa8c)
 
@@ -57,7 +59,7 @@ A special case is that you cannot generate a function graph for a file, with an 
 ![image](https://github.com/user-attachments/assets/25484ddb-ac96-43e2-b84f-a14c00a6b807)
 
 
-## 16. Paste any GitHub repository link: 
+### 16. Paste any GitHub repository link: 
 
 ![image](https://github.com/user-attachments/assets/e4ead2e1-42ef-44d8-b8a9-3aacf18e5197)
 
@@ -91,20 +93,20 @@ The sentiment analysis chart is shown as in the picture; the commit analysis tak
 
 ## Optional: Setup a .venv locally - step-by-step guide (not in the repository)
 
-1. In the search bar, search '> Python: Create Environment'
-2. Select the .venv option
-3. Select any Python version you like
-4. Select the 'requirements.txt' file to install the necessary dependencies. (If it doesn't show, use 'pip install -r requirements.txt' later on)
-5. Run '.\.venv\Scripts\Activate' to start the .venv
-6. Run 'python --version' and 'pip list' to check versions of Python and libraries, respectively.
-7. Run 'pip install requests' to satisfy the requirements.
-8. echo "import sys; print(sys.executable)" > test_env.py, switch the encoding to UTF-8, at the menu below the terminal, and write this in case of conversion failure: 
+### 1. In the search bar, search '> Python: Create Environment'
+### 2. Select the .venv option
+### 3. Select any Python version you like
+### 4. Select the 'requirements.txt' file to install the necessary dependencies. (If it doesn't show, use 'pip install -r requirements.txt' later on)
+### 5. Run '.\.venv\Scripts\Activate' to start the .venv
+### 6. Run 'python --version' and 'pip list' to check versions of Python and libraries, respectively.
+### 7. Run 'pip install requests' to satisfy the requirements.
+### 8. echo "import sys; print(sys.executable)" > test_env.py, switch the encoding to UTF-8, at the menu below the terminal, and write this in case of conversion failure: 
 
 import sys; print(sys.executable)
 
-9. Test the .venv with: 'python test_env.py'. By showing a path, finishing with 'python.exe', that means the .venv is set up successfully.
-10. Run commands: 'cd mvp', and then 'node server.js', at the terminal click: http://localhost:3000, and test the project out.
-11. To exit the .venv, run the command 'deactivate'
+### 9. Test the .venv with: 'python test_env.py'. By showing a path, finishing with 'python.exe', that means the .venv is set up successfully.
+### 10. Run commands: 'cd mvp', and then 'node server.js', at the terminal click: http://localhost:3000, and test the project out.
+### 11. To exit the .venv, run the command 'deactivate'
 
 [Video reference for .venv setup](https://youtu.be/2UzV_nEvtZA)
 
