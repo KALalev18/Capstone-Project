@@ -63,8 +63,16 @@ document.addEventListener('DOMContentLoaded', function() {
     dateFilterStart = event.detail.start;
     dateFilterEnd = event.detail.end;
     
+    // If only a single date is selected (no end date), filter for that day only
+    if (dateFilterStart && !dateFilterEnd) {
+      // Set both start and end to the same day (midnight to 23:59:59)
+      dateFilterStart.setHours(0, 0, 0, 0);
+      dateFilterEnd = new Date(dateFilterStart);
+      dateFilterEnd.setHours(23, 59, 59, 999);
+    }
+    
     // Update the status to show filtering is happening
-    statusDiv.innerHTML = '<p class="loading">Filtering commits by selected date range...</p>';
+    statusDiv.innerHTML = '<p class="loading">Filtering commits by selected date...</p>';
     
     // Debounce to avoid multiple rapid calls
     if (dateFilterDebounceTimer) {
@@ -686,8 +694,20 @@ function renderPageContent(page, isAnalyzing = false) {
     const dateFilterDiv = document.createElement('div');
     dateFilterDiv.className = 'date-filter-info';
     
+    let filterText;
+    if (
+      dateFilterStart &&
+      dateFilterEnd &&
+      dateFilterStart.getFullYear() === dateFilterEnd.getFullYear() &&
+      dateFilterStart.getMonth() === dateFilterEnd.getMonth() &&
+      dateFilterStart.getDate() === dateFilterEnd.getDate()
+    ) {
+      filterText = `Filtered by date: ${formatDate(dateFilterStart)}`;
+    } else {
+      filterText = `Filtered by date: ${formatDate(dateFilterStart)} to ${formatDate(dateFilterEnd)}`;
+    }
+    
     // Include contributor info in the filter description if applicable
-    let filterText = `Filtered by date: ${formatDate(dateFilterStart)} to ${formatDate(dateFilterEnd)}`;
     if (selectedContributor !== "all") {
       // Get contributor display name from dropdown
       let contributorName = selectedContributor;

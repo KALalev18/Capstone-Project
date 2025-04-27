@@ -98,6 +98,14 @@ document.addEventListener('dateRangeSelected', function(event) {
     dateFilterStart = event.detail.start;
     dateFilterEnd = event.detail.end;
     
+    // When only one date is selected (no end date)
+    if (dateFilterStart && !dateFilterEnd) {
+        // Create a copy of the start date for end date
+        dateFilterEnd = new Date(dateFilterStart);
+        // Set end date to end of the same day (23:59:59)
+        dateFilterEnd.setHours(23, 59, 59, 999);
+    }
+    
     // Get current selected contributor from dropdown
     const contributorDropdown = document.getElementById('mySelect');
     const selectedContributor = contributorDropdown.value === "1" ? "all" : contributorDropdown.value;
@@ -253,11 +261,33 @@ function updateCodingHoursChart(avgHourlyCommits, contributor = "all") {
     } else {
         // If we have data, show appropriate title
         if (contributor !== "all" && dateFilterStart) {
-            codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName} in date range`;
+            // Check if we're looking at a single day or a date range
+            const isSingleDay = isSameDay(dateFilterStart, dateFilterEnd);
+            
+            if (isSingleDay) {
+                // Format the date for display (e.g., "April 15, 2025")
+                const dateStr = dateFilterStart.toLocaleDateString('en-US', { 
+                    month: 'long', day: 'numeric', year: 'numeric' 
+                });
+                codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName} on ${dateStr}`;
+            } else {
+                codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName} in selected date range`;
+            }
         } else if (contributor !== "all") {
             codinghrsChart.options.plugins.title.text = `Average Coding Hours for ${contributorName}`;
         } else if (dateFilterStart) {
-            codinghrsChart.options.plugins.title.text = 'Average Coding Hours in selected date range';
+            // Check if we're looking at a single day or a date range
+            const isSingleDay = isSameDay(dateFilterStart, dateFilterEnd);
+            
+            if (isSingleDay) {
+                // Format the date for display
+                const dateStr = dateFilterStart.toLocaleDateString('en-US', { 
+                    month: 'long', day: 'numeric', year: 'numeric' 
+                });
+                codinghrsChart.options.plugins.title.text = `Average Coding Hours on ${dateStr}`;
+            } else {
+                codinghrsChart.options.plugins.title.text = 'Average Coding Hours in selected date range';
+            }
         } else {
             codinghrsChart.options.plugins.title.text = 'Average Coding Hours';
         }
@@ -266,6 +296,17 @@ function updateCodingHoursChart(avgHourlyCommits, contributor = "all") {
     codinghrsChart.data.datasets[0].data = avgHourlyCommits;
     codinghrsChart.options.scales.y.max = yAxisMax || 0.1; // Set minimum scale to 0.1 if no data
     codinghrsChart.update();
+}
+
+// Add a helper function to check if two dates are the same day
+function isSameDay(date1, date2) {
+    if (!date1 || !date2) return false;
+    
+    return (
+        date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate()
+    );
 }
 
 // Change this part at the bottom of the file

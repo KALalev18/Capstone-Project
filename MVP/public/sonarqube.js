@@ -1116,6 +1116,20 @@ document.addEventListener('DOMContentLoaded', function() {
       
       let hasDataInDateRange = false;
       
+      // Handle case where only start date is provided (single day selection)
+      let startDateCopy, endDateCopy;
+      
+      if (sonarQubeDateFilterStart && !sonarQubeDateFilterEnd) {
+        // Create copies to avoid modifying original date objects
+        startDateCopy = new Date(sonarQubeDateFilterStart);
+        endDateCopy = new Date(sonarQubeDateFilterStart);
+        endDateCopy.setHours(23, 59, 59, 999); // End of same day
+      } else if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+        // Create copies when both dates are provided
+        startDateCopy = new Date(sonarQubeDateFilterStart);
+        endDateCopy = new Date(sonarQubeDateFilterEnd);
+      }
+      
       // Process all history points for each metric
       measures.forEach(measure => {
         const metricName = measure.metric;
@@ -1125,14 +1139,14 @@ document.addEventListener('DOMContentLoaded', function() {
           const date = new Date(point.date);
           
           // Skip points outside date range if filter is active
-          if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+          if (startDateCopy && endDateCopy) {
             // Compare dates at day level only
             const compareDate = new Date(date);
             compareDate.setHours(0, 0, 0, 0);
-            sonarQubeDateFilterStart.setHours(0, 0, 0, 0);
-            sonarQubeDateFilterEnd.setHours(0, 0, 0, 0);
+            startDateCopy.setHours(0, 0, 0, 0);
+            endDateCopy.setHours(0, 0, 0, 0);
             
-            if (compareDate < sonarQubeDateFilterStart || compareDate > sonarQubeDateFilterEnd) {
+            if (compareDate < startDateCopy || compareDate > endDateCopy) {
               return; // Skip this point as it's outside the date range
             }
             
@@ -1156,8 +1170,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
       
-      
-      
       // Format the hour labels (12am to 11pm)
       const hourLabels = Array(24).fill().map((_, i) => {
         const hour = i % 12 || 12; // Convert 0 to 12 for 12am
@@ -1172,14 +1184,14 @@ document.addEventListener('DOMContentLoaded', function() {
       // Set explicit height for chart container
       chartContainer.style.height = '400px';
       
-      // Make the date range title more prominent
-      if (sonarQubeDateFilterStart && sonarQubeDateFilterEnd) {
+      // Make the date range title more prominent - UPDATED FOR SINGLE DATE SELECTION
+      if (sonarQubeDateFilterStart) {
         const titleDiv = document.createElement('div');
         titleDiv.className = 'chart-date-range';
         
-        // If it's the same day, just show one date
-        if (isSameDay(sonarQubeDateFilterStart, sonarQubeDateFilterEnd)) {
-          titleDiv.textContent = `Code quality data for ${formatDate(sonarQubeDateFilterStart)}`;
+        // Format date display - handle both single date and range cases
+        if (!sonarQubeDateFilterEnd || isSameDay(sonarQubeDateFilterStart, sonarQubeDateFilterEnd)) {
+          titleDiv.textContent = `Code quality data from ${formatDate(sonarQubeDateFilterStart)}`;
         } else {
           titleDiv.textContent = `Code quality data from ${formatDate(sonarQubeDateFilterStart)} to ${formatDate(sonarQubeDateFilterEnd)}`;
         }

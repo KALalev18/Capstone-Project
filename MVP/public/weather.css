@@ -74,44 +74,6 @@
   max-height: 350px;
 }
 
-/* Weather range styling */
-.weather-range-summary {
-  width: 100%;
-  padding: 10px;
-}
-
-.weather-range-summary h4 {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.3rem;
-}
-
-.summary-period {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.range-item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px 5px;
-}
-
-.range-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.min-temp {
-  color: #6bc5f2;
-}
-
-.max-temp {
-  color: #f26b6b;
-}
-
 .weather-loading {
   display: flex;
   height: 100%;
@@ -135,4 +97,20 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Add to weather.css */
+.weather-chart-section {
+  margin-bottom: 2.5em;
+  background: transparent;
+}
+.weather-chart-section #weather-date {
+  margin-bottom: 0.5em;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.8);
+}
+.weatherTemperatureChart {
+  width: 100% !important;
+  height: 350px !important;
+  max-height: 350px;
 }
