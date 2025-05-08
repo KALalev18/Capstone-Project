@@ -309,6 +309,8 @@ app.post('/groq/analyze', async (req, res) => {
     // Log that we're calling Groq API for debugging
     console.log(`Calling Groq API for message: "${messages.substring(0, 30)}..."`);
 
+    //this is something new
+
     // Call Groq API
     const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
       model: 'llama3-70b-8192', 
