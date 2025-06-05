@@ -24,7 +24,7 @@
     "dotenv": "^16.3.1",
     "dayjs": "^1.11.13",
     "meteostat": "^2.0.0",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.1",
     "node-fetch": "^3.3.2",
     "sentiment": "^5.0.2"
   }
